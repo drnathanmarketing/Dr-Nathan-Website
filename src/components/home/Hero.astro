@@ -1,0 +1,138 @@
+---
+import { Image } from "astro:assets";
+import glucos from "../../clients/1.png";
+import dugro from "../../clients/2.png";
+import avolac from "../../clients/3.png";
+import sun from "../../clients/4.png";
+import vital from "../../clients/5.png";
+import roche from "../../clients/6.png";
+import skinland from "../../clients/7.png";
+import goneyay from "../../clients/8.png";
+import ohoo from "../../clients/9.png";
+import rejuve from "../../clients/10.png";
+import homedoctor from "../../clients/11.png";
+import s from "../../clients/12.png";
+---
+
+<div
+  id="hero"
+  class="max-w-screen-xl mx-auto flex flex-col p-4 pt-6 md:pt-10 mb-16 gap-12 h-[90vh] items-center text-center justify-center"
+>
+  <div class="basis-1/2 flex flex-col gap-4">
+    <div class="h-[35px]"></div>
+    <p class="text-sm">Dr. Nathan Marketing & Consultancy</p>
+    <div class="relative">
+      <p class="text-5xl font-bold">Elevate Your Brand</p>
+      <Image
+        alt="brand_icons"
+        src={glucos}
+        class="w-[80px] xl:w-[140px] object-contain absolute -top-[100px] xl:-top-[200px] left-1/2 transform -translate-x-1/2 opacity-0"
+        data-fade-in
+      />
+      <Image
+        alt="brand_icons"
+        src={dugro}
+        class="w-[57.14px] xl:w-[100px] object-contain absolute -top-[80px] xl:-top-[150px] -left-[15px] xl:-left-[50px] opacity-0"
+        data-fade-in
+      />
+      <Image
+        alt="brand_icons"
+        src={avolac}
+        class="w-[80px] xl:w-[140px] object-contain absolute -top-[80px] xl:-top-[150px] -right-[15px] xl:-right-[50px] opacity-0"
+        data-fade-in
+      />
+      <Image
+        alt="brand_icons"
+        src={sun}
+        class="w-[45.71px] xl:w-[80px] object-contain absolute -top-[150px] xl:-top-[50px] left-[75px] xl:-left-[150px] opacity-0"
+        data-fade-in
+      />
+      <Image
+        alt="brand_icons"
+        src={vital}
+        class="w-[80px] xl:w-[140px] object-contain absolute -top-[150px] xl:-top-[50px] right-[75px] xl:-right-[150px] opacity-0"
+        data-fade-in
+      />
+      <Image
+        alt="brand_icons"
+        src={roche}
+        class="w-[68.57px] xl:w-[120px] object-contain absolute -top-[200px] xl:top-[0px] left-1/2 transform -translate-x-1/2 xl:-left-[350px] opacity-0"
+        data-fade-in
+      />
+      <Image
+        alt="brand_icons"
+        src={skinland}
+        class="w-[80px] xl:w-[140px] object-contain absolute -top-[200px] xl:top-[0px] -right-[0px] xl:-right-[350px] opacity-0"
+        data-fade-in
+      />
+      <Image
+        alt="brand_icons"
+        src={goneyay}
+        class="w-[80px] xl:w-[140px] object-contain absolute -top-[200px] xl:-top-[300px] -left-[0px] xl:-left-[150px] opacity-0"
+        data-fade-in
+      />
+      <Image
+        alt="brand_icons"
+        src={ohoo}
+        class="w-[80px] xl:w-[140px] object-contain absolute -top-[250px] xl:-top-[250px] left-[60px] xl:left-[50px] opacity-0"
+        data-fade-in
+      />
+      <Image
+        alt="brand_icons"
+        src={homedoctor}
+        class="w-[68.57px] xl:w-[120px] object-contain absolute -top-[275px] xl:-top-[300px] right-[70px] xl:right-[50px] opacity-0"
+        data-fade-in
+      />
+      <Image
+        alt="brand_icons"
+        src={s}
+        class="w-[80px] xl:w-[140px] object-contain absolute -top-[100px] xl:-top-[250px] -left-[300px] hidden xl:block opacity-0"
+        data-fade-in
+      />
+      <Image
+        alt="brand_icons"
+        src={rejuve}
+        class="w-[80px] xl:w-[140px] object-contain absolute -top-[100px] xl:-top-[250px] -right-[250px] hidden xl:block opacity-0"
+        data-fade-in
+      />
+    </div>
+
+    <p class="text-sm sm:text-base mt-2 max-w-[560px] mx-auto">
+      We are dedicated, forward-thinking individuals committed to exploring and
+      delivering innovative solutions tailored specifically for you.
+    </p>
+    <div>
+      <button
+        id="hero_learn_more_btn"
+        type="submit"
+        class="text-white bg-primary-900 hover:bg-primary-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none"
+        >Learn More</button
+      >
+    </div>
+  </div>
+</div>
+
+<script>
+  import { gsap } from "gsap";
+
+  document.querySelectorAll("img[data-fade-in]").forEach((img) => {
+    img.addEventListener("load", () => {
+      gsap.fromTo(
+        img,
+        { opacity: 0, translateY: "50px" },
+        { opacity: 1, translateY: "0px", duration: 1 }
+      );
+    });
+
+    if ((img as HTMLImageElement).complete) {
+      img.dispatchEvent(new Event("load"));
+    }
+  });
+
+  const hlmb = document.getElementById("hero_learn_more_btn");
+  import scrollToElement from "src/utils/scrollToElement";
+  if (hlmb)
+    hlmb.addEventListener("click", () => {
+      scrollToElement("service");
+    });
+</script>

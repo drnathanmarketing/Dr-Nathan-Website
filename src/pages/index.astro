@@ -1,0 +1,20 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "@components/home/Hero.astro";
+import AboutUs from "@components/home/AboutUs.astro";
+import WhyUs from "@components/home/WhyUs.astro";
+import Service from "@components/home/Service.astro";
+import ContactUs from "@components/home/ContactUs.astro";
+import Footer from "@components/common/Footer.astro";
+import FAQ from "@components/home/FAQ";
+---
+
+<Layout>
+  <Hero />
+  <AboutUs />
+  <WhyUs />
+  <Service />
+  <FAQ client:load />
+  <ContactUs />
+  <Footer />
+</Layout>

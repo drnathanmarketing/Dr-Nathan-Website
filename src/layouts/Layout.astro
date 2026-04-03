@@ -1,0 +1,64 @@
+---
+import Navbar from "@components/common/Navbar";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/assets/logo/logo.png" />
+    <meta name="generator" content={Astro.generator} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Primary Meta Tags -->
+    <title>Dr. Nathan Marketing & Consultancy</title>
+    <meta name="title" content="Dr. Nathan Marketing & Consultancy" />
+    <meta
+      name="description"
+      content="Startup Business founded by a group of doctors, providing marketing
+      service for healthcare industry in Myanmar."
+    />
+    <meta
+      name="keywords"
+      content="Dr. Nathan Marketing, healthcare marketing Myanmar, marketing consultancy Myanmar, startup marketing services, medical marketing Myanmar"
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.drnathanmarketing.com/" />
+    <meta property="og:title" content="Dr. Nathan Marketing & Consultancy" />
+    <meta
+      property="og:description"
+      content="Startup Business founded by a group of doctors, providing marketing
+      service for healthcare industry in Myanmar."
+    />
+    <meta property="og:image" content="/assets/logo/logo.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://www.drnathanmarketing.com/" />
+    <meta
+      property="twitter:title"
+      content="Dr. Nathan Marketing & Consultancy"
+    />
+    <meta
+      property="twitter:description"
+      content="Startup Business founded by a group of doctors, providing marketing
+      service for healthcare industry in Myanmar."
+    />
+    <meta property="twitter:image" content="/assets/logo/logo.png" />
+
+    <!-- Meta Tags Generated with https://metatags.io -->
+  </head>
+  <body class="font-openSan">
+    <Navbar client:load />
+    <div class="h-[70px]"></div>
+    <slot />
+  </body>
+</html>
