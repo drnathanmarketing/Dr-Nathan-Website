@@ -11,4 +11,9 @@ export default defineConfig({
   adapter: vercel({
     webAnalytics: { enabled: true },
   }),
+  vite: {
+    ssr: {
+      noExternal: ["gsap"],
+    },
+  },
 });
