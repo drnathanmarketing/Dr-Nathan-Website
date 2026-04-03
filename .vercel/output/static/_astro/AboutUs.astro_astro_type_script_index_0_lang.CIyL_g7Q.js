@@ -1,1 +1,0 @@
-import{g as r}from"./index.CB87Sc6I.js";function s(n,i){n.forEach(o=>{o.isIntersecting&&(r.from("#about_us_slide_in",{duration:1,y:140,opacity:0}),e.unobserve(t))})}const e=new IntersectionObserver(s),t=document.getElementById("about_us");e.observe(t);
