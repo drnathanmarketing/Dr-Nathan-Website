@@ -1,4 +1,4 @@
-import { defineConfig } from "astro/config";
+import { defineConfig, passthroughImageService } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 
@@ -11,6 +11,9 @@ export default defineConfig({
   adapter: vercel({
     webAnalytics: { enabled: true },
   }),
+  image: {
+    service: passthroughImageService(),
+  },
   vite: {
     ssr: {
       noExternal: ["gsap"],
