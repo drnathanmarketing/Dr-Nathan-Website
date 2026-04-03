@@ -1,4 +1,4 @@
-import AccordionCard from "@components/common/AccordionCard";
+import AccordionCard from "@components/common/AccordionCard.jsx";
 import { useState } from "react";
 
 const FAQ = () => {

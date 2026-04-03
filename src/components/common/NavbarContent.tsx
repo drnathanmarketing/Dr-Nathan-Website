@@ -1,4 +1,4 @@
-import scrollToElement from "src/utils/scrollToElement";
+import scrollToElement from "src/utils/scrollToElement.ts";
 
 const NavbarContent = () => {
   const onLinkClick = (link: string) => {

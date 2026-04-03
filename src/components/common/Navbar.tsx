@@ -1,6 +1,6 @@
-import useScrollOffset from "@hooks/useScrollOffet";
-import scrollToElement from "src/utils/scrollToElement";
-import NavbarContent from "./NavbarContent";
+import useScrollOffset from "@hooks/useScrollOffet.ts";
+import scrollToElement from "src/utils/scrollToElement.ts";
+import NavbarContent from "./NavbarContent.tsx";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
