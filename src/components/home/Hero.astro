@@ -11,127 +11,133 @@ import ohoo from "../../clients/9.png";
 import rejuve from "../../clients/10.png";
 import homedoctor from "../../clients/11.png";
 import s from "../../clients/12.png";
+
+const logos = [
+  { src: glucos.src, alt: "glucos" },
+  { src: dugro.src, alt: "dugro" },
+  { src: avolac.src, alt: "avolac" },
+  { src: sun.src, alt: "sun" },
+  { src: vital.src, alt: "vital" },
+  { src: roche.src, alt: "roche" },
+  { src: skinland.src, alt: "skinland" },
+  { src: goneyay.src, alt: "goneyay" },
+  { src: ohoo.src, alt: "ohoo" },
+  { src: rejuve.src, alt: "rejuve" },
+  { src: homedoctor.src, alt: "homedoctor" },
+  { src: s.src, alt: "s" },
+];
 ---
 
-<div
-  id="hero"
-  class="max-w-screen-xl mx-auto flex flex-col p-4 pt-6 md:pt-10 mb-16 gap-12 h-[90vh] items-center text-center justify-center"
->
-  <div class="basis-1/2 flex flex-col gap-4">
-    <div class="h-[35px]"></div>
-    <p class="text-sm">Dr. Nathan Marketing & Consultancy</p>
-    <div class="relative">
-      <p class="text-5xl font-bold">Elevate Your Brand</p>
-      <img
-        alt="brand_icons"
-        src={glucos.src}
-        class="w-[80px] xl:w-[140px] object-contain absolute -top-[100px] xl:-top-[200px] left-1/2 transform -translate-x-1/2 opacity-0"
-        data-fade-in
-      />
-      <img
-        alt="brand_icons"
-        src={dugro.src}
-        class="w-[57.14px] xl:w-[100px] object-contain absolute -top-[80px] xl:-top-[150px] -left-[15px] xl:-left-[50px] opacity-0"
-        data-fade-in
-      />
-      <img
-        alt="brand_icons"
-        src={avolac.src}
-        class="w-[80px] xl:w-[140px] object-contain absolute -top-[80px] xl:-top-[150px] -right-[15px] xl:-right-[50px] opacity-0"
-        data-fade-in
-      />
-      <img
-        alt="brand_icons"
-        src={sun.src}
-        class="w-[45.71px] xl:w-[80px] object-contain absolute -top-[150px] xl:-top-[50px] left-[75px] xl:-left-[150px] opacity-0"
-        data-fade-in
-      />
-      <img
-        alt="brand_icons"
-        src={vital.src}
-        class="w-[80px] xl:w-[140px] object-contain absolute -top-[150px] xl:-top-[50px] right-[75px] xl:-right-[150px] opacity-0"
-        data-fade-in
-      />
-      <img
-        alt="brand_icons"
-        src={roche.src}
-        class="w-[68.57px] xl:w-[120px] object-contain absolute -top-[200px] xl:top-[0px] left-1/2 transform -translate-x-1/2 xl:-left-[350px] opacity-0"
-        data-fade-in
-      />
-      <img
-        alt="brand_icons"
-        src={skinland.src}
-        class="w-[80px] xl:w-[140px] object-contain absolute -top-[200px] xl:top-[0px] -right-[0px] xl:-right-[350px] opacity-0"
-        data-fade-in
-      />
-      <img
-        alt="brand_icons"
-        src={goneyay.src}
-        class="w-[80px] xl:w-[140px] object-contain absolute -top-[200px] xl:-top-[300px] -left-[0px] xl:-left-[150px] opacity-0"
-        data-fade-in
-      />
-      <img
-        alt="brand_icons"
-        src={ohoo.src}
-        class="w-[80px] xl:w-[140px] object-contain absolute -top-[250px] xl:-top-[250px] left-[60px] xl:left-[50px] opacity-0"
-        data-fade-in
-      />
-      <img
-        alt="brand_icons"
-        src={homedoctor.src}
-        class="w-[68.57px] xl:w-[120px] object-contain absolute -top-[275px] xl:-top-[300px] right-[70px] xl:right-[50px] opacity-0"
-        data-fade-in
-      />
-      <img
-        alt="brand_icons"
-        src={s.src}
-        class="w-[80px] xl:w-[140px] object-contain absolute -top-[100px] xl:-top-[250px] -left-[300px] hidden xl:block opacity-0"
-        data-fade-in
-      />
-      <img
-        alt="brand_icons"
-        src={rejuve.src}
-        class="w-[80px] xl:w-[140px] object-contain absolute -top-[100px] xl:-top-[250px] -right-[250px] hidden xl:block opacity-0"
-        data-fade-in
-      />
+<section id="hero" class="relative w-full min-h-[90vh] flex flex-col justify-center items-center overflow-hidden bg-gradient-to-b from-primary-50/30 to-white pt-24 pb-16">
+  <!-- Decorative Background blobs for subtle glassmorphism -->
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] md:w-[800px] md:h-[500px] bg-primary-100/50 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
+
+  <div class="max-w-screen-xl mx-auto px-4 w-full flex flex-col items-center text-center z-10">
+    <div class="hero-content flex flex-col items-center gap-6 mt-10 md:mt-16">
+      <span class="hero-badge px-4 py-1.5 rounded-full bg-primary-50 text-primary-800 text-[11px] md:text-xs font-semibold tracking-widest uppercase shadow-sm border border-primary-200/50 opacity-0">
+        Dr. Nathan Marketing & Consultancy
+      </span>
+      
+      <h1 class="hero-title text-5xl sm:text-6xl lg:text-7xl font-lato tracking-tight text-slate-800 opacity-0 leading-tight">
+        <span class="font-light block mb-1 sm:mb-2">Premium Marketing for</span>
+        <span class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-950 via-primary-800 to-primary-600">
+          Medical Brands
+        </span>
+      </h1>
+
+      <p class="hero-subtitle text-base md:text-lg text-slate-600 max-w-2xl mt-2 md:mt-4 opacity-0 leading-relaxed font-openSan px-4">
+        We are dedicated, forward-thinking professionals committed to delivering tailored, innovative growth solutions for the healthcare industry.
+      </p>
+
+      <div class="hero-actions flex flex-col sm:flex-row gap-4 mt-6 md:mt-8 opacity-0 w-full sm:w-auto px-6 sm:px-0">
+        <button id="hero_learn_more_btn" class="group relative px-8 py-3.5 bg-primary-900 text-white rounded-full font-medium transition-all duration-300 hover:bg-primary-800 hover:shadow-xl hover:shadow-primary-900/20 overflow-hidden transform hover:-translate-y-0.5 focus:outline-none w-full sm:w-auto flex justify-center">
+          <span class="relative z-10 flex items-center gap-2">
+            Discover Our Approach
+            <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-y-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+          </span>
+        </button>
+        <button id="hero_contact_btn" class="px-8 py-3.5 bg-white text-primary-900 border border-primary-200 rounded-full font-medium transition-all duration-300 hover:bg-primary-50 hover:border-primary-300 focus:outline-none w-full sm:w-auto">
+          Contact Us
+        </button>
+      </div>
     </div>
 
-    <p class="text-sm sm:text-base mt-2 max-w-[560px] mx-auto">
-      We are dedicated, forward-thinking individuals committed to exploring and
-      delivering innovative solutions tailored specifically for you.
-    </p>
-    <div>
-      <button
-        id="hero_learn_more_btn"
-        type="submit"
-        class="text-white bg-primary-900 hover:bg-primary-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none"
-        >Learn More</button
-      >
+    <!-- Trust Banner -->
+    <div class="hero-trust w-full mt-20 md:mt-28 opacity-0">
+      <p class="text-[10px] md:text-xs text-slate-400 font-semibold tracking-widest uppercase mb-6 md:mb-8">Trusted by Industry Leaders</p>
+      <div class="flex flex-wrap justify-center items-center gap-x-8 gap-y-6 md:gap-x-12 opacity-80 px-4">
+        {logos.map((logo) => (
+          <img 
+            src={logo.src} 
+            alt={logo.alt} 
+            class="h-8 sm:h-10 md:h-12 w-auto object-contain grayscale opacity-50 transition-all duration-500 hover:grayscale-0 hover:opacity-100 hover:scale-105"
+          />
+        ))}
+      </div>
     </div>
   </div>
-</div>
+</section>
 
 <script>
   import { gsap } from "gsap";
-
-  document.querySelectorAll("img[data-fade-in]").forEach((img) => {
-    img.addEventListener("load", () => {
-      gsap.fromTo(
-        img,
-        { opacity: 0, translateY: "50px" },
-        { opacity: 1, translateY: "0px", duration: 1 }
-      );
-    });
-
-    if ((img as HTMLImageElement).complete) {
-      img.dispatchEvent(new Event("load"));
-    }
-  });
-
-  const hlmb = document.getElementById("hero_learn_more_btn");
   import scrollToElement from "src/utils/scrollToElement.ts";
-  if (hlmb)
-    hlmb.addEventListener("click", () => {
-      scrollToElement("service");
-    });
+
+  // Prevent multiple executions in case of re-renders
+  let initialized = false;
+
+  function initAnimations() {
+    if (initialized) return;
+    initialized = true;
+
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    // Ensure elements are invisible before starting, useful if script is delayed slightly
+    gsap.set([".hero-badge", ".hero-title", ".hero-subtitle", ".hero-actions", ".hero-trust"], { opacity: 0 });
+
+    tl.fromTo(".hero-badge", 
+      { y: 20, opacity: 0 }, 
+      { y: 0, opacity: 1, duration: 0.8 }
+    )
+    .fromTo(".hero-title",
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8 },
+      "-=0.6"
+    )
+    .fromTo(".hero-subtitle",
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8 },
+      "-=0.6"
+    )
+    .fromTo(".hero-actions",
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8 },
+      "-=0.6"
+    )
+    .fromTo(".hero-trust",
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8 },
+      "-=0.4"
+    );
+
+    const learnMoreBtn = document.getElementById("hero_learn_more_btn");
+    if (learnMoreBtn) {
+      learnMoreBtn.addEventListener("click", () => {
+        scrollToElement("service");
+      });
+    }
+
+    const contactBtn = document.getElementById("hero_contact_btn");
+    if (contactBtn) {
+      contactBtn.addEventListener("click", () => {
+        scrollToElement("contact_us");
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', initAnimations);
+  document.addEventListener('astro:page-load', () => { initialized = false; initAnimations(); });
+
+  if (document.readyState === "complete" || document.readyState === "interactive") {
+    setTimeout(initAnimations, 10);
+  }
 </script>
