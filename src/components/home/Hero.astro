@@ -11,6 +11,17 @@ import ohoo from "../../clients/9.png";
 import rejuve from "../../clients/10.png";
 import homedoctor from "../../clients/11.png";
 import s from "../../clients/12.png";
+import client13 from "../../clients/13.png";
+import client14 from "../../clients/14.png";
+import client15 from "../../clients/15.png";
+import client16 from "../../clients/16.png";
+import client17 from "../../clients/17.png";
+import client18 from "../../clients/18.png";
+import client19 from "../../clients/19.png";
+import client20 from "../../clients/20.png";
+import client21 from "../../clients/21.png";
+import client23 from "../../clients/23.png";
+import client24 from "../../clients/24.png";
 
 const logos = [
   { src: glucos.src, alt: "glucos" },
@@ -25,6 +36,17 @@ const logos = [
   { src: rejuve.src, alt: "rejuve" },
   { src: homedoctor.src, alt: "homedoctor" },
   { src: s.src, alt: "s" },
+  { src: client13.src, alt: "client13" },
+  { src: client14.src, alt: "client14" },
+  { src: client15.src, alt: "client15" },
+  { src: client16.src, alt: "client16" },
+  { src: client17.src, alt: "client17" },
+  { src: client18.src, alt: "client18" },
+  { src: client19.src, alt: "client19" },
+  { src: client20.src, alt: "client20" },
+  { src: client21.src, alt: "client21" },
+  { src: client23.src, alt: "client23" },
+  { src: client24.src, alt: "client24" },
 ];
 ---
 
@@ -50,7 +72,7 @@ const logos = [
         </p>
         
         <h1 
-          class="text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight text-slate-900 leading-[1.1] md:leading-[1.05]"
+          class="font-helvetica text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight text-slate-900 leading-[1.1] md:leading-[1.05]"
           data-reveal
         >
           Elevate Your <br class="hidden lg:block"/>
@@ -86,50 +108,53 @@ const logos = [
         class="hidden lg:flex flex-1 w-full relative flex-col justify-center items-end lg:h-[700px] pointer-events-none mt-4 lg:mt-0 z-10"
         data-reveal-container
       >
-        <!-- The Wheel Container -> Adjusted upward per user feedback -->
         <div class="pointer-events-auto absolute lg:top-12 lg:right-[-250px] lg:w-[900px] lg:h-[900px] rounded-full animate-spin-custom">
           
           <!-- Backing glass plate -->
           <div class="absolute inset-0 bg-gradient-to-br from-white/70 to-white/20 backdrop-blur-3xl rounded-full border border-white/60 shadow-[0_0_80px_rgba(0,0,0,0.03)]"></div>
           
           <!-- Outer fine rings -->
-          <div class="absolute inset-[15px] sm:inset-[20px] md:inset-[30px] lg:inset-[40px] border border-slate-200/40 rounded-full"></div>
-          <div class="absolute inset-[18px] sm:inset-[24px] md:inset-[34px] lg:inset-[44px] border border-slate-100/30 rounded-full"></div>
+          <div class="absolute lg:inset-[40px] border border-slate-200/40 rounded-full"></div>
+          <div class="absolute lg:inset-[44px] border border-slate-100/30 rounded-full"></div>
           
-          <!-- Main dashed orbit ring -->
-          <div class="absolute inset-[45px] sm:inset-[60px] md:inset-[80px] lg:inset-[100px] border border-dashed border-slate-300/80 rounded-full bg-slate-50/10"></div>
-          <div class="absolute inset-[48px] sm:inset-[64px] md:inset-[84px] lg:inset-[104px] border border-slate-200/30 rounded-full"></div> 
+          <!-- Outer Dashed orbit ring -->
+          <div class="absolute lg:inset-[100px] border border-dashed border-slate-300/80 rounded-full bg-slate-50/10"></div>
+          <div class="absolute lg:inset-[104px] border border-slate-200/30 rounded-full"></div> 
           
-          <!-- Inner rings -->
-          <div class="absolute inset-[75px] sm:inset-[100px] md:inset-[140px] lg:inset-[180px] border border-slate-200/50 rounded-full bg-white/20"></div>
-          <div class="absolute inset-[100px] sm:inset-[130px] md:inset-[180px] lg:inset-[240px] border border-slate-100/60 rounded-full"></div>
+          <!-- Inner Dashed orbit ring for the second track -->
+          <div class="absolute lg:inset-[220px] border border-dashed border-slate-300/60 rounded-full"></div>
+          <div class="absolute lg:inset-[240px] border border-slate-100/60 rounded-full"></div>
 
           <!-- Central Hub: Glassmorphic Core -->
-          <div class="absolute inset-0 m-auto w-[100px] h-[100px] sm:w-[140px] sm:h-[140px] md:w-[200px] md:h-[200px] lg:w-[260px] lg:h-[260px] rounded-full bg-white/95 backdrop-blur-xl shadow-[0_15px_40px_-5px_rgba(0,0,0,0.06)] border border-white flex items-center justify-center animate-spin-custom-reverse z-10">
+          <div class="absolute inset-0 m-auto lg:w-[260px] lg:h-[260px] rounded-full bg-white/95 backdrop-blur-xl shadow-[0_15px_40px_-5px_rgba(0,0,0,0.06)] border border-white flex items-center justify-center animate-spin-custom-reverse z-10">
             <div class="absolute inset-2 border border-slate-100/80 rounded-full pointer-events-none"></div>
-            <div class="text-center px-2 sm:px-4">
-              <p class="text-[0.45rem] sm:text-[0.55rem] md:text-xs lg:text-sm font-bold text-slate-500 tracking-[0.25em] uppercase">Trusted By</p>
-              <p class="text-[0.35rem] sm:text-[0.45rem] md:text-[0.6rem] lg:text-xs text-slate-400 mt-1 lg:mt-2 uppercase tracking-widest leading-relaxed">Healthcare<br/>Leaders</p>
+            <div class="text-center px-4">
+              <p class="lg:text-sm font-bold text-slate-500 tracking-[0.25em] uppercase">Trusted By</p>
+              <p class="lg:text-xs text-slate-400 mt-2 uppercase tracking-widest leading-relaxed">Healthcare<br/>Leaders</p>
             </div>
           </div>
 
-          <!-- The Spinning Logos -->
+          <!-- The Spinning Logos: Double Ring Watch Dial Layout -->
           {logos.map((logo, i) => {
-            const angle = i * 30; // 12 logos -> 30 degrees spacing
+            const isOuter = i % 2 === 0;
+            const outerCount = Math.ceil(logos.length / 2);
+            const innerCount = Math.floor(logos.length / 2);
+            const positionIndex = Math.floor(i / 2);
+            
+            const angle = isOuter 
+               ? (positionIndex * (360 / outerCount))
+               : (positionIndex * (360 / innerCount) + (360 / innerCount / 2)); // Stagger nicely
+               
+            const radiusClass = isOuter ? "lg:left-[350px]" : "lg:left-[230px]";
+            const sizeClass = isOuter ? "lg:w-[100px] lg:h-[100px]" : "lg:w-[85px] lg:h-[85px] p-2";
+
             return (
               <div class="absolute top-1/2 left-1/2 w-0 h-0" style={`transform: rotate(${angle}deg)`}>
-                {/* 
-                  Radius logic mapping perfectly to dashed rings:
-                  lg: w=900 (r=450), inset=100 -> logo left=350px
-                  md: w=700 (r=350), inset=80 -> logo left=270px
-                  sm: w=500 (r=250), inset=60 -> logo left=190px
-                  xs: w=350 (r=175), inset=45 -> logo left=130px
-                */}
-                <div class="absolute left-[130px] sm:left-[190px] md:left-[270px] lg:left-[350px] -translate-x-1/2 -translate-y-1/2">
+                <div class={`absolute ${radiusClass} -translate-x-1/2 -translate-y-1/2`}>
                   <div class="animate-spin-custom-reverse">
                     <div style={`transform: rotate(-${angle}deg)`}>
                       <!-- Premium Logo Bubbles -->
-                      <div class="w-[3rem] h-[3rem] sm:w-[3.5rem] sm:h-[3.5rem] md:w-20 md:h-20 lg:w-[100px] lg:h-[100px] bg-white rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.04)] flex items-center justify-center border border-white/80 group hover:scale-[1.15] hover:shadow-2xl hover:shadow-slate-200/60 hover:border-white transition-all duration-300 cursor-pointer p-2 sm:p-3 md:p-5 relative backdrop-blur-md">
+                      <div class={`bg-white rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.04)] flex items-center justify-center border border-white/80 group hover:scale-[1.15] hover:shadow-2xl hover:shadow-slate-200/60 hover:border-white transition-all duration-300 cursor-pointer p-4 lg:p-5 relative backdrop-blur-md ${sizeClass}`}>
                         <img 
                           src={logo.src} 
                           alt={logo.alt} 
@@ -178,7 +203,7 @@ const logos = [
     100% { transform: translateX(-50%); }
   }
   .animate-marquee {
-    animation: marquee 25s linear infinite;
+    animation: marquee 50s linear infinite;
   }
   .fade-edges {
     mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);

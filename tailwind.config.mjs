@@ -19,8 +19,8 @@ export default {
         },
       },
       fontFamily: {
-        lato: ["Lato", "sans-serif"],
-        openSan: ["Open Sans", "sans-serif"],
+        helvetica: ["Helvetica", "Arial", "sans-serif"],
+        roboto: ["Roboto", "sans-serif"],
       },
     },
   },

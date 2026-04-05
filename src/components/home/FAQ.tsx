@@ -14,7 +14,7 @@ const FAQ = () => {
     >
       <div className="flex flex-col gap-4 basis-1/2">
         <p className="text-sm text-slate-400">FAQs</p>
-        <p className="text-4xl tracking-wide">You have Questions?</p>
+        <p className="font-helvetica text-4xl tracking-wide">You have Questions?</p>
         <p className="text-base font-thin">
           We have answers. For more inquiries, contact us.
         </p>
