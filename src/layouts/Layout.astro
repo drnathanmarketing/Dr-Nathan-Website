@@ -1,5 +1,21 @@
 ---
 import Navbar from "@components/common/Navbar.tsx";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+}
+
+const {
+  title = "Dr. Nathan Marketing & Consultancy",
+  description = "Startup Business founded by a group of doctors, providing marketing service for healthcare industry in Myanmar.",
+  image = "/assets/logo/logo.png",
+  canonical,
+} = Astro.props;
+
+const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site || Astro.url.origin).href;
 ---
 
 <!doctype html>
@@ -16,45 +32,32 @@ import Navbar from "@components/common/Navbar.tsx";
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
       rel="stylesheet"
     />
+    
     <!-- Primary Meta Tags -->
-    <title>Dr. Nathan Marketing & Consultancy</title>
-    <meta name="title" content="Dr. Nathan Marketing & Consultancy" />
-    <meta
-      name="description"
-      content="Startup Business founded by a group of doctors, providing marketing
-      service for healthcare industry in Myanmar."
-    />
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
     <meta
       name="keywords"
       content="Dr. Nathan Marketing, healthcare marketing Myanmar, marketing consultancy Myanmar, startup marketing services, medical marketing Myanmar"
     />
+    <link rel="canonical" href={canonicalURL} />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.drnathanmarketing.com/" />
-    <meta property="og:title" content="Dr. Nathan Marketing & Consultancy" />
-    <meta
-      property="og:description"
-      content="Startup Business founded by a group of doctors, providing marketing
-      service for healthcare industry in Myanmar."
-    />
-    <meta property="og:image" content="/assets/logo/logo.png" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://www.drnathanmarketing.com/" />
-    <meta
-      property="twitter:title"
-      content="Dr. Nathan Marketing & Consultancy"
-    />
-    <meta
-      property="twitter:description"
-      content="Startup Business founded by a group of doctors, providing marketing
-      service for healthcare industry in Myanmar."
-    />
-    <meta property="twitter:image" content="/assets/logo/logo.png" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={image} />
 
-    <!-- Meta Tags Generated with https://metatags.io -->
+    <slot name="head" />
   </head>
   <body class="font-roboto">
     <Navbar client:load />
