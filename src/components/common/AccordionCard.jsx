@@ -7,7 +7,7 @@ const AccordionCard = ({ title, answer, index, value, callback }) => {
           type="button"
           className="flex items-center justify-between w-full py-5 font-medium rtl:text-right border-b border-gray-200 gap-3"
         >
-          <span className="text-base font-[500] text-start">{title}</span>
+          <span className="font-helvetica text-base font-[500] text-start">{title}</span>
           <svg
             data-accordion-icon
             className={`w-3 h-3 ${!(index === value) && "rotate-180"} shrink-0`}
