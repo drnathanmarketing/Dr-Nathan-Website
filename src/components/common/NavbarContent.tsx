@@ -30,6 +30,12 @@ const NavbarContent = () => {
       >
         FAQs
       </p>
+      <a
+        href="/blog"
+        className="font-helvetica text-base tracking-wide font-semibold hover:text-primary-900 hover:cursor-pointer no-underline text-inherit"
+      >
+        Blog
+      </a>
       <p
         className="font-helvetica text-base tracking-wide font-semibold hover:text-primary-900 hover:cursor-pointer"
         onClick={onLinkClick("contact_us")}
