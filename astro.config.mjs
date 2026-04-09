@@ -5,7 +5,6 @@ import sanity from "@sanity/astro";
 
 import vercel from "@astrojs/vercel";
 
-import partytown from "@astrojs/partytown";
 
 // https://astro.build/config
 export default defineConfig({
@@ -14,10 +13,6 @@ export default defineConfig({
     dataset: "production",
     useCdn: true,
     apiVersion: "2024-04-05",
-  }), partytown({
-    config: {
-      forward: ["dataLayer.push"],
-    },
   })],
   output: "static",
   adapter: vercel({
