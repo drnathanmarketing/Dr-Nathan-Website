@@ -1,21 +1,45 @@
 ---
 import Navbar from "@components/common/Navbar.tsx";
 
+const SITE_URL = "https://www.drnathanmarketing.com";
+
 interface Props {
   title?: string;
   description?: string;
   image?: string;
   canonical?: string;
+  noindex?: boolean;
 }
 
 const {
   title = "Dr. Nathan Marketing & Consultancy",
   description = "Startup Business founded by a group of doctors, providing marketing service for healthcare industry in Myanmar.",
-  image = "/assets/logo/logo.png",
+  image = `${SITE_URL}/assets/logo/logo.png`,
   canonical,
+  noindex = false,
 } = Astro.props;
 
 const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site || Astro.url.origin).href;
+
+// Ensure OG image is always an absolute URL
+const ogImage = image.startsWith('http') ? image : `${SITE_URL}${image}`;
+
+const orgSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${SITE_URL}/#organization`,
+  "name": "Dr. Nathan Marketing & Consultancy",
+  "url": SITE_URL,
+  "logo": {
+    "@type": "ImageObject",
+    "url": `${SITE_URL}/assets/logo/logo.png`,
+    "width": 112,
+    "height": 112
+  },
+  "description": "Startup Business founded by a group of doctors, providing marketing services for the healthcare industry in Myanmar.",
+  "areaServed": "Myanmar",
+  "knowsAbout": ["Healthcare Marketing", "Medical Marketing", "Digital Marketing", "Marketing Consultancy"]
+};
 ---
 
 <!doctype html>
@@ -48,6 +72,7 @@ const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site || Astr
       name="keywords"
       content="Dr. Nathan Marketing, healthcare marketing Myanmar, marketing consultancy Myanmar, startup marketing services, medical marketing Myanmar"
     />
+    <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
     <link rel="canonical" href={canonicalURL} />
 
     <!-- Open Graph / Facebook -->
@@ -55,14 +80,21 @@ const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site || Astr
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={image} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Dr. Nathan Marketing & Consultancy" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={image} />
+    <meta property="twitter:image" content={ogImage} />
+
+    <!-- Base Organization Schema (every page) -->
+    <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
 
     <slot name="head" />
   </head>

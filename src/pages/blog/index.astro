@@ -22,12 +22,33 @@ const [posts, categories, tags] = await Promise.all([
   sanityClient.fetch(categoriesQuery),
   sanityClient.fetch(tagsQuery),
 ]);
+
+const SITE_URL = "https://www.drnathanmarketing.com";
+
+const blogSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": `${SITE_URL}/blog/#webpage`,
+  "url": `${SITE_URL}/blog/`,
+  "name": "Editorial | Dr. Nathan Marketing",
+  "description": "Explore premium insights, industry trends, and strategic foresight tailored for modern medical practices and healthcare innovators.",
+  "isPartOf": { "@id": `${SITE_URL}/#website` },
+  "publisher": { "@id": `${SITE_URL}/#organization` },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL },
+      { "@type": "ListItem", "position": 2, "name": "Editorial", "item": `${SITE_URL}/blog/` }
+    ]
+  }
+};
 ---
 
 <Layout 
   title="Editorial | Dr. Nathan Marketing" 
   description="Explore premium insights, industry trends, and strategic foresight tailored for modern medical practices and healthcare innovators."
 >
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(blogSchema)} />
   <div class="relative min-h-[90vh] bg-[#fafafa] flex flex-col justify-start overflow-hidden pt-12 md:pt-24 pb-20">
     <!-- Ambient Glow -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
@@ -95,6 +116,7 @@ const [posts, categories, tags] = await Promise.all([
             <a 
               href={`/blog/${post.slug}`} 
               class="blog-card group flex flex-col no-underline relative bg-transparent"
+              data-astro-prefetch="viewport"
               data-title={post.title.toLowerCase()}
               data-categories={categorySlugs}
               data-tags={tagSlugs}
@@ -104,8 +126,12 @@ const [posts, categories, tags] = await Promise.all([
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
                 {post.imageUrl ? (
                   <img 
-                    src={post.imageUrl} 
-                    alt={post.title} 
+                    src={`${post.imageUrl}?w=800&fm=webp&fit=crop`}
+                    alt={post.title}
+                    width="800"
+                    height="600"
+                    loading="lazy"
+                    decoding="async"
                     class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 will-change-transform"
                   />
                 ) : (
@@ -127,7 +153,7 @@ const [posts, categories, tags] = await Promise.all([
                   {post.title}
                 </h2>
                 
-                <p class="text-slate-600 leading-relaxed line-clamp-3 text-[0.95rem] md:text-base mb-6 flex-1">
+                <p class="text-slate-500 leading-relaxed text-sm mb-6 flex-1">
                   {post.excerpt}
                 </p>
                 
@@ -194,6 +220,15 @@ const [posts, categories, tags] = await Promise.all([
       const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
       let visibleCount = 0;
 
+      // Sync search term to URL for shareability
+      const currentUrl = new URL(window.location.href);
+      if (searchTerm) {
+        currentUrl.searchParams.set('search', searchTerm);
+      } else {
+        currentUrl.searchParams.delete('search');
+      }
+      window.history.replaceState({}, '', currentUrl);
+
       cards.forEach((card) => {
         const c = card as HTMLElement;
         const title = c.getAttribute('data-title') || '';
@@ -226,6 +261,14 @@ const [posts, categories, tags] = await Promise.all([
 
     if (searchInput) {
       searchInput.addEventListener('input', filterPosts);
+    }
+
+    // --- SearchAction support: read ?search= from URL on load ---
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialSearch = urlParams.get('search');
+    if (initialSearch && searchInput) {
+      searchInput.value = initialSearch;
+      filterPosts();
     }
 
     filterBtns.forEach(btn => {
