@@ -7,9 +7,52 @@ import Service from "@components/home/Service.astro";
 import ContactUs from "@components/home/ContactUs.astro";
 import Footer from "@components/common/Footer.astro";
 import FAQ from "@components/home/FAQ.tsx";
+
+const SITE_URL = "https://www.drnathanmarketing.com";
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  "url": SITE_URL,
+  "name": "Dr. Nathan Marketing & Consultancy",
+  "description": "Startup Business founded by a group of doctors, providing marketing services for the healthcare industry in Myanmar.",
+  "publisher": { "@id": `${SITE_URL}/#organization` },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": `${SITE_URL}/blog?search={search_term_string}`
+    },
+    "query-input": "required name=search_term_string"
+  }
+};
+
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": ["ProfessionalService", "LocalBusiness"],
+  "@id": `${SITE_URL}/#localbusiness`,
+  "name": "Dr. Nathan Marketing & Consultancy",
+  "url": SITE_URL,
+  "image": `${SITE_URL}/assets/logo/logo.png`,
+  "description": "Healthcare marketing consultancy in Myanmar founded by doctors, specialising in digital marketing for clinics, hospitals, and medical brands.",
+  "areaServed": {
+    "@type": "Country",
+    "name": "Myanmar"
+  },
+  "knowsAbout": ["Healthcare Marketing", "Medical Marketing", "Digital Marketing", "Marketing Consultancy"],
+  "parentOrganization": { "@id": `${SITE_URL}/#organization` }
+};
 ---
 
-<Layout>
+<Layout
+  title="Dr. Nathan Marketing & Consultancy | Healthcare Marketing Myanmar"
+  description="Healthcare marketing consultancy in Myanmar founded by doctors. We specialise in digital marketing for clinics, hospitals, and medical brands."
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
+  </Fragment>
   <Hero />
   <AboutUs />
   <WhyUs />
