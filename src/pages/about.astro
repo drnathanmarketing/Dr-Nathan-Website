@@ -1,12 +1,48 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Footer from "@components/common/Footer.astro";
+
+const aboutSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "About Us | Dr. Nathan Marketing & Consultancy",
+  "description": "Founded in 2020 by a group of doctors, Dr. Nathan Marketing & Consultancy provides expert healthcare marketing services in Myanmar.",
+  "publisher": {
+    "@id": "https://www.drnathanmarketing.com/#organization"
+  },
+  "mainEntity": {
+    "@id": "https://www.drnathanmarketing.com/#organization"
+  },
+  "about": {
+    "@type": "Organization",
+    "@id": "https://www.drnathanmarketing.com/#organization",
+    "founder": [
+      {
+        "@type": "Person",
+        "name": "Dr. Aung Zaw Myint (Max)",
+        "jobTitle": "Head of Business Development"
+      },
+      {
+        "@type": "Person",
+        "name": "Dr. Zaw Htet Aung (Simon)",
+        "jobTitle": "Creative Director"
+      },
+      {
+        "@type": "Person",
+        "name": "Dr. Linn Htet Aung",
+        "jobTitle": "Head of Digital"
+      }
+    ]
+  }
+};
 ---
 
 <Layout
   title="About Us | Dr. Nathan Marketing & Consultancy"
   description="Founded in 2020 by a group of doctors, Dr. Nathan Marketing & Consultancy provides expert healthcare marketing services in Myanmar — from content creation to events, social media, and brand strategy."
+  canonical="https://www.drnathanmarketing.com/about"
 >
+  <script slot="head" is:inline type="application/ld+json" set:html={JSON.stringify(aboutSchema)} />
 
   <!-- ═══════════════════ HERO / MANIFESTO ═══════════════════ -->
   <section id="about-hero" class="relative min-h-screen flex flex-col justify-center bg-[#fafafa] overflow-hidden">
@@ -51,7 +87,7 @@ import Footer from "@components/common/Footer.astro";
       </div>
 
       <!-- Headline — each word is a span for staggered reveal -->
-      <h1 class="font-helvetica font-bold text-slate-900 leading-[1.0] tracking-tight mb-10 text-5xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem]">
+      <h1 class="font-helvetica font-bold text-slate-900 leading-[1.1] md:leading-[1.0] tracking-tight mb-8 md:mb-10 text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem]">
         <span class="hero-word inline-block opacity-0">Healthcare</span>
         <span class="hero-word inline-block opacity-0"> marketing</span><br class="hidden md:block"/>
         <span class="hero-word inline-block opacity-0">built</span>
@@ -392,7 +428,7 @@ import Footer from "@components/common/Footer.astro";
           <!-- Bio -->
           <div class="p-8 flex flex-col gap-5 flex-1">
             <div>
-              <h3 class="font-helvetica text-xl font-bold text-slate-900 mb-1 group-hover:text-primary-700 transition-colors duration-300">Max</h3>
+              <h3 class="font-helvetica text-xl font-bold text-slate-900 mb-1 group-hover:text-primary-700 transition-colors duration-300">Dr. Aung Zaw Myint (Max)</h3>
               <p class="font-helvetica text-[0.55rem] font-bold tracking-[0.35em] text-slate-500 uppercase">Head of Business Development</p>
             </div>
             <p class="font-roboto text-sm text-slate-600 leading-relaxed">
@@ -430,7 +466,7 @@ import Footer from "@components/common/Footer.astro";
 
           <div class="p-8 flex flex-col gap-5 flex-1">
             <div>
-              <h3 class="font-helvetica text-xl font-bold text-slate-900 mb-1 group-hover:text-primary-700 transition-colors duration-300">Simon</h3>
+              <h3 class="font-helvetica text-xl font-bold text-slate-900 mb-1 group-hover:text-primary-700 transition-colors duration-300">Dr. Zaw Htet Aung (Simon)</h3>
               <p class="font-helvetica text-[0.55rem] font-bold tracking-[0.35em] text-slate-500 uppercase">Creative Director</p>
             </div>
             <p class="font-roboto text-sm text-slate-600 leading-relaxed">
@@ -467,11 +503,11 @@ import Footer from "@components/common/Footer.astro";
 
           <div class="p-8 flex flex-col gap-5 flex-1">
             <div>
-              <h3 class="font-helvetica text-xl font-bold text-slate-900 mb-1 group-hover:text-primary-700 transition-colors duration-300">Lin Htet Aung</h3>
+              <h3 class="font-helvetica text-xl font-bold text-slate-900 mb-1 group-hover:text-primary-700 transition-colors duration-300">Dr. Linn Htet Aung</h3>
               <p class="font-helvetica text-[0.55rem] font-bold tracking-[0.35em] text-slate-500 uppercase">Head of Digital</p>
             </div>
             <p class="font-roboto text-sm text-slate-600 leading-relaxed">
-              The architect of our digital presence and performance marketing. Lin Htet Aung leverages data-driven insights and cutting-edge technology to ensure our healthcare campaigns reach the right patients at the right time with maximum impact.
+              The architect of our digital presence and performance marketing. Linn Htet Aung leverages data-driven insights and cutting-edge technology to ensure our healthcare campaigns reach the right patients at the right time with maximum impact.
             </p>
             <div class="flex items-center gap-3 mt-auto pt-2">
               <div class="h-px w-5 bg-slate-300 group-hover:w-10 group-hover:bg-primary-400 transition-all duration-500"></div>
@@ -503,9 +539,11 @@ import Footer from "@components/common/Footer.astro";
 
     <div class="max-w-screen-xl mx-auto px-6 lg:px-8 py-28 lg:py-40 relative z-10">
 
-      <!-- Main CTA block -->
-      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-12">
-        <div class="max-w-xl">
+      <!-- Main CTA block wrapper -->
+      <div class="flex flex-col md:flex-row md:flex-wrap md:items-center md:justify-between">
+        
+        <!-- Title block (Order 1) -->
+        <div class="max-w-xl order-1 mb-12 md:mb-0">
           <p class="text-[0.65rem] font-helvetica font-bold tracking-[0.6em] text-white/50 uppercase mb-6">
             Ready to begin?
           </p>
@@ -514,12 +552,12 @@ import Footer from "@components/common/Footer.astro";
           </h2>
         </div>
 
-        <!-- Pulsing border button -->
-        <div class="flex-shrink-0">
+        <!-- Button block (Order 3 on mobile, Order 2 on desktop) -->
+        <div class="flex-shrink-0 order-3 md:order-2 mt-12 md:mt-0 self-start md:self-center">
           <a
             id="about_cta_contact"
             href="/#contact_us"
-            class="cta-pulse-btn group relative flex items-center gap-4 border border-white/30 text-white px-10 py-5 rounded-sm font-helvetica text-sm font-bold tracking-widest uppercase hover:bg-white hover:text-primary-800 transition-all duration-400"
+            class="cta-pulse-btn group relative inline-flex items-center gap-4 border border-white/30 text-white px-10 py-5 rounded-sm font-helvetica text-sm font-bold tracking-widest uppercase hover:bg-white hover:text-primary-800 transition-all duration-400"
           >
             Start a Conversation
             <svg class="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -527,21 +565,22 @@ import Footer from "@components/common/Footer.astro";
             </svg>
           </a>
         </div>
-      </div>
 
-      <!-- Micro-stat strip -->
-      <div class="mt-20 pt-10 border-t border-white/10 flex flex-wrap gap-x-12 gap-y-4">
-        {[
-          { val: "58+", label: "Healthcare Clients" },
-          { val: "50+", label: "Major Campaigns" },
-          { val: "4M+", label: "Patient Engagements" },
-          { val: "2020", label: "Year Founded" },
-        ].map((s) => (
-          <div class="flex items-center gap-3">
-            <span class="font-helvetica text-lg font-bold text-white">{s.val}</span>
-            <span class="font-roboto text-[0.6rem] tracking-[0.35em] text-white/40 uppercase">{s.label}</span>
-          </div>
-        ))}
+        <!-- Stats block (Order 2 on mobile, Order 3 on desktop) -->
+        <div class="w-full order-2 md:order-3 pt-10 md:mt-20 border-t border-white/10 flex flex-wrap gap-x-12 gap-y-4">
+          {[
+            { val: "58+", label: "Healthcare Clients" },
+            { val: "50+", label: "Major Campaigns" },
+            { val: "4M+", label: "Patient Engagements" },
+            { val: "2020", label: "Year Founded" },
+          ].map((s) => (
+            <div class="flex items-center gap-3">
+              <span class="font-helvetica text-lg font-bold text-white">{s.val}</span>
+              <span class="font-roboto text-[0.6rem] tracking-[0.35em] text-white/40 uppercase">{s.label}</span>
+            </div>
+          ))}
+        </div>
+
       </div>
 
     </div>

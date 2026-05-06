@@ -7,6 +7,12 @@ const NavbarContent = () => {
   return (
     <>
       <a
+        href="/"
+        className="font-helvetica text-base tracking-wide font-semibold hover:text-primary-900 hover:cursor-pointer no-underline text-inherit"
+      >
+        Home
+      </a>
+      <a
         href="/about"
         className="font-helvetica text-base tracking-wide font-semibold hover:text-primary-900 hover:cursor-pointer no-underline text-inherit"
       >
