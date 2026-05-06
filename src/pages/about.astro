@@ -112,7 +112,7 @@ import Footer from "@components/common/Footer.astro";
         { value: 58,   display: "58",   label: "Healthcare Clients",  suffix: "+" },
         { value: 50,   display: "50",   label: "Major Campaigns",     suffix: "+" },
         { value: 4,    display: "4",    label: "Patient Engagements", suffix: "M+" },
-      ].map((s, i) => (
+      ].map((s) => (
         <div class="stat-block relative flex flex-col gap-3 px-6 py-10 border-r border-slate-100 last:border-r-0 overflow-hidden">
           <!-- Ghost watermark -->
           <span class="absolute -bottom-4 -right-2 font-helvetica font-bold text-slate-900/[0.03] select-none pointer-events-none leading-none"
@@ -495,7 +495,7 @@ import Footer from "@components/common/Footer.astro";
 
     <!-- Noise texture overlay for depth -->
     <div class="absolute inset-0 opacity-[0.03]"
-      style="background-image: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"200\"><filter id=\"n\"><feTurbulence type=\"fractalNoise\" baseFrequency=\"0.65\" numOctaves=\"3\" stitchTiles=\"stitch\"/></filter><rect width=\"200\" height=\"200\" filter=\"url(%23n)\" opacity=\"1\"/></svg>'); background-size: 200px;">
+      style="background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22200%22 height=%22200%22 filter=%22url(%23n)%22 opacity=%221%22/%3E%3C/svg%3E'); background-size: 200px;">
     </div>
 
     <!-- Top border line -->
