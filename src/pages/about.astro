@@ -1,0 +1,699 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Footer from "@components/common/Footer.astro";
+---
+
+<Layout
+  title="About Us | Dr. Nathan Marketing & Consultancy"
+  description="Founded in 2020 by a group of doctors, Dr. Nathan Marketing & Consultancy provides expert healthcare marketing services in Myanmar — from content creation to events, social media, and brand strategy."
+>
+
+  <!-- ═══════════════════ HERO / MANIFESTO ═══════════════════ -->
+  <section id="about-hero" class="relative min-h-screen flex flex-col justify-center bg-[#fafafa] overflow-hidden">
+
+    <!-- Ambient glows -->
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute top-[0%] left-[-10%] w-[60%] h-[60%] rounded-full bg-primary-50/40 blur-[120px]"></div>
+      <div class="absolute bottom-[-10%] right-[-5%] w-[35%] h-[50%] rounded-full bg-primary-100/30 blur-[100px]"></div>
+    </div>
+
+    <!-- Fine grid overlay -->
+    <div class="absolute inset-0 opacity-[0.4] pointer-events-none"
+      style="background-image: linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px); background-size: 60px 60px;">
+    </div>
+
+    <!-- Decorative large cross top-right -->
+    <div class="absolute top-16 right-10 lg:right-20 text-primary-600/10 select-none pointer-events-none">
+      <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+        <line x1="60" y1="0" x2="60" y2="120" stroke="currentColor" stroke-width="1"/>
+        <line x1="0" y1="60" x2="120" y2="60" stroke="currentColor" stroke-width="1"/>
+        <circle cx="60" cy="60" r="30" stroke="currentColor" stroke-width="0.5" stroke-dasharray="4 4"/>
+      </svg>
+    </div>
+
+    <!-- Decorative corner bracket bottom-left -->
+    <div class="absolute bottom-20 left-8 lg:left-16 text-primary-600/10 select-none pointer-events-none">
+      <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+        <path d="M0 20 L0 0 L20 0" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M40 60 L60 60 L60 40" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+    </div>
+
+    <!-- Main content -->
+    <div class="max-w-screen-xl mx-auto px-6 lg:px-8 w-full relative z-10 pt-8">
+
+      <!-- Eyebrow label with blinking cursor -->
+      <div class="flex items-center gap-3 mb-10">
+        <div class="hero-cursor h-4 w-px bg-primary-400"></div>
+        <p class="hero-eyebrow text-[0.65rem] font-helvetica font-bold tracking-[0.6em] text-primary-600 uppercase opacity-0">
+          01 &nbsp;/&nbsp; Origin
+        </p>
+      </div>
+
+      <!-- Headline — each word is a span for staggered reveal -->
+      <h1 class="font-helvetica font-bold text-slate-900 leading-[1.0] tracking-tight mb-10 text-5xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem]">
+        <span class="hero-word inline-block opacity-0">Healthcare</span>
+        <span class="hero-word inline-block opacity-0"> marketing</span><br class="hidden md:block"/>
+        <span class="hero-word inline-block opacity-0">built</span>
+        <span class="hero-word inline-block opacity-0"> by</span>
+        <span class="hero-word inline-block opacity-0"> those</span>
+        <span class="hero-word inline-block opacity-0"> who</span><br class="hidden md:block"/>
+        <span class="hero-word inline-block text-transparent opacity-0"
+          style="background: linear-gradient(90deg, #00a5ff, #6dd3ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+          understand&nbsp;health.
+        </span>
+      </h1>
+
+      <!-- Sub-copy + divider line -->
+      <div class="flex flex-col md:flex-row md:items-end gap-10 md:gap-20">
+        <p class="hero-sub opacity-0 font-roboto text-base md:text-lg text-slate-600 max-w-lg leading-relaxed">
+          We are a team of medical professionals and creative specialists dedicated to building
+          authoritative, patient-centric brands for the healthcare industry in Myanmar.
+        </p>
+        <!-- Vertical stat callout -->
+        <div class="hero-stat opacity-0 flex flex-row md:flex-col gap-6 md:gap-2 pb-1">
+          <div class="flex flex-col">
+            <span class="font-helvetica text-2xl font-bold text-slate-900">58+</span>
+            <span class="font-roboto text-[0.6rem] tracking-widest text-slate-500 uppercase">Clients</span>
+          </div>
+          <div class="w-px h-8 bg-slate-200 hidden md:block self-center"></div>
+          <div class="flex flex-col">
+            <span class="font-helvetica text-2xl font-bold text-slate-900">4M+</span>
+            <span class="font-roboto text-[0.6rem] tracking-widest text-slate-500 uppercase">Engagements</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scrolling ticker bottom -->
+    <div class="absolute bottom-0 left-0 w-full border-t border-slate-200 py-3 overflow-hidden bg-white/50 backdrop-blur-sm">
+      <div class="ticker-track flex items-center gap-0 w-max">
+        {Array.from({ length: 3 }).map(() => (
+          <div class="flex items-center gap-8 px-8 whitespace-nowrap">
+            {["Healthcare Marketing", "Myanmar", "Since 2020", "58+ Clients", "4M+ Engagements", "Medical Expertise", "Patient-Centric"].map((t) => (
+              <span class="font-helvetica text-[0.6rem] font-bold tracking-[0.4em] text-slate-400 uppercase flex items-center gap-8">
+                {t}
+                <span class="text-primary-400">·</span>
+              </span>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════ STATS BAND ═══════════════════ -->
+  <section class="relative bg-white overflow-hidden border-y border-slate-100">
+
+    <div class="max-w-screen-xl mx-auto px-6 lg:px-8 py-16 grid grid-cols-2 md:grid-cols-4">
+      {[
+        { value: 2020, display: "2020", label: "Year Founded",        suffix: "" },
+        { value: 58,   display: "58",   label: "Healthcare Clients",  suffix: "+" },
+        { value: 50,   display: "50",   label: "Major Campaigns",     suffix: "+" },
+        { value: 4,    display: "4",    label: "Patient Engagements", suffix: "M+" },
+      ].map((s, i) => (
+        <div class="stat-block relative flex flex-col gap-3 px-6 py-10 border-r border-slate-100 last:border-r-0 overflow-hidden">
+          <!-- Ghost watermark -->
+          <span class="absolute -bottom-4 -right-2 font-helvetica font-bold text-slate-900/[0.03] select-none pointer-events-none leading-none"
+            style="font-size: clamp(4rem, 8vw, 8rem);">
+            {s.display}
+          </span>
+          <!-- Counter number -->
+          <p class="stat-num font-helvetica font-bold text-slate-900 leading-none"
+            style="font-size: clamp(2.5rem, 5vw, 4rem);"
+            data-target={s.value}
+            data-suffix={s.suffix}>
+            {s.display}{s.suffix}
+          </p>
+          <p class="font-roboto text-[0.6rem] tracking-[0.4em] text-slate-500 uppercase">{s.label}</p>
+          <!-- Thin left accent line -->
+          <div class="absolute left-0 top-1/4 h-1/2 w-px bg-gradient-to-b from-transparent via-primary-400 to-transparent"></div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ═══════════════════ GENESIS / HISTORY ═══════════════════ -->
+  <section class="relative bg-white overflow-hidden">
+
+    <!-- Large decorative quote mark -->
+    <div class="absolute top-12 left-4 lg:left-10 font-helvetica font-bold text-primary-50 select-none pointer-events-none leading-none"
+      style="font-size: clamp(8rem, 18vw, 18rem); line-height: 1;">
+      "
+    </div>
+
+    <div class="max-w-screen-xl mx-auto px-6 lg:px-8 py-28 lg:py-40 relative z-10">
+      <div class="flex flex-col lg:flex-row gap-16 lg:gap-24">
+
+        <!-- Left: sticky label + scroll progress line -->
+        <div class="lg:w-56 flex-shrink-0">
+          <div class="lg:sticky lg:top-28 flex flex-col gap-4">
+            <p class="genesis-eyebrow text-[0.65rem] font-helvetica font-bold tracking-[0.55em] text-primary-600 uppercase">
+              [02] From Clinic to Campaign
+            </p>
+            <!-- Scroll progress track -->
+            <div class="hidden lg:block relative w-px h-32 bg-slate-100 overflow-hidden ml-1 mt-4">
+              <div id="genesis-line" class="absolute top-0 left-0 w-full bg-primary-400 transition-none" style="height: 0%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: headline + paragraphs with left-border reveals -->
+        <div class="flex-1 max-w-2xl">
+          <h2 class="genesis-h2 font-helvetica text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-900 leading-tight mb-12">
+            Born from a gap that doctors could see, but no one was solving.
+          </h2>
+          <div class="flex flex-col gap-0">
+            {[
+              "Founded in 2020, Dr. Nathan Marketing & Consultancy was established by a group of medical professionals who recognised a critical disconnect in Myanmar's healthcare landscape: clinics and health brands struggled to communicate with patients effectively. Marketing was either too generic, medically inaccurate, or simply missing altogether.",
+              "We identified three core challenges facing every healthcare business: a fundamental lack of medical knowledge in marketing, chronically low brand awareness, and intensely high competition. We built this agency to solve all three — simultaneously, and with integrity.",
+              "By combining the clinical credibility of our founding doctors with dedicated creative, production, and events specialists, we evolved from a focused startup into a full-service consultancy. Today we serve over 58 healthcare clients across Myanmar, delivering campaigns that are accurate, resonant, and measurable.",
+            ].map((text) => (
+              <div class="genesis-p-wrap group relative pl-6 py-6 border-b border-slate-100 last:border-b-0">
+                <!-- Animated left border -->
+                <div class="genesis-border absolute left-0 top-0 w-[2px] h-0 bg-primary-400 transition-all duration-700 group-hover:h-full"></div>
+                <p class="genesis-p font-roboto text-base text-slate-600 leading-relaxed">{text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- EST. 2020 floating badge -->
+    <div class="absolute bottom-10 right-8 lg:right-16">
+      <div class="flex items-center gap-2 border border-slate-200 rounded-full px-4 py-1.5 bg-white/80 backdrop-blur-sm">
+        <div class="w-1.5 h-1.5 rounded-full bg-primary-400"></div>
+        <span class="font-helvetica text-[0.55rem] font-bold tracking-[0.4em] text-slate-400 uppercase">Est. 2020</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════ MISSION / VISION / PROMISE ═══════════════════ -->
+  <!-- ═══════════════════ MISSION / VISION / PROMISE ═══════════════════ -->
+  <section class="relative bg-[#fafafa] overflow-hidden">
+
+    <!-- Ambient glow -->
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60%] h-[50%] rounded-full bg-primary-600/5 blur-[120px]"></div>
+    </div>
+    <!-- Top border -->
+    <div class="absolute top-0 left-0 w-full h-px bg-slate-200"></div>
+
+    <div class="max-w-screen-xl mx-auto px-6 lg:px-8 py-28 lg:py-40 relative z-10">
+
+      <!-- Header row -->
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-20">
+        <p class="pillars-eyebrow text-[0.65rem] font-helvetica font-bold tracking-[0.6em] text-primary-600 uppercase">
+          [03] North Star
+        </p>
+        <p class="font-roboto text-xs text-slate-500 tracking-wide max-w-xs md:text-right leading-relaxed">
+          The principles that guide every campaign, every brief, every decision.
+        </p>
+      </div>
+
+      <!-- Three pillar cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-slate-200">
+        {[
+          {
+            num: "01",
+            title: "Mission",
+            body: "To provide expert, trustworthy, and innovative marketing services tailored specifically for the healthcare industry in Myanmar — where medical accuracy is never a compromise, and every campaign serves the patient as much as the brand.",
+          },
+          {
+            num: "02",
+            title: "Vision",
+            body: "To become the gold standard for healthcare marketing in Myanmar — a consultancy that health brands, clinics, and medical professionals turn to first when they want to grow with credibility, clarity, and impact.",
+          },
+          {
+            num: "03",
+            title: "Promise",
+            body: "Good marketing makes the company look smart. We deliver clear, educational, and ethically grounded messaging that builds lasting trust between healthcare providers and the patients who depend on them.",
+          },
+        ].map((p) => (
+          <div class="pillar-block group relative flex flex-col gap-8 p-10 lg:p-12 bg-white hover:bg-slate-50 transition-colors duration-500 overflow-hidden cursor-default">
+
+            <!-- Glowing top border — animates in on scroll, always glows on hover -->
+            <div class="pillar-top-border absolute top-0 left-0 w-0 h-[2px] bg-gradient-to-r from-primary-400 to-primary-600 group-hover:w-full transition-none duration-700"></div>
+
+            <!-- Ghost watermark number -->
+            <span class="absolute bottom-4 right-4 font-helvetica font-bold text-slate-900/[0.04] select-none pointer-events-none leading-none"
+              style="font-size: clamp(5rem, 10vw, 9rem);">
+              {p.num}
+            </span>
+
+            <!-- Content -->
+            <span class="font-helvetica text-[0.58rem] font-bold tracking-[0.45em] text-primary-500 uppercase">{p.num} / 03</span>
+            <h3 class="font-helvetica text-3xl lg:text-4xl font-bold text-slate-900 leading-tight">{p.title}</h3>
+            <p class="font-roboto text-sm text-slate-600 leading-relaxed max-w-xs">{p.body}</p>
+
+            <!-- Arrow indicator -->
+            <div class="flex items-center gap-3 mt-auto">
+              <div class="h-px w-5 bg-slate-300 group-hover:w-10 group-hover:bg-primary-400 transition-all duration-500"></div>
+              <span class="font-helvetica text-[0.55rem] font-bold tracking-[0.35em] text-slate-500 group-hover:text-primary-600 uppercase transition-colors duration-300">{p.title}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Bottom border -->
+    <div class="absolute bottom-0 left-0 w-full h-px bg-slate-200"></div>
+  </section>
+
+  <!-- ═══════════════════ PHILOSOPHY ═══════════════════ -->
+  <section class="bg-white relative overflow-hidden">
+
+    <!-- Oversized background watermark -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-helvetica font-bold text-slate-900/[0.025] select-none pointer-events-none uppercase tracking-widest whitespace-nowrap leading-none"
+      style="font-size: clamp(5rem, 14vw, 13rem);">
+      APPROACH
+    </div>
+
+    <div class="max-w-screen-xl mx-auto px-6 lg:px-8 py-28 lg:py-40 relative z-10">
+      <div class="flex flex-col lg:flex-row gap-16 lg:gap-24">
+
+        <!-- Left sticky label -->
+        <div class="lg:w-56 flex-shrink-0">
+          <div class="lg:sticky lg:top-28">
+            <p class="phil-eyebrow text-[0.65rem] font-helvetica font-bold tracking-[0.55em] text-primary-600 uppercase mb-4">
+              [04] Our Approach
+            </p>
+            <div class="hidden lg:block w-px h-24 bg-gradient-to-b from-primary-300 to-transparent ml-1 mt-6"></div>
+          </div>
+        </div>
+
+        <!-- Right: headline + rows -->
+        <div class="flex-1">
+          <h2 class="phil-h2 font-helvetica text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-900 leading-tight mb-16">
+            Complexity, simplified.<br/>Accuracy, always.
+          </h2>
+
+          <div class="flex flex-col">
+            {[
+              {
+                num: "01",
+                tag: "Medically Accurate Content",
+                desc: "Our content is created and reviewed by medical doctors — not generalist copywriters. Every blog post, caption, campaign brief, and patient-facing material is grounded in clinical knowledge, ensuring your brand communicates with authority and trust.",
+              },
+              {
+                num: "02",
+                tag: "Creative Campaigns, Real Results",
+                desc: "From social media marketing and media buying to video production and product photography, we build campaigns that are as visually compelling as they are strategically sound. We don't just fill feeds; we grow communities and drive patient engagement.",
+              },
+              {
+                num: "03",
+                tag: "On-the-Ground Execution",
+                desc: "Healthcare marketing isn't only digital. We plan and manage medical conferences, health awareness events, and product launch activations — ensuring your brand makes a lasting impression both online and offline across Myanmar.",
+              },
+              {
+                num: "04",
+                tag: "Patient-Centric by Design",
+                desc: "Every decision — from brand identity to campaign messaging — is filtered through one question: does this serve the patient? Our approach prioritises empathy, clarity, and accessibility so healthcare information reaches the people who need it most.",
+              },
+            ].map((item) => (
+              <div class="phil-item group relative flex flex-col md:flex-row md:items-start gap-6 py-9 cursor-default border-t border-slate-100 last:border-b border-slate-100 hover:bg-primary-50/50 transition-colors duration-300 px-4 -mx-4 rounded-sm">
+                <!-- Animated left border on hover -->
+                <div class="absolute left-0 top-0 h-0 w-[3px] bg-primary-400 group-hover:h-full transition-all duration-500 rounded-full"></div>
+
+                <!-- Numbered badge -->
+                <div class="md:w-56 flex-shrink-0 flex items-center gap-3">
+                  <span class="font-helvetica text-[0.55rem] font-bold tracking-[0.3em] text-slate-300 group-hover:text-primary-500 transition-colors duration-300 uppercase">{item.num}</span>
+                  <div class="h-px w-4 bg-slate-200 group-hover:w-8 group-hover:bg-primary-400 transition-all duration-500"></div>
+                  <span class="font-helvetica text-[0.6rem] font-bold tracking-[0.25em] text-slate-500 group-hover:text-primary-700 uppercase transition-colors duration-300">{item.tag}</span>
+                </div>
+
+                <!-- Description -->
+                <p class="font-roboto text-sm text-slate-500 leading-relaxed max-w-xl group-hover:text-slate-700 transition-colors duration-300">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ FOUNDER PROFILES ═══════════════════ -->
+  <section class="relative bg-[#fafafa] overflow-hidden">
+
+    <!-- Subtle top border -->
+    <div class="absolute top-0 left-0 w-full h-px bg-slate-200"></div>
+
+    <div class="max-w-screen-xl mx-auto px-6 lg:px-8 py-28 lg:py-40 relative z-10">
+
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-20">
+        <div>
+          <p class="founders-eyebrow text-[0.65rem] font-helvetica font-bold tracking-[0.6em] text-primary-600 uppercase mb-5">
+            [05] The Founders
+          </p>
+          <h2 class="founders-h2 font-helvetica text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-900 leading-tight max-w-lg">
+            The minds behind the consultancy.
+          </h2>
+        </div>
+        <p class="font-roboto text-xs text-slate-500 max-w-xs leading-relaxed md:text-right md:pb-2">
+          Three doctors. One shared vision. A consultancy built from the inside of healthcare out.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Founder 1: Max -->
+        <div class="founder-card group relative flex flex-col overflow-hidden bg-white border border-slate-200 hover:border-primary-400/50 hover:shadow-xl hover:shadow-primary-900/5 transition-all duration-500 rounded-sm">
+          <!-- Gradient border glow on hover (top) -->
+          <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-primary-400 to-primary-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+          <!-- Portrait area -->
+          <div class="relative w-full overflow-hidden" style="height: 22rem;">
+            <div class="absolute inset-0 bg-gradient-to-br from-slate-100 to-slate-200"></div>
+            <!-- Subtle dot pattern -->
+            <div class="absolute inset-0 opacity-[0.2]"
+              style="background-image: radial-gradient(circle, rgba(0,0,0,0.1) 1px, transparent 1px); background-size: 20px 20px;">
+            </div>
+            <!-- Large ghost number -->
+            <span class="absolute bottom-2 right-3 font-helvetica font-bold text-slate-900/[0.04] select-none pointer-events-none leading-none"
+              style="font-size: 9rem;">01</span>
+            <!-- Silhouette -->
+            <svg class="absolute bottom-0 left-1/2 -translate-x-1/2 text-slate-300" width="160" height="220" viewBox="0 0 100 140" fill="currentColor">
+              <ellipse cx="50" cy="32" rx="20" ry="20"/>
+              <path d="M12 140 Q12 88 50 88 Q88 88 88 140Z"/>
+            </svg>
+            <!-- Bottom fade -->
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-slate-200/50 to-transparent"></div>
+            <!-- Role badge -->
+            <div class="absolute top-5 left-5 flex items-center gap-2">
+              <div class="w-1.5 h-1.5 rounded-full bg-primary-500"></div>
+              <span class="font-helvetica text-[0.5rem] font-bold tracking-[0.35em] text-primary-600 uppercase">Co-Founder · 01</span>
+            </div>
+          </div>
+
+          <!-- Bio -->
+          <div class="p-8 flex flex-col gap-5 flex-1">
+            <div>
+              <h3 class="font-helvetica text-xl font-bold text-slate-900 mb-1 group-hover:text-primary-700 transition-colors duration-300">Max</h3>
+              <p class="font-helvetica text-[0.55rem] font-bold tracking-[0.35em] text-slate-500 uppercase">Head of Business Development</p>
+            </div>
+            <p class="font-roboto text-sm text-slate-600 leading-relaxed">
+              The driving force behind our strategic growth and client partnerships. Max ensures that our marketing solutions align perfectly with the ambitious business goals of our healthcare clients, fostering relationships built on trust and measurable success.
+            </p>
+            <div class="flex items-center gap-3 mt-auto pt-2">
+              <div class="h-px w-5 bg-slate-300 group-hover:w-10 group-hover:bg-primary-400 transition-all duration-500"></div>
+              <span class="font-helvetica text-[0.55rem] font-bold tracking-[0.35em] text-slate-500 group-hover:text-primary-600 uppercase transition-colors duration-300">Business Development</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Founder 2: Simon -->
+        <div class="founder-card group relative flex flex-col overflow-hidden bg-white border border-slate-200 hover:border-primary-400/50 hover:shadow-xl hover:shadow-primary-900/5 transition-all duration-500 rounded-sm">
+          <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-primary-400 via-primary-500 to-primary-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+          <div class="relative w-full overflow-hidden" style="height: 22rem;">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary-50 to-slate-100"></div>
+            <!-- Grid overlay -->
+            <div class="absolute inset-0 opacity-[0.2]"
+              style="background-image: linear-gradient(rgba(0,165,255,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(0,165,255,0.2) 1px, transparent 1px); background-size: 28px 28px;">
+            </div>
+            <span class="absolute bottom-2 right-3 font-helvetica font-bold text-primary-900/[0.04] select-none pointer-events-none leading-none"
+              style="font-size: 9rem;">02</span>
+            <svg class="absolute bottom-0 left-1/2 -translate-x-1/2 text-primary-200" width="160" height="220" viewBox="0 0 100 140" fill="currentColor">
+              <ellipse cx="50" cy="32" rx="20" ry="20"/>
+              <path d="M12 140 Q12 88 50 88 Q88 88 88 140Z"/>
+            </svg>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-slate-100/50 to-transparent"></div>
+            <div class="absolute top-5 left-5 flex items-center gap-2">
+              <div class="w-1.5 h-1.5 rounded-full bg-primary-600"></div>
+              <span class="font-helvetica text-[0.5rem] font-bold tracking-[0.35em] text-primary-600 uppercase">Co-Founder · 02</span>
+            </div>
+          </div>
+
+          <div class="p-8 flex flex-col gap-5 flex-1">
+            <div>
+              <h3 class="font-helvetica text-xl font-bold text-slate-900 mb-1 group-hover:text-primary-700 transition-colors duration-300">Simon</h3>
+              <p class="font-helvetica text-[0.55rem] font-bold tracking-[0.35em] text-slate-500 uppercase">Creative Director</p>
+            </div>
+            <p class="font-roboto text-sm text-slate-600 leading-relaxed">
+              The visionary behind our brand storytelling. Simon translates complex medical narratives into compelling, patient-centric campaigns that captivate audiences and elevate healthcare brands across every touchpoint.
+            </p>
+            <div class="flex items-center gap-3 mt-auto pt-2">
+              <div class="h-px w-5 bg-slate-300 group-hover:w-10 group-hover:bg-primary-400 transition-all duration-500"></div>
+              <span class="font-helvetica text-[0.55rem] font-bold tracking-[0.35em] text-slate-500 group-hover:text-primary-600 uppercase transition-colors duration-300">Creative Direction</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Founder 3: Lin Htet Aung -->
+        <div class="founder-card group relative flex flex-col overflow-hidden bg-white border border-slate-200 hover:border-primary-400/50 hover:shadow-xl hover:shadow-primary-900/5 transition-all duration-500 rounded-sm">
+          <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-primary-400 to-primary-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+          <div class="relative w-full overflow-hidden" style="height: 22rem;">
+            <div class="absolute inset-0 bg-gradient-to-br from-slate-50 to-slate-100"></div>
+            <div class="absolute inset-0 opacity-[0.2]"
+              style="background: repeating-linear-gradient(-45deg, rgba(0,165,255,0.1) 0px, rgba(0,165,255,0.1) 1px, transparent 1px, transparent 16px);">
+            </div>
+            <span class="absolute bottom-2 right-3 font-helvetica font-bold text-slate-900/[0.04] select-none pointer-events-none leading-none"
+              style="font-size: 9rem;">03</span>
+            <svg class="absolute bottom-0 left-1/2 -translate-x-1/2 text-slate-200" width="160" height="220" viewBox="0 0 100 140" fill="currentColor">
+              <ellipse cx="50" cy="32" rx="20" ry="20"/>
+              <path d="M12 140 Q12 88 50 88 Q88 88 88 140Z"/>
+            </svg>
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-slate-100/50 to-transparent"></div>
+            <div class="absolute top-5 left-5 flex items-center gap-2">
+              <div class="w-1.5 h-1.5 rounded-full bg-primary-500"></div>
+              <span class="font-helvetica text-[0.5rem] font-bold tracking-[0.35em] text-primary-600 uppercase">Co-Founder · 03</span>
+            </div>
+          </div>
+
+          <div class="p-8 flex flex-col gap-5 flex-1">
+            <div>
+              <h3 class="font-helvetica text-xl font-bold text-slate-900 mb-1 group-hover:text-primary-700 transition-colors duration-300">Lin Htet Aung</h3>
+              <p class="font-helvetica text-[0.55rem] font-bold tracking-[0.35em] text-slate-500 uppercase">Head of Digital</p>
+            </div>
+            <p class="font-roboto text-sm text-slate-600 leading-relaxed">
+              The architect of our digital presence and performance marketing. Lin Htet Aung leverages data-driven insights and cutting-edge technology to ensure our healthcare campaigns reach the right patients at the right time with maximum impact.
+            </p>
+            <div class="flex items-center gap-3 mt-auto pt-2">
+              <div class="h-px w-5 bg-slate-300 group-hover:w-10 group-hover:bg-primary-400 transition-all duration-500"></div>
+              <span class="font-helvetica text-[0.55rem] font-bold tracking-[0.35em] text-slate-500 group-hover:text-primary-600 uppercase transition-colors duration-300">Digital Strategy</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ CTA CLOSING ═══════════════════ -->
+  <section class="relative overflow-hidden" style="background: linear-gradient(135deg, #004a7d 0%, #0068b4 40%, #00a5ff 100%);">
+
+    <!-- Decorative giant arrow -->
+    <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/4 text-white/5 select-none pointer-events-none font-helvetica font-bold leading-none"
+      style="font-size: clamp(12rem, 25vw, 22rem);">
+      →
+    </div>
+
+    <!-- Noise texture overlay for depth -->
+    <div class="absolute inset-0 opacity-[0.03]"
+      style="background-image: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"200\"><filter id=\"n\"><feTurbulence type=\"fractalNoise\" baseFrequency=\"0.65\" numOctaves=\"3\" stitchTiles=\"stitch\"/></filter><rect width=\"200\" height=\"200\" filter=\"url(%23n)\" opacity=\"1\"/></svg>'); background-size: 200px;">
+    </div>
+
+    <!-- Top border line -->
+    <div class="absolute top-0 left-0 w-full h-px bg-white/10"></div>
+
+    <div class="max-w-screen-xl mx-auto px-6 lg:px-8 py-28 lg:py-40 relative z-10">
+
+      <!-- Main CTA block -->
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-12">
+        <div class="max-w-xl">
+          <p class="text-[0.65rem] font-helvetica font-bold tracking-[0.6em] text-white/50 uppercase mb-6">
+            Ready to begin?
+          </p>
+          <h2 class="font-helvetica text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.05] tracking-tight">
+            Let's build a healthcare brand that patients trust.
+          </h2>
+        </div>
+
+        <!-- Pulsing border button -->
+        <div class="flex-shrink-0">
+          <a
+            id="about_cta_contact"
+            href="/#contact_us"
+            class="cta-pulse-btn group relative flex items-center gap-4 border border-white/30 text-white px-10 py-5 rounded-sm font-helvetica text-sm font-bold tracking-widest uppercase hover:bg-white hover:text-primary-800 transition-all duration-400"
+          >
+            Start a Conversation
+            <svg class="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M13 6l6 6-6 6"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Micro-stat strip -->
+      <div class="mt-20 pt-10 border-t border-white/10 flex flex-wrap gap-x-12 gap-y-4">
+        {[
+          { val: "58+", label: "Healthcare Clients" },
+          { val: "50+", label: "Major Campaigns" },
+          { val: "4M+", label: "Patient Engagements" },
+          { val: "2020", label: "Year Founded" },
+        ].map((s) => (
+          <div class="flex items-center gap-3">
+            <span class="font-helvetica text-lg font-bold text-white">{s.val}</span>
+            <span class="font-roboto text-[0.6rem] tracking-[0.35em] text-white/40 uppercase">{s.label}</span>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style>
+  /* ── Ticker ── */
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-33.333%); }
+  }
+  .ticker-track {
+    animation: ticker 30s linear infinite;
+  }
+
+  /* ── Cursor blink ── */
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+  .hero-cursor {
+    animation: blink 1.1s step-end infinite;
+  }
+
+  /* ── CTA button pulse ── */
+  @keyframes border-pulse {
+    0%, 100% { border-color: rgba(255,255,255,0.3); box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+    50%       { border-color: rgba(255,255,255,0.7); box-shadow: 0 0 20px 4px rgba(255,255,255,0.1); }
+  }
+  .cta-pulse-btn {
+    animation: border-pulse 2.5s ease-in-out infinite;
+  }
+  .cta-pulse-btn:hover {
+    animation: none;
+  }
+
+  /* ── Founder card lift ── */
+  .founder-card {
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease, border-color 0.4s ease;
+  }
+  .founder-card:hover {
+    transform: translateY(-4px);
+  }
+</style>
+
+<script>
+  import gsap from "gsap";
+
+  /* ── Hero: eyebrow + word-by-word reveal ── */
+  const heroTl = gsap.timeline({ delay: 0.2 });
+  heroTl
+    .fromTo(".hero-eyebrow",
+      { opacity: 0, x: -12 },
+      { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }
+    )
+    .fromTo(".hero-word",
+      { opacity: 0, y: 40, skewY: 3 },
+      { opacity: 1, y: 0, skewY: 0, duration: 0.7, stagger: 0.08, ease: "power3.out" },
+      "-=0.2"
+    )
+    .fromTo(".hero-sub",
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+      "-=0.3"
+    )
+    .fromTo(".hero-stat",
+      { opacity: 0, y: 16 },
+      { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" },
+      "-=0.5"
+    );
+
+  /* ── Pillar top-border sweep-in ── */
+  const pillarSection = document.querySelector(".pillar-block")?.closest("section");
+  if (pillarSection) {
+    const pillarObs = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        gsap.to(".pillar-top-border", {
+          width: "100%", duration: 1, stagger: 0.2, ease: "power2.inOut", delay: 0.4,
+        });
+        pillarObs.disconnect();
+      });
+    }, { threshold: 0.2 });
+    pillarObs.observe(pillarSection);
+  }
+
+  /* ── Genesis scroll-progress line ── */
+  const genesisLine = document.getElementById("genesis-line");
+  const genesisSection = document.querySelector(".genesis-h2")?.closest("section");
+  if (genesisLine && genesisSection) {
+    window.addEventListener("scroll", () => {
+      const rect = genesisSection.getBoundingClientRect();
+      const progress = Math.max(0, Math.min(1, -rect.top / (rect.height - window.innerHeight)));
+      (genesisLine as HTMLElement).style.height = (progress * 100) + "%";
+    }, { passive: true });
+  }
+
+  /* ── Stat count-up ── */
+  const statNums = document.querySelectorAll(".stat-num");
+  const countObs = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      statNums.forEach((el) => {
+        const target = parseInt(el.getAttribute("data-target") || "0", 10);
+        const suffix = el.getAttribute("data-suffix") || "";
+        const duration = 1800;
+        const start = performance.now();
+        const startVal = 0;
+        const update = (now: number) => {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = Math.round(startVal + (target - startVal) * eased);
+          el.textContent = current + suffix;
+          if (progress < 1) requestAnimationFrame(update);
+        };
+        requestAnimationFrame(update);
+      });
+      countObs.disconnect();
+    });
+  }, { threshold: 0.4 });
+  if (statNums[0]) countObs.observe(statNums[0]);
+
+  /* ── Scroll-triggered section reveals ── */
+  const revealGroups = [
+    { selector: ".stat-block",                               threshold: 0.2 },
+    { selector: ".genesis-eyebrow, .genesis-h2, .genesis-p", threshold: 0.2 },
+    { selector: ".pillars-eyebrow, .pillar-block",           threshold: 0.15 },
+    { selector: ".phil-eyebrow, .phil-h2, .phil-item",       threshold: 0.1 },
+    { selector: ".founders-eyebrow, .founders-h2, .founder-card", threshold: 0.1 },
+  ];
+
+  revealGroups.forEach(({ selector, threshold }) => {
+    const els = document.querySelectorAll(selector);
+    if (!els.length) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          gsap.fromTo(
+            els,
+            { opacity: 0, y: 28 },
+            { opacity: 1, y: 0, duration: 0.85, stagger: 0.1, ease: "power3.out" }
+          );
+          obs.disconnect();
+        });
+      },
+      { threshold }
+    );
+    obs.observe(els[0]);
+  });
+</script>

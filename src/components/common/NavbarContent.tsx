@@ -6,18 +6,12 @@ const NavbarContent = () => {
   };
   return (
     <>
-      {/* <p
-        className="font-helvetica text-base tracking-wide font-semibold hover:text-primary-900 hover:cursor-pointer"
-        onClick={onLinkClick("about_us")}
+      <a
+        href="/about"
+        className="font-helvetica text-base tracking-wide font-semibold hover:text-primary-900 hover:cursor-pointer no-underline text-inherit"
       >
         About Us
-      </p> */}
-      <p
-        className="font-helvetica text-base tracking-wide font-semibold hover:text-primary-900 hover:cursor-pointer"
-        onClick={onLinkClick("testimonial")}
-      >
-        Why Us
-      </p>
+      </a>
       <p
         className="font-helvetica text-base tracking-wide font-semibold hover:text-primary-900 hover:cursor-pointer"
         onClick={onLinkClick("service")}
