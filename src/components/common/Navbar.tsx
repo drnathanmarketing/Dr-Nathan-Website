@@ -64,6 +64,9 @@ const Navbar = () => {
             </div>
           </div>
           <svg
+            aria-label="Open main menu"
+            role="button"
+            tabIndex={0}
             viewBox="0 0 24 24"
             fill="none"
             className="w-10 h-10"
