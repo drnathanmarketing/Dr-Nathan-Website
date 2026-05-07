@@ -94,7 +94,7 @@ const orgSchema = {
     <meta property="twitter:image" content={ogImage} />
 
     <!-- Base Organization Schema (every page) -->
-    <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
 
     <slot name="head" />
   </head>
