@@ -35,20 +35,27 @@ async function requestToNodeIncoming(request: Request): Promise<IncomingMessage>
   return readable;
 }
 
-/** Build an authenticated Google Drive client from env vars. */
+/** Build an authenticated Google Drive client from env vars using OAuth2. */
 function getDriveClient() {
-  const email = import.meta.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-  const rawKey = import.meta.env.GOOGLE_PRIVATE_KEY;
-  if (!email || !rawKey) throw new Error("Google Service Account env vars missing.");
+  const clientId = import.meta.env.GOOGLE_CLIENT_ID;
+  const clientSecret = import.meta.env.GOOGLE_CLIENT_SECRET;
+  const refreshToken = import.meta.env.GOOGLE_REFRESH_TOKEN;
 
-  const privateKey = rawKey.replace(/\\n/g, "\n");
+  if (!clientId || !clientSecret || !refreshToken) {
+    throw new Error("OAuth2 environment variables missing.");
+  }
 
-  const auth = new google.auth.GoogleAuth({
-    credentials: { client_email: email, private_key: privateKey },
-    scopes: ["https://www.googleapis.com/auth/drive.file"],
+  const oauth2Client = new google.auth.OAuth2(
+    clientId,
+    clientSecret,
+    "https://developers.google.com/oauthplayground"
+  );
+
+  oauth2Client.setCredentials({
+    refresh_token: refreshToken,
   });
 
-  return google.drive({ version: "v3", auth });
+  return google.drive({ version: "v3", auth: oauth2Client });
 }
 
 /* ─── route handler ───────────────────────────────────────────────────────── */
@@ -108,6 +115,13 @@ export const POST: APIRoute = async ({ request }) => {
     // 2. Upload to Google Drive
     const drive       = getDriveClient();
     const folderId    = import.meta.env.GOOGLE_DRIVE_FOLDER_ID;
+    
+    if (!folderId) {
+      return new Response(JSON.stringify({ success: false, error: "Server Configuration Error: Google Drive Folder ID is missing." }), {
+        status: 500, headers: { "Content-Type": "application/json" },
+      });
+    }
+
     const timestamp   = new Date().toISOString().slice(0, 10);
     const safeName    = name.replace(/[^a-z0-9]/gi, "_");
     const ext         = cvFile.originalFilename?.split(".").pop() ?? "pdf";
@@ -116,13 +130,14 @@ export const POST: APIRoute = async ({ request }) => {
     await drive.files.create({
       requestBody: {
         name: driveFileName,
-        parents: folderId ? [folderId] : [],
+        parents: [folderId],
         description: `Applicant: ${name} | Email: ${email} | Role: ${role}`,
       },
       media: {
         mimeType: cvFile.mimetype ?? "application/octet-stream",
         body: fs.createReadStream(cvFile.filepath),
       },
+      supportsAllDrives: true,
     });
 
     return new Response(JSON.stringify({ success: true }), {
