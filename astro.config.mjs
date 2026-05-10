@@ -20,7 +20,7 @@ export default defineConfig({
     useCdn: true,
     apiVersion: "2024-04-05",
   })],
-  output: "static",
+  // "hybrid" output removed in Astro 5. Default "static" handles `export const prerender = false` natively.
   adapter: vercel({
     webAnalytics: { enabled: true },
   }),

@@ -1,0 +1,564 @@
+---
+import { sanityClient } from "sanity:client";
+import Layout from "../layouts/Layout.astro";
+import Footer from "@components/common/Footer.astro";
+import VacanciesList from "@components/common/VacanciesList.jsx";
+import AccordionCard from "@components/common/AccordionCard.jsx";
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Life at Dr. Nathan | Careers & Culture",
+  "description": "Discover the culture, core values, and open career opportunities at Dr. Nathan Marketing & Consultancy.",
+  "publisher": {
+    "@id": "https://www.drnathanmarketing.com/#organization"
+  }
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.drnathanmarketing.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Life at Dr. Nathan",
+      "item": "https://www.drnathanmarketing.com/life"
+    }
+  ]
+};
+
+// 1. Fetch team members (excluding hardcoded founders)
+const teamQuery = `*[_type == "teamMember" && isActive == true] | order(displayOrder asc) {
+  _id,
+  name,
+  role,
+  department,
+  "imageUrl": profileImage.asset->url + "?w=800&auto=format",
+  bio,
+  socialLinks
+}`;
+
+// 2. Fetch active job vacancies
+const jobsQuery = `*[_type == "jobVacancy" && isActive == true] | order(isFeatured desc, publishedAt desc) {
+  _id,
+  jobTitle,
+  department,
+  employmentType,
+  location,
+  salaryRange,
+  summary,
+  description,
+  requirements,
+  niceToHave,
+  whatWeOffer,
+  applicationDeadline
+}`;
+
+const [teamMembers, jobVacancies] = await Promise.all([
+  sanityClient.fetch(teamQuery),
+  sanityClient.fetch(jobsQuery)
+]);
+
+// Helper to extract plain text from Portable Text for SEO schema
+const toPlainText = (blocks: any[] = []) => {
+  if (!Array.isArray(blocks)) return "";
+  return blocks
+    .map((block: any) => {
+      if (block._type !== 'block' || !block.children) return '';
+      return block.children.map((child: any) => child.text).join('');
+    })
+    .join('\\n\\n');
+};
+
+const jobPostingSchemas = jobVacancies.map((job: any) => {
+  const plainTextDesc = toPlainText(job.description);
+  const description = job.summary ? `${job.summary}\\n\\n${plainTextDesc}` : plainTextDesc || "Join our team at Dr. Nathan Marketing & Consultancy.";
+  
+  // Map employment type to Schema.org format
+  let empType = "FULL_TIME";
+  if (job.employmentType) {
+    const raw = job.employmentType.toLowerCase();
+    if (raw.includes('part')) empType = "PART_TIME";
+    else if (raw.includes('contract')) empType = "CONTRACTOR";
+    else if (raw.includes('intern')) empType = "INTERN";
+  }
+
+  return {
+    "@context": "https://schema.org/",
+    "@type": "JobPosting",
+    "title": job.jobTitle,
+    "description": description,
+    "identifier": {
+      "@type": "PropertyValue",
+      "name": "Dr. Nathan Marketing & Consultancy",
+      "value": job._id
+    },
+    "datePosted": new Date().toISOString().split('T')[0], // Ideally from Sanity publishedAt, fallback to today
+    "validThrough": job.applicationDeadline || new Date(new Date().getTime() + 60 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    "employmentType": empType,
+    "hiringOrganization": {
+      "@type": "Organization",
+      "name": "Dr. Nathan Marketing & Consultancy",
+      "sameAs": "https://www.drnathanmarketing.com",
+      "logo": "https://www.drnathanmarketing.com/assets/logo/logo.png"
+    },
+    "jobLocation": {
+      "@type": "Place",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": job.location || "Yangon",
+        "addressCountry": "MM"
+      }
+    }
+  };
+});
+
+const hardcodedFounders = [
+  { name: "Dr. Aung Zaw Myint", role: "Head of Business Development", img: "/assets/Founders/Max.jpg", department: "Executive", bio: "Driving the strategic vision and business growth of Dr. Nathan. Passionate about forging lasting partnerships in the healthcare sector." },
+  { name: "Dr. Zaw Htet Aung", role: "Creative Director", img: "/assets/Founders/Simon.jpg", department: "Creative", bio: "Bridging the gap between clinical accuracy and striking visual communication. Shaping the creative direction of every campaign." },
+  { name: "Dr. Linn Htet Aung", role: "Head of Digital", img: "/assets/Founders/Linn%20Htet%20Aung.jpg", department: "Digital Strategy", bio: "The architect of our digital presence and performance marketing, leveraging data-driven insights to reach the right patients." },
+];
+
+const allTeamMembers = [...hardcodedFounders, ...teamMembers];
+
+const personSchemas = allTeamMembers.map((member: any) => {
+  const schema: any = {
+    "@context": "https://schema.org/",
+    "@type": "Person",
+    "name": member.name,
+    "jobTitle": member.role,
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Dr. Nathan Marketing & Consultancy"
+    }
+  };
+
+  if (member.img) schema.image = `https://www.drnathanmarketing.com${member.img}`;
+  else if (member.imageUrl) schema.image = member.imageUrl;
+
+  if (member.bio) schema.description = member.bio;
+
+  if (member.socialLinks && member.socialLinks.length > 0) {
+    schema.sameAs = member.socialLinks.map((link: any) => link.url);
+  }
+
+  return schema;
+});
+---
+
+<Layout
+  title="Life at Dr. Nathan | Healthcare Marketing Careers & Agency Culture"
+  description="Discover the culture, core values, and open career opportunities at Dr. Nathan Marketing & Consultancy."
+  canonical="https://www.drnathanmarketing.com/life"
+  image="/assets/services/com1.jpg"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  {jobPostingSchemas.map((schema: any) => (
+    <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
+  ))}
+  {personSchemas.map((schema: any) => (
+    <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
+  ))}
+
+  <!-- ═══════════════════ HERO ═══════════════════ -->
+  <section class="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden">
+    <!-- Full Screen Background Image -->
+    <div class="absolute inset-0 z-0">
+      <img src="/assets/services/com1.jpg" alt="Life at Dr. Nathan" class="w-full h-full object-cover object-[center_30%]" />
+      
+      <!-- Luxurious Dark Gradient Overlay -->
+      <div class="absolute inset-0 bg-slate-900/20"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-slate-900/30"></div>
+    </div>
+
+    <div class="max-w-screen-xl mx-auto px-6 lg:px-8 w-full relative z-10 text-center mt-20">
+      
+      <p class="hero-eyebrow text-xs font-helvetica font-bold tracking-[0.5em] text-white/80 uppercase opacity-0 mb-6 flex items-center justify-center gap-3">
+        <span class="w-12 h-px bg-white/40"></span>
+        Careers & Culture
+        <span class="w-12 h-px bg-white/40"></span>
+      </p>
+      
+      <h1 class="hero-h1 font-helvetica font-bold text-white leading-[1.05] tracking-tight mb-8 text-5xl md:text-7xl lg:text-[7rem] opacity-0 translate-y-8 drop-shadow-2xl">
+        Life at <br/>Dr. Nathan
+      </h1>
+      
+      <p class="hero-sub opacity-0 translate-y-4 font-roboto text-lg md:text-xl text-slate-200/90 leading-relaxed max-w-3xl mx-auto mb-12 drop-shadow-lg">
+        Where medical expertise meets creative innovation. We don't just build campaigns—we build careers. Join a culture of continuous learning, mutual respect, and clinical integrity.
+      </p>
+      
+      <div class="hero-cta opacity-0 translate-y-4 flex flex-wrap items-center justify-center gap-6">
+        <a href="#vacancies" class="px-8 py-4 bg-white text-slate-900 font-helvetica text-sm font-bold tracking-widest uppercase rounded-sm hover:bg-primary-50 transition-colors shadow-xl">
+          View Open Roles
+        </a>
+        <a href="#culture" class="px-8 py-4 bg-transparent text-white border border-white/30 font-helvetica text-sm font-bold tracking-widest uppercase rounded-sm hover:bg-white/10 transition-colors backdrop-blur-sm">
+          Explore Our DNA
+        </a>
+      </div>
+      
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center opacity-0 hero-scroll text-white/50">
+      <span class="font-helvetica text-[0.6rem] tracking-widest uppercase mb-3">Scroll</span>
+      <div class="w-px h-12 bg-white/20 overflow-hidden relative">
+        <div class="scroll-line absolute top-[-100%] left-0 w-full h-full bg-white"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ CORE VALUES ═══════════════════ -->
+  <section id="culture" class="bg-white relative overflow-hidden">
+    <!-- Oversized background watermark -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-helvetica font-bold text-slate-900/[0.025] select-none pointer-events-none uppercase tracking-widest whitespace-nowrap leading-none"
+      style="font-size: clamp(5rem, 14vw, 13rem);">
+      OUR DNA
+    </div>
+
+    <div class="max-w-screen-xl mx-auto px-6 lg:px-8 py-28 lg:py-40 relative z-10">
+      <div class="flex flex-col lg:flex-row gap-16 lg:gap-24">
+        
+        <!-- Left sticky label -->
+        <div class="lg:w-64 flex-shrink-0">
+          <div class="lg:sticky lg:top-28">
+            <p class="section-reveal text-[0.65rem] font-helvetica font-bold tracking-[0.55em] text-primary-600 uppercase mb-4">
+              [01] The Culture
+            </p>
+            <h2 class="section-reveal font-helvetica text-3xl md:text-5xl font-bold text-slate-900 leading-tight mb-6">Our DNA</h2>
+            <p class="section-reveal font-roboto text-slate-600 text-sm leading-relaxed max-w-sm mb-4">
+              These core values form the foundation of our agency. They guide how we collaborate, who we hire, and the uncompromising standard we deliver to our healthcare clients across Myanmar.
+            </p>
+            <p class="section-reveal font-roboto text-slate-600 text-sm leading-relaxed max-w-sm font-medium">
+              <strong>Our Mission in Myanmar:</strong> We are dedicated to elevating healthcare standards in Yangon and beyond by connecting innovative medical professionals with the patients who need them most.
+            </p>
+            <div class="hidden lg:block w-px h-24 bg-gradient-to-b from-primary-300 to-transparent ml-1 mt-10"></div>
+          </div>
+        </div>
+
+        <!-- Right: Value List -->
+        <div class="flex-1">
+          <div class="flex flex-col">
+            {[
+              { num: "01", title: "Growth", desc: "We are obsessed with continuous learning. In the rapidly evolving fields of medicine and digital marketing, stagnation is not an option. We invest in the personal and professional development of our team." },
+              { num: "02", title: "Trust & Respect", desc: "The bedrock of our agency. We foster a transparent environment where every voice is heard, and we build lasting partnerships with our clients based on mutual respect and absolute reliability." },
+              { num: "03", title: "Nimble", desc: "Agile in our thinking, fast in our execution. We adapt swiftly to market changes and client needs without sacrificing the quality or accuracy of our work." },
+              { num: "04", title: "Positivity", desc: "We approach complex healthcare challenges with optimism and a solution-oriented mindset. A positive internal culture translates directly to the impactful campaigns we create." },
+              { num: "05", title: "Passionate", desc: "We are deeply committed to elevating the standard of healthcare communications. We don't just do marketing; we genuinely care about bridging the gap between medical professionals and patients." },
+              { num: "06", title: "Ethical", desc: "In healthcare, integrity is non-negotiable. Every piece of content, every strategy, and every campaign is rooted in medical accuracy, honesty, and ethical responsibility." },
+              { num: "07", title: "Customer-Centric", desc: "Everything we do is designed to serve the patient and the clinic. We build empathetic, accessible, and highly effective experiences that put the end-user first." },
+            ].map((item) => (
+              <div class="section-reveal group relative flex flex-col md:flex-row md:items-start gap-6 py-10 cursor-default border-t border-slate-100 last:border-b hover:bg-primary-50/50 transition-colors duration-300 px-4 -mx-4 rounded-sm">
+                <!-- Animated left border on hover -->
+                <div class="absolute left-0 top-0 h-0 w-[3px] bg-primary-400 group-hover:h-full transition-all duration-500 rounded-full"></div>
+
+                <!-- Numbered badge -->
+                <div class="md:w-48 flex-shrink-0 flex items-center gap-3 mt-1">
+                  <span class="font-helvetica text-[0.55rem] font-bold tracking-[0.3em] text-slate-300 group-hover:text-primary-500 transition-colors duration-300 uppercase">{item.num}</span>
+                  <div class="h-px w-4 bg-slate-200 group-hover:w-8 group-hover:bg-primary-400 transition-all duration-500"></div>
+                </div>
+
+                <!-- Content -->
+                <div>
+                  <h3 class="font-helvetica font-bold text-slate-900 text-xl mb-3 group-hover:text-primary-700 transition-colors duration-300">{item.title}</h3>
+                  <p class="font-roboto text-sm text-slate-500 leading-relaxed max-w-xl group-hover:text-slate-700 transition-colors duration-300">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ MEET THE TEAM ═══════════════════ -->
+  <section class="py-24 md:py-32 bg-[#fafafa] relative border-t border-slate-100">
+    <div class="max-w-screen-xl mx-auto px-6 lg:px-8">
+      
+      <div class="mb-16 section-reveal">
+        <p class="text-xs font-helvetica font-bold tracking-[0.3em] text-primary-600 uppercase mb-4">The People</p>
+        <h2 class="font-helvetica text-3xl md:text-5xl font-bold text-slate-900">Meet Our Team</h2>
+      </div>
+
+      <!-- Founders (Hardcoded logic mapping to existing assets) -->
+      <h3 class="font-helvetica text-xl font-bold text-slate-400 uppercase tracking-widest mb-8 border-b border-slate-200 pb-4 section-reveal">Founders</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+        {hardcodedFounders.map(f => (
+          <div class="team-card group relative bg-slate-100 overflow-hidden rounded-sm section-reveal aspect-[3/4]">
+            <img src={f.img} alt={f.name} class="absolute inset-0 w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700" loading="lazy" />
+            
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-700"></div>
+
+            <div class="absolute bottom-0 left-0 w-full p-6 text-white flex flex-col justify-end h-full">
+              <div class="translate-y-8 lg:translate-y-16 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                {f.department && <p class="font-roboto text-[0.6rem] tracking-[0.2em] text-primary-400 uppercase mb-2">{f.department}</p>}
+                <h4 class="font-helvetica text-xl font-bold mb-1">{f.name}</h4>
+                <p class="font-roboto text-xs tracking-widest uppercase text-slate-300">{f.role}</p>
+                
+                <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                  {f.bio && <p class="font-roboto text-sm text-slate-200 leading-relaxed mb-4">{f.bio.length > 250 ? f.bio.substring(0, 250) + '...' : f.bio}</p>}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Dynamic Team Members from Sanity -->
+      {teamMembers.length > 0 && (
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+            {teamMembers.map((member: any) => (
+              <div class="team-card group relative bg-slate-100 overflow-hidden rounded-sm section-reveal aspect-[3/4]">
+                {member.imageUrl ? (
+                  <img src={`${member.imageUrl}?w=600&h=800&fit=crop`} alt={member.name} class="absolute inset-0 w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700" loading="lazy" />
+                ) : (
+                  <div class="absolute inset-0 w-full h-full flex items-center justify-center text-slate-300 bg-slate-200">
+                    <svg class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                  </div>
+                )}
+                
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-700"></div>
+
+                <div class="absolute bottom-0 left-0 w-full p-6 text-white flex flex-col justify-end h-full">
+                  <div class="translate-y-8 lg:translate-y-16 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                    {member.department && <p class="font-roboto text-[0.6rem] tracking-[0.2em] text-primary-400 uppercase mb-2">{member.department}</p>}
+                    <h4 class="font-helvetica text-xl font-bold mb-1">{member.name}</h4>
+                    <p class="font-roboto text-xs tracking-widest uppercase text-slate-300">{member.role}</p>
+                    
+                    <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                      {member.bio && <p class="font-roboto text-sm text-slate-200 leading-relaxed mb-4">{member.bio.length > 250 ? member.bio.substring(0, 250) + '...' : member.bio}</p>}
+                      
+                      {member.socialLinks?.length > 0 && (
+                        <div class="flex gap-3">
+                          {member.socialLinks.map((link: any) => {
+                            const url = link.url || '';
+                            const isLinkedIn = url.includes('linkedin.com');
+                            const isFacebook = url.includes('facebook.com');
+                            return (
+                              <a href={url} target="_blank" class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center hover:bg-primary-600 hover:border-primary-600 transition-colors">
+                                {isLinkedIn ? (
+                                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                                ) : isFacebook ? (
+                                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+                                ) : (
+                                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+                                )}
+                              </a>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+        </div>
+      )}
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════ OPEN VACANCIES ═══════════════════ -->
+  <section id="vacancies" class="py-24 md:py-32 relative text-white overflow-hidden" style="background: linear-gradient(135deg, #004a7d 0%, #0068b4 40%, #00a5ff 100%);">
+    
+    <!-- Noise texture overlay for depth -->
+    <div class="absolute inset-0 opacity-[0.03] pointer-events-none"
+      style="background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22200%22 height=%22200%22 filter=%22url(%23n)%22 opacity=%221%22/%3E%3C/svg%3E'); background-size: 200px;">
+    </div>
+    <div class="max-w-screen-md mx-auto px-6 lg:px-8">
+      
+      <div class="text-center mb-16 section-reveal">
+        <h2 class="font-helvetica text-3xl md:text-5xl font-bold mb-6">Open Roles</h2>
+        <p class="font-roboto text-slate-400 text-lg">
+          {jobVacancies.length > 0 
+            ? "We are currently looking for talented individuals to join our mission."
+            : "There are currently no open positions, but we are always looking for great talent. Send us your CV below."}
+        </p>
+      </div>
+
+      {jobVacancies.length > 0 && (
+        <div class="flex flex-col gap-4 section-reveal">
+            <VacanciesList client:load vacanciesData={jobVacancies} />
+        </div>
+      )}
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════ APPLY FORM ═══════════════════ -->
+  <section id="apply" class="py-24 bg-white relative">
+    <div class="max-w-screen-md mx-auto px-6 lg:px-8 section-reveal">
+      
+      <div class="mb-12">
+        <h2 class="font-helvetica text-3xl font-bold text-slate-900 mb-4">Submit Your CV</h2>
+        <p class="font-roboto text-slate-600">
+          Interested in joining the team? Fill out the form below and attach your CV (PDF format preferred). Our hiring team will review your application.
+        </p>
+      </div>
+
+      <form id="cv-form" class="space-y-6 bg-slate-50 p-8 rounded-2xl border border-slate-100">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <label class="font-helvetica text-xs font-bold tracking-widest text-slate-500 uppercase">Full Name</label>
+            <input type="text" name="name" required class="w-full bg-white border border-slate-200 px-4 py-3 rounded-lg focus:outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-400 transition-all" />
+          </div>
+          <div class="space-y-2">
+            <label class="font-helvetica text-xs font-bold tracking-widest text-slate-500 uppercase">Email Address</label>
+            <input type="email" name="email" required class="w-full bg-white border border-slate-200 px-4 py-3 rounded-lg focus:outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-400 transition-all" />
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label class="font-helvetica text-xs font-bold tracking-widest text-slate-500 uppercase">Role Applying For</label>
+          <select name="role" class="w-full bg-white border border-slate-200 px-4 py-3 rounded-lg focus:outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-400 transition-all text-slate-700">
+            <option value="General Application">General Application</option>
+            {jobVacancies.map((job: any) => (
+              <option value={job.jobTitle}>{job.jobTitle} ({job.department})</option>
+            ))}
+          </select>
+        </div>
+
+        <div class="space-y-2">
+          <label class="font-helvetica text-xs font-bold tracking-widest text-slate-500 uppercase">Upload CV</label>
+          <div class="border-2 border-dashed border-slate-200 rounded-lg p-8 text-center bg-white hover:border-primary-300 transition-colors relative cursor-pointer group">
+            <input type="file" name="cv" accept=".pdf,.doc,.docx" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" id="cv-upload-input" />
+            <div class="flex flex-col items-center gap-3">
+              <svg class="w-8 h-8 text-slate-400 group-hover:text-primary-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+              <span id="cv-file-name" class="font-roboto text-sm text-slate-500">Click or drag file to upload (Max 10MB)</span>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" id="submit-btn" class="w-full bg-primary-600 text-white font-helvetica text-sm font-bold tracking-widest uppercase py-4 rounded-lg hover:bg-primary-700 transition-colors flex justify-center items-center gap-2">
+          <span>Submit Application</span>
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+        </button>
+
+        <div id="form-status" class="hidden text-center text-sm font-bold p-4 rounded-lg mt-4"></div>
+      </form>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style>
+  @keyframes scrollDown {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(200%); }
+  }
+  .scroll-line {
+    animation: scrollDown 2.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+  }
+</style>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  
+  gsap.registerPlugin(ScrollTrigger);
+
+  // 1. Hero Animations
+  const tl = gsap.timeline();
+  tl.to(".hero-eyebrow", { opacity: 1, duration: 0.8, delay: 0.2 })
+    .to(".hero-h1", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.4")
+    .to(".hero-sub", { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, "-=0.6")
+    .to(".hero-cta", { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, "-=0.6")
+    .to(".hero-scroll", { opacity: 1, duration: 1 }, "-=0.2");
+
+  // 2. Scroll Reveals
+  const reveals = document.querySelectorAll('.section-reveal');
+  reveals.forEach((el) => {
+    gsap.fromTo(el, 
+      { opacity: 0, y: 30 }, 
+      { 
+        opacity: 1, 
+        y: 0, 
+        duration: 0.8, 
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 85%",
+        }
+      }
+    );
+  });
+
+  // 3. Form Handling
+  const fileInput = document.getElementById('cv-upload-input') as HTMLInputElement;
+  const fileNameDisplay = document.getElementById('cv-file-name');
+  
+  if (fileInput && fileNameDisplay) {
+    fileInput.addEventListener('change', (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        fileNameDisplay.textContent = file.name;
+        fileNameDisplay.classList.add('text-primary-600', 'font-bold');
+      }
+    });
+  }
+
+  const form = document.getElementById('cv-form') as HTMLFormElement;
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+  const statusDiv = document.getElementById('form-status') as HTMLDivElement;
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(form);
+      
+      // UI Loading state
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `
+        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        Uploading...
+      `;
+      statusDiv.classList.add('hidden');
+
+      try {
+        const response = await fetch('/api/apply', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        statusDiv.classList.remove('hidden', 'bg-red-50', 'text-red-600');
+        
+        if (result.success) {
+          statusDiv.classList.add('bg-green-50', 'text-green-600');
+          statusDiv.textContent = "Application submitted successfully! We'll be in touch.";
+          form.reset();
+          if (fileNameDisplay) {
+            fileNameDisplay.textContent = "Click or drag file to upload (Max 10MB)";
+            fileNameDisplay.classList.remove('text-primary-600', 'font-bold');
+          }
+        } else {
+          throw new Error(result.error || "Failed to submit");
+        }
+      } catch (err: any) {
+        statusDiv.classList.remove('hidden', 'bg-green-50', 'text-green-600');
+        statusDiv.classList.add('bg-red-50', 'text-red-600');
+        statusDiv.textContent = err.message || "An error occurred. Please try again.";
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `
+          <span>Submit Application</span>
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+        `;
+      }
+    });
+  }
+</script>
