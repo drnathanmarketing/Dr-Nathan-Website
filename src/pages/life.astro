@@ -320,20 +320,25 @@ const personSchemas = allTeamMembers.map((member: any) => {
                     <svg class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                   </div>
                 )}
-                
+
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-700"></div>
 
+                {/* Name/role always anchored at the bottom — identical structure to founders */}
                 <div class="absolute bottom-0 left-0 w-full p-6 text-white flex flex-col justify-end h-full">
                   <div class="translate-y-8 lg:translate-y-16 group-hover:translate-y-0 transition-transform duration-500 ease-out">
                     {member.department && <p class="font-roboto text-[0.6rem] tracking-[0.2em] text-primary-400 uppercase mb-2">{member.department}</p>}
                     <h4 class="font-helvetica text-xl font-bold mb-1">{member.name}</h4>
                     <p class="font-roboto text-xs tracking-widest uppercase text-slate-300">{member.role}</p>
-                    
-                    <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                      {member.bio && <p class="font-roboto text-sm text-slate-200 leading-relaxed mb-4">{member.bio.length > 250 ? member.bio.substring(0, 250) + '...' : member.bio}</p>}
-                      
+
+                    {/* Fixed h-28 = consistent name alignment. flex-col + mt-auto keeps social at bottom */}
+                    <div class="mt-4 h-28 flex flex-col opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                      {member.bio && (
+                        <p class="font-roboto text-sm text-slate-200 leading-relaxed line-clamp-3">
+                          {member.bio}
+                        </p>
+                      )}
                       {member.socialLinks?.length > 0 && (
-                        <div class="flex gap-3">
+                        <div class="flex gap-3 mt-auto">
                           {member.socialLinks.map((link: any) => {
                             const url = link.url || '';
                             const isLinkedIn = url.includes('linkedin.com');
