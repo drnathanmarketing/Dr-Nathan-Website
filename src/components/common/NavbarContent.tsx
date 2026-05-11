@@ -33,7 +33,7 @@ const NavbarContent = () => {
       >
         Services
       </p>
-      <a href="/life" className={getPageClass("/life")}>
+      <a href="/life-at-dr-nathan" className={getPageClass("/life-at-dr-nathan")}>
         Life at Dr. Nathan
       </a>
       <a href="/blog" className={getPageClass("/blog")}>
