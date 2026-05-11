@@ -33,12 +33,9 @@ const NavbarContent = () => {
       >
         Services
       </p>
-      <p
-        className="font-helvetica text-base tracking-wide font-semibold hover:text-primary-900 hover:cursor-pointer text-inherit"
-        onClick={onLinkClick("faq")}
-      >
-        FAQs
-      </p>
+      <a href="/life" className={getPageClass("/life")}>
+        Life at Dr. Nathan
+      </a>
       <a href="/blog" className={getPageClass("/blog")}>
         Blog
       </a>
