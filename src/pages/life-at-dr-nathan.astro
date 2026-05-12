@@ -151,6 +151,40 @@ const personSchemas = allTeamMembers.map((member: any) => {
 
   return schema;
 });
+
+const faqSchemas = jobVacancies.map((job: any) => {
+  const mainEntity = [];
+  
+  if (job.requirements && job.requirements.length > 0) {
+    mainEntity.push({
+      "@type": "Question",
+      "name": "What are the requirements for the " + job.jobTitle + " position?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": job.requirements.join("\\n")
+      }
+    });
+  }
+  
+  if (job.whatWeOffer && job.whatWeOffer.length > 0) {
+    mainEntity.push({
+      "@type": "Question",
+      "name": "What benefits and perks are offered for the " + job.jobTitle + " position?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": job.whatWeOffer.join("\\n")
+      }
+    });
+  }
+
+  if (mainEntity.length === 0) return null;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": mainEntity
+  };
+}).filter(Boolean);
 ---
 
 <Layout
@@ -167,12 +201,15 @@ const personSchemas = allTeamMembers.map((member: any) => {
   {personSchemas.map((schema: any) => (
     <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
   ))}
+  {faqSchemas.map((schema: any) => (
+    <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
+  ))}
 
   <!-- ═══════════════════ HERO ═══════════════════ -->
   <section class="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden">
     <!-- Full Screen Background Image -->
     <div class="absolute inset-0 z-0">
-      <img src="/assets/services/com1.jpg" alt="Life at Dr. Nathan" class="w-full h-full object-cover object-[center_30%]" />
+      <img src="/assets/services/com1.jpg" alt="Healthcare professionals collaborating at Dr. Nathan Marketing & Consultancy office" class="w-full h-full object-cover object-[center_30%]" />
       
       <!-- Luxurious Dark Gradient Overlay -->
       <div class="absolute inset-0 bg-slate-900/20"></div>
@@ -289,7 +326,7 @@ const personSchemas = allTeamMembers.map((member: any) => {
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
         {hardcodedFounders.map(f => (
           <div class="team-card group relative bg-slate-100 overflow-hidden rounded-sm section-reveal aspect-[3/4]">
-            <img src={f.img} alt={f.name} class="absolute inset-0 w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700" loading="lazy" />
+            <img src={f.img} alt={`${f.name} - ${f.role} at Dr. Nathan Marketing`} class="absolute inset-0 w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700" loading="lazy" />
             
             <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-700"></div>
 
@@ -314,7 +351,7 @@ const personSchemas = allTeamMembers.map((member: any) => {
             {teamMembers.map((member: any) => (
               <div class="team-card group relative bg-slate-100 overflow-hidden rounded-sm section-reveal aspect-[3/4]">
                 {member.imageUrl ? (
-                  <img src={member.imageUrl} alt={member.name} class="absolute inset-0 w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700" loading="lazy" />
+                  <img src={member.imageUrl} alt={`${member.name} - ${member.role} at Dr. Nathan Marketing`} class="absolute inset-0 w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700" loading="lazy" />
                 ) : (
                   <div class="absolute inset-0 w-full h-full flex items-center justify-center text-slate-300 bg-slate-200">
                     <svg class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
