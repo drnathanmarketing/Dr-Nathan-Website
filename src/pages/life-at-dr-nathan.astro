@@ -90,7 +90,7 @@ const jobPostingSchemas = jobVacancies.map((job: any) => {
     else if (raw.includes('intern')) empType = "INTERN";
   }
 
-  return {
+  const schema: any = {
     "@context": "https://schema.org/",
     "@type": "JobPosting",
     "title": job.jobTitle,
@@ -113,11 +113,37 @@ const jobPostingSchemas = jobVacancies.map((job: any) => {
       "@type": "Place",
       "address": {
         "@type": "PostalAddress",
+        "streetAddress": "No. 143, Botahtaung Pagoda Road",
         "addressLocality": job.location || "Yangon",
+        "addressRegion": "Yangon",
+        "postalCode": "11161",
         "addressCountry": "MM"
       }
     }
   };
+
+  if (job.salaryRange) {
+    const cleanRange = job.salaryRange.replace(/,/g, '');
+    const vals = cleanRange.match(/\d+/g);
+    if (vals && vals.length > 0) {
+      schema.baseSalary = {
+        "@type": "MonetaryAmount",
+        "currency": "MMK",
+        "value": {
+          "@type": "QuantitativeValue",
+          "unitText": "MONTH"
+        }
+      };
+      if (vals.length === 1) {
+        schema.baseSalary.value.value = parseInt(vals[0], 10);
+      } else if (vals.length >= 2) {
+        schema.baseSalary.value.minValue = parseInt(vals[0], 10);
+        schema.baseSalary.value.maxValue = parseInt(vals[1], 10);
+      }
+    }
+  }
+
+  return schema;
 });
 
 const hardcodedFounders = [
