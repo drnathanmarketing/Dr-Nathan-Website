@@ -1,336 +1,143 @@
-<!-- ═══════════════════════════════════════════ WHY US — Expanding Panels ═══ -->
-<section id="testimonial" class="relative bg-white overflow-hidden">
+---
+// ═══════════════════════════════════ WHY US — Sticky intro + numbered pillars
+const pillars = [
+  {
+    num: "01",
+    tag: "Strategy",
+    title: "Expert-Led Marketing Strategies",
+    desc: "Leverage deep clinical and industry insight to precisely target audiences, optimise campaigns, and achieve lasting brand growth.",
+    icon: `<path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/>`,
+  },
+  {
+    num: "02",
+    tag: "Branding",
+    title: "Targeted Brand Communication",
+    desc: "Deliver personalised messages that resonate deeply — enhancing loyalty and strengthening brand identity across every touchpoint.",
+    icon: `<path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>`,
+  },
+  {
+    num: "03",
+    tag: "Partnership",
+    title: "Collaborative Approach",
+    desc: "We unite diverse perspectives and work as true partners — fostering innovation and driving outcomes neither side could achieve alone.",
+    icon: `<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>`,
+  },
+  {
+    num: "04",
+    tag: "Innovation",
+    title: "Cutting-Edge Innovation",
+    desc: "We push boundaries by integrating emerging technologies and creative solutions to solve complex healthcare marketing challenges.",
+    icon: `<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>`,
+  },
+];
+---
 
-  <!-- Subtle top gradient divider -->
+<section id="testimonial" class="relative bg-white overflow-hidden">
+  <!-- Top gradient divider -->
   <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent pointer-events-none"></div>
 
-  <!-- ── Section Header ── -->
-  <div class="why-header max-w-screen-xl mx-auto px-6 lg:px-8 pt-28 lg:pt-40 pb-16 lg:pb-20">
-    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
-      <div class="max-w-2xl">
-        <p class="why-eyebrow opacity-0 text-[0.65rem] font-helvetica font-bold tracking-[0.55em] text-primary-600 uppercase mb-5">
-          Why Partner With Us
-        </p>
-        <h2 class="why-h2 opacity-0 font-helvetica text-4xl lg:text-5xl font-bold text-slate-900 leading-[1.1] tracking-tight mb-6">
-          At Dr. Nathan<br class="hidden sm:block"/> Marketing & Consultancy
+  <div class="max-w-screen-xl mx-auto px-6 lg:px-8 py-28 lg:py-40">
+    <div class="grid lg:grid-cols-[0.8fr_1.2fr] gap-16 lg:gap-24">
+
+      <!-- ── LEFT: sticky intro ── -->
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <div class="why-reveal flex items-center gap-4 mb-8">
+          <span class="h-px w-10 bg-primary-500"></span>
+          <p class="font-helvetica text-[0.65rem] font-bold tracking-[0.5em] text-primary-600 uppercase">
+            Why Partner With Us
+          </p>
+        </div>
+
+        <h2 class="why-reveal font-helvetica text-3xl sm:text-4xl lg:text-[3.1rem] font-bold text-slate-900 leading-[1.15] sm:leading-[1.1] tracking-tight mb-8">
+          At Dr. Nathan<br class="hidden sm:block" />Marketing &amp; Consultancy
         </h2>
-        <p class="why-old-desc opacity-0 font-roboto text-sm md:text-base text-slate-600 leading-relaxed max-w-2xl">
+
+        <p class="why-reveal font-roboto text-sm lg:text-base text-slate-500 leading-relaxed max-w-md mb-10">
           We specialize in innovative and creative marketing strategies tailored specifically for the healthcare industry. Our team includes experienced doctors who combine medical expertise with marketing acumen, offering a unique advantage. Here are four key benefits of partnering with us.
         </p>
-      </div>
-      <p class="why-desc opacity-0 font-roboto text-sm text-slate-400 leading-relaxed lg:max-w-xs lg:pb-2 lg:text-right">
-        Hover each pillar to explore<br class="hidden lg:block"/>what sets us apart.
-      </p>
-    </div>
 
-    <!-- Animated rule -->
-    <div class="why-rule h-px w-0 mt-10 bg-gradient-to-r from-primary-600 via-primary-300 to-transparent rounded-full"></div>
-  </div>
-  <!-- ── End Header ── -->
+        <div class="why-rule h-px w-0 mb-10 bg-gradient-to-r from-primary-600 via-primary-300 to-transparent rounded-full"></div>
 
-  <!-- ═══════════════════════ EXPANDING PANELS ═══════════════════════════════ -->
-  <div class="why-panels flex flex-col lg:flex-row border-t border-slate-100">
-
-    <!-- ── Panel 01 ── -->
-    <div class="why-panel why-panel-1 group relative flex flex-col overflow-hidden border-b lg:border-b-0 lg:border-r border-slate-100 bg-white cursor-pointer">
-
-      <!-- Top accent bar — animates width on hover -->
-      <div class="panel-accent absolute top-0 left-0 h-[3px] w-0 bg-gradient-to-r from-primary-700 via-primary-500 to-primary-300 transition-all duration-700 ease-out"></div>
-
-      <!-- Giant decorative number -->
-      <span class="panel-num-bg absolute bottom-0 right-0 font-helvetica font-bold select-none leading-none pointer-events-none text-[10rem] lg:text-[13rem] text-slate-50 transition-colors duration-700 group-hover:text-primary-50">01</span>
-
-      <div class="relative z-10 flex flex-col h-full p-8 lg:p-10 xl:p-12 pt-10">
-
-        <!-- Top row: label + icon -->
-        <div class="flex items-start justify-between mb-10 lg:mb-auto">
-          <span class="panel-label font-helvetica text-[0.6rem] font-bold tracking-[0.4em] text-slate-200 uppercase transition-colors duration-500 group-hover:text-primary-500">01 / 04</span>
-          <div class="panel-icon w-11 h-11 rounded-xl bg-slate-50 flex items-center justify-center text-slate-300 transition-all duration-500 group-hover:bg-primary-600 group-hover:text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-              <rect width="20" height="14" x="2" y="6" rx="2"/>
+        <button
+          id="testimonial_contact_us_btn"
+          class="why-reveal group inline-flex items-center gap-4 cursor-pointer"
+        >
+          <span class="font-helvetica text-sm font-bold tracking-[0.12em] text-slate-900 group-hover:text-primary-700 transition-colors duration-300 uppercase">
+            Start a Conversation
+          </span>
+          <span class="flex items-center justify-center w-11 h-11 rounded-full border border-slate-200 group-hover:border-primary-400 group-hover:bg-primary-50 transition-all duration-300">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary-600 transition-transform duration-300 group-hover:translate-x-0.5">
+              <path d="M5 12h14M13 6l6 6-6 6"/>
             </svg>
-          </div>
-        </div>
-
-        <!-- Bottom: heading + description + arrow -->
-        <div class="mt-auto">
-          <h3 class="panel-title font-helvetica font-bold text-xl lg:text-2xl xl:text-[1.6rem] text-slate-800 leading-tight mb-4 transition-colors duration-300 group-hover:text-slate-900">
-            Expert-Led Marketing Strategies
-          </h3>
-          <div class="panel-body overflow-hidden">
-            <p class="panel-desc font-roboto text-sm text-slate-500 leading-relaxed max-w-xs">
-              Leverage deep clinical and industry insight to precisely target audiences, optimise campaigns, and achieve lasting brand growth.
-            </p>
-            <div class="panel-arrow flex items-center gap-3 mt-7 text-primary-600">
-              <div class="h-px bg-primary-400 transition-all duration-500 ease-out w-5 group-hover:w-10"></div>
-              <span class="font-helvetica text-[0.6rem] font-bold tracking-[0.3em] uppercase opacity-60">Strategy</span>
-            </div>
-          </div>
-        </div>
-
+          </span>
+        </button>
       </div>
-    </div>
-    <!-- ── End Panel 01 ── -->
 
-    <!-- ── Panel 02 ── -->
-    <div class="why-panel why-panel-2 group relative flex flex-col overflow-hidden border-b lg:border-b-0 lg:border-r border-slate-100 bg-white cursor-pointer">
-      <div class="panel-accent absolute top-0 left-0 h-[3px] w-0 bg-gradient-to-r from-primary-700 via-primary-500 to-primary-300 transition-all duration-700 ease-out"></div>
-      <span class="panel-num-bg absolute bottom-0 right-0 font-helvetica font-bold select-none leading-none pointer-events-none text-[10rem] lg:text-[13rem] text-slate-50 transition-colors duration-700 group-hover:text-primary-50">02</span>
+      <!-- ── RIGHT: numbered pillar rows ── -->
+      <div class="flex flex-col">
+        {pillars.map((p) => (
+          <article class="why-row group relative grid grid-cols-[auto_1fr] gap-5 lg:gap-10 py-9 lg:py-12 border-t border-slate-100 last:border-b transition-colors duration-500 hover:bg-slate-50/60">
+            <!-- Left hover accent -->
+            <span class="absolute left-0 top-0 h-full w-[3px] origin-top scale-y-0 bg-gradient-to-b from-primary-600 to-primary-300 transition-transform duration-500 ease-out group-hover:scale-y-100"></span>
 
-      <div class="relative z-10 flex flex-col h-full p-8 lg:p-10 xl:p-12 pt-10">
-        <div class="flex items-start justify-between mb-10 lg:mb-auto">
-          <span class="panel-label font-helvetica text-[0.6rem] font-bold tracking-[0.4em] text-slate-200 uppercase transition-colors duration-500 group-hover:text-primary-500">02 / 04</span>
-          <div class="panel-icon w-11 h-11 rounded-xl bg-slate-50 flex items-center justify-center text-slate-300 transition-all duration-500 group-hover:bg-primary-600 group-hover:text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m3 11 18-5v12L3 14v-3z"/>
-              <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
-            </svg>
-          </div>
-        </div>
-        <div class="mt-auto">
-          <h3 class="panel-title font-helvetica font-bold text-xl lg:text-2xl xl:text-[1.6rem] text-slate-800 leading-tight mb-4 transition-colors duration-300 group-hover:text-slate-900">
-            Targeted Brand Communication
-          </h3>
-          <div class="panel-body overflow-hidden">
-            <p class="panel-desc font-roboto text-sm text-slate-500 leading-relaxed max-w-xs">
-              Deliver personalised messages that resonate deeply — enhancing loyalty and strengthening brand identity across every touchpoint.
-            </p>
-            <div class="panel-arrow flex items-center gap-3 mt-7 text-primary-600">
-              <div class="h-px bg-primary-400 transition-all duration-500 ease-out w-5 group-hover:w-10"></div>
-              <span class="font-helvetica text-[0.6rem] font-bold tracking-[0.3em] uppercase opacity-60">Branding</span>
+            <!-- Index -->
+            <div class="pt-1 pl-1 lg:pl-3">
+              <span class="font-helvetica text-4xl lg:text-6xl font-bold text-slate-200 tabular-nums leading-none transition-colors duration-500 group-hover:text-primary-600">
+                {p.num}
+              </span>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- ── End Panel 02 ── -->
 
-    <!-- ── Panel 03 ── -->
-    <div class="why-panel why-panel-3 group relative flex flex-col overflow-hidden border-b lg:border-b-0 lg:border-r border-slate-100 bg-white cursor-pointer">
-      <div class="panel-accent absolute top-0 left-0 h-[3px] w-0 bg-gradient-to-r from-primary-700 via-primary-500 to-primary-300 transition-all duration-700 ease-out"></div>
-      <span class="panel-num-bg absolute bottom-0 right-0 font-helvetica font-bold select-none leading-none pointer-events-none text-[10rem] lg:text-[13rem] text-slate-50 transition-colors duration-700 group-hover:text-primary-50">03</span>
-
-      <div class="relative z-10 flex flex-col h-full p-8 lg:p-10 xl:p-12 pt-10">
-        <div class="flex items-start justify-between mb-10 lg:mb-auto">
-          <span class="panel-label font-helvetica text-[0.6rem] font-bold tracking-[0.4em] text-slate-200 uppercase transition-colors duration-500 group-hover:text-primary-500">03 / 04</span>
-          <div class="panel-icon w-11 h-11 rounded-xl bg-slate-50 flex items-center justify-center text-slate-300 transition-all duration-500 group-hover:bg-primary-600 group-hover:text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-              <circle cx="9" cy="7" r="4"/>
-              <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-            </svg>
-          </div>
-        </div>
-        <div class="mt-auto">
-          <h3 class="panel-title font-helvetica font-bold text-xl lg:text-2xl xl:text-[1.6rem] text-slate-800 leading-tight mb-4 transition-colors duration-300 group-hover:text-slate-900">
-            Collaborative Approach
-          </h3>
-          <div class="panel-body overflow-hidden">
-            <p class="panel-desc font-roboto text-sm text-slate-500 leading-relaxed max-w-xs">
-              We unite diverse perspectives and work as true partners — fostering innovation and driving outcomes neither side could achieve alone.
-            </p>
-            <div class="panel-arrow flex items-center gap-3 mt-7 text-primary-600">
-              <div class="h-px bg-primary-400 transition-all duration-500 ease-out w-5 group-hover:w-10"></div>
-              <span class="font-helvetica text-[0.6rem] font-bold tracking-[0.3em] uppercase opacity-60">Partnership</span>
+            <!-- Body -->
+            <div class="pr-1 lg:pr-4">
+              <div class="flex items-center gap-4 mb-4">
+                <div class="w-11 h-11 rounded-xl bg-slate-50 text-slate-400 flex items-center justify-center transition-all duration-500 group-hover:bg-primary-600 group-hover:text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <Fragment set:html={p.icon} />
+                  </svg>
+                </div>
+                <span class="font-helvetica text-[0.6rem] font-bold tracking-[0.35em] uppercase text-slate-300 transition-colors duration-500 group-hover:text-primary-500">
+                  {p.tag}
+                </span>
+              </div>
+              <h3 class="font-helvetica text-xl lg:text-2xl xl:text-[1.7rem] font-bold text-slate-800 leading-tight mb-3 transition-colors duration-300 group-hover:text-slate-900">
+                {p.title}
+              </h3>
+              <p class="font-roboto text-sm lg:text-[0.95rem] text-slate-500 leading-relaxed max-w-xl">
+                {p.desc}
+              </p>
             </div>
-          </div>
-        </div>
+          </article>
+        ))}
       </div>
+
     </div>
-    <!-- ── End Panel 03 ── -->
-
-    <!-- ── Panel 04 ── -->
-    <div class="why-panel why-panel-4 group relative flex flex-col overflow-hidden border-b lg:border-b-0 border-slate-100 bg-white cursor-pointer">
-      <div class="panel-accent absolute top-0 left-0 h-[3px] w-0 bg-gradient-to-r from-primary-700 via-primary-500 to-primary-300 transition-all duration-700 ease-out"></div>
-      <span class="panel-num-bg absolute bottom-0 right-0 font-helvetica font-bold select-none leading-none pointer-events-none text-[10rem] lg:text-[13rem] text-slate-50 transition-colors duration-700 group-hover:text-primary-50">04</span>
-
-      <div class="relative z-10 flex flex-col h-full p-8 lg:p-10 xl:p-12 pt-10">
-        <div class="flex items-start justify-between mb-10 lg:mb-auto">
-          <span class="panel-label font-helvetica text-[0.6rem] font-bold tracking-[0.4em] text-slate-200 uppercase transition-colors duration-500 group-hover:text-primary-500">04 / 04</span>
-          <div class="panel-icon w-11 h-11 rounded-xl bg-slate-50 flex items-center justify-center text-slate-300 transition-all duration-500 group-hover:bg-primary-600 group-hover:text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
-              <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
-              <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
-              <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
-            </svg>
-          </div>
-        </div>
-        <div class="mt-auto">
-          <h3 class="panel-title font-helvetica font-bold text-xl lg:text-2xl xl:text-[1.6rem] text-slate-800 leading-tight mb-4 transition-colors duration-300 group-hover:text-slate-900">
-            Cutting-Edge Innovation
-          </h3>
-          <div class="panel-body overflow-hidden">
-            <p class="panel-desc font-roboto text-sm text-slate-500 leading-relaxed max-w-xs">
-              We push boundaries by integrating emerging technologies and creative solutions to solve complex healthcare marketing challenges.
-            </p>
-            <div class="panel-arrow flex items-center gap-3 mt-7 text-primary-600">
-              <div class="h-px bg-primary-400 transition-all duration-500 ease-out w-5 group-hover:w-10"></div>
-              <span class="font-helvetica text-[0.6rem] font-bold tracking-[0.3em] uppercase opacity-60">Innovation</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- ── End Panel 04 ── -->
-
-  </div>
-  <!-- ═══════════════════════ END PANELS ════════════════════════════════════ -->
-
-  <!-- ── Bottom CTA row ── -->
-  <div class="max-w-screen-xl mx-auto px-6 lg:px-8 py-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 border-t border-slate-100">
-    <p class="why-cta-label font-roboto text-xs text-slate-400 tracking-wide max-w-sm">
-      Ready to experience the difference? Let us show you what healthcare-focused marketing looks like.
-    </p>
-    <button
-      id="testimonial_contact_us_btn"
-      class="why-cta-btn group flex items-center gap-4 cursor-pointer flex-shrink-0"
-    >
-      <span class="font-helvetica text-sm font-bold tracking-[0.12em] text-slate-900 group-hover:text-primary-700 transition-colors duration-300 uppercase">
-        Start a Conversation
-      </span>
-      <span class="flex items-center justify-center w-10 h-10 rounded-full border border-slate-200 group-hover:border-primary-400 group-hover:bg-primary-50 transition-all duration-300">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5 12h14M13 6l6 6-6 6"/>
-        </svg>
-      </span>
-    </button>
   </div>
 
   <!-- Bottom gradient divider -->
   <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent pointer-events-none"></div>
-
 </section>
 
-<!-- ─────────────────────────── STYLES ─────────────────────────────────── -->
-<style>
-  /* ── Desktop: expanding panel behaviour ── */
-  @media (min-width: 1024px) {
-    .why-panels {
-      border-bottom: 1px solid #f1f5f9; /* slate-100 */
-    }
-    .why-panel {
-      flex: 1;
-      min-height: 500px;
-      /* Smooth flex expansion */
-      transition:
-        flex        0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-        background-color 0.5s ease;
-    }
-    /* Shrink siblings when one is hovered */
-    .why-panels:has(.why-panel:hover) .why-panel {
-      flex: 0.5;
-    }
-    /* Expand the hovered panel */
-    .why-panels .why-panel:hover {
-      flex: 3.2;
-      background-color: #f8fbff; /* near-white with tiny blue tint */
-    }
-    /* Top accent bar sweeps to full width on hover */
-    .why-panel:hover .panel-accent {
-      width: 100%;
-    }
-    /* Description hidden by default, reveals on hover */
-    .panel-desc {
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.45s ease 0.25s, transform 0.45s ease 0.25s;
-    }
-    .why-panel:hover .panel-desc {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    /* Category arrow also reveals with slight delay */
-    .panel-arrow {
-      opacity: 0;
-      transform: translateX(-6px);
-      transition: opacity 0.4s ease 0.35s, transform 0.4s ease 0.35s;
-    }
-    .why-panel:hover .panel-arrow {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  /* ── Mobile: always visible ── */
-  @media (max-width: 1023px) {
-    .why-panel {
-      min-height: 220px;
-    }
-    .panel-desc {
-      opacity: 1;
-      transform: none;
-    }
-    .panel-arrow {
-      opacity: 1;
-      transform: none;
-    }
-    /* Accent bar always visible on mobile */
-    .panel-accent {
-      width: 3rem !important;
-    }
-    .panel-icon {
-      background-color: #eef8ff;
-      color: #0068b4;
-    }
-  }
-</style>
-
-<!-- ─────────────────────────── SCRIPT ─────────────────────────────────── -->
 <script>
-  import gsap from "gsap";
+  import { revealOnScroll, gsap } from "src/utils/animations";
   import scrollToElement from "src/utils/scrollToElement";
 
-  /* CTA */
+  // CTA
   const btn = document.getElementById("testimonial_contact_us_btn");
   if (btn) btn.addEventListener("click", () => scrollToElement("contact_us"));
 
-  /* ── Header reveal on scroll ── */
-  const headerEl = document.querySelector(".why-header");
-  const headerObs = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
+  // Intro reveals
+  revealOnScroll(".why-reveal", { y: 20, stagger: 0.12 });
 
-        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-        tl
-          .fromTo(".why-eyebrow",   { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6 })
-          .fromTo(".why-h2",        { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.9 }, "-=0.4")
-          .fromTo(".why-old-desc",  { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8 }, "-=0.5")
-          .fromTo(".why-desc",      { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.7 }, "-=0.55")
-          .to(".why-rule",          { width: "100%", duration: 1.1, ease: "power2.inOut" },      "-=0.5");
+  const rule = document.querySelector<HTMLElement>(".why-rule");
+  if (rule) {
+    gsap.to(rule, {
+      width: "100%",
+      duration: 1.1,
+      ease: "power2.inOut",
+      scrollTrigger: { trigger: rule, start: "top 90%", once: true },
+    });
+  }
 
-        headerObs.unobserve(entry.target);
-      });
-    },
-    { threshold: 0.3 }
-  );
-  if (headerEl) headerObs.observe(headerEl);
-
-  /* ── Panels stagger reveal on scroll ── */
-  const panelsEl = document.querySelector(".why-panels");
-  const panelObs = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-
-        gsap.fromTo(
-          ".why-panel",
-          { opacity: 0, y: 36 },
-          { opacity: 1, y: 0, duration: 0.8, stagger: 0.13, ease: "power3.out" }
-        );
-        gsap.fromTo(
-          ".why-cta-label, .why-cta-btn",
-          { opacity: 0, y: 16 },
-          { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: "power3.out", delay: 0.6 }
-        );
-
-        panelObs.unobserve(entry.target);
-      });
-    },
-    { threshold: 0.1 }
-  );
-  if (panelsEl) panelObs.observe(panelsEl);
+  // Pillar rows stagger in
+  revealOnScroll(".why-row", { y: 44, stagger: 0.13, duration: 0.9 });
 </script>

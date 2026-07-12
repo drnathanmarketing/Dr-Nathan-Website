@@ -1,528 +1,309 @@
+---
+// ═══════════════════════════════ SERVICES — Horizontal pinned showcase
+// Immersive dark stage built from the palette's deepest existing blue (primary-950).
+// Image grids reproduce the original alignment: 2×2 for four-image services, a tall
+// row-span-2 lead + two stacked squares for Social/Web. The Community panel becomes a
+// living "team wall" fed by the same Sanity team data as the Life at Dr. Nathan page.
+import { sanityClient } from "sanity:client";
+import TeamWall from "@components/home/TeamWall.astro";
+
+// Same team members surfaced on /life-at-dr-nathan, plus the hardcoded founders.
+const teamQuery = `*[_type == "teamMember" && isActive == true] | order(displayOrder asc){
+  name, role,
+  "imageUrl": profileImage.asset->url + "?w=500&h=667&fit=crop&crop=top&auto=format"
+}`;
+
+let sanityTeam: { name: string; role?: string; imageUrl: string }[] = [];
+try {
+  sanityTeam = await sanityClient.fetch(teamQuery);
+} catch {
+  sanityTeam = [];
+}
+
+const founders = [
+  { name: "Dr. Aung Zaw Myint", role: "Head of Business Development", imageUrl: "/assets/Founders/Max.jpg" },
+  { name: "Dr. Zaw Htet Aung", role: "Creative Director", imageUrl: "/assets/Founders/Simon.jpg" },
+  { name: "Dr. Linn Htet Aung", role: "Head of Digital", imageUrl: "/assets/Founders/Linn%20Htet%20Aung.jpg" },
+];
+
+const teamWall = [...founders, ...sanityTeam].filter((m) => m.imageUrl);
+
+const services = [
+  {
+    num: "01",
+    tag: "Content",
+    title: "Content Development by Doctors",
+    desc: "Accurate, patient-centric content crafted by practising doctors — editorial and educational assets that read as authoritative and accessible.",
+    layout: "grid4",
+    images: ["cm1", "cm2", "cm5", "cm6"],
+  },
+  {
+    num: "02",
+    tag: "Social",
+    title: "Social Media Marketing",
+    desc: "Strategic campaigns that build presence, spark community, and carry your healthcare services across every major platform.",
+    layout: "tall3",
+    images: ["sm1", "sm2", "sm3"],
+  },
+  {
+    num: "03",
+    tag: "Events",
+    title: "Event Planning & Management",
+    desc: "From medical conferences to awareness drives — flawlessly produced events that leave a lasting impression on every attendee.",
+    layout: "grid4",
+    images: ["ep1", "ep2", "ep3", "ep4"],
+  },
+  {
+    num: "04",
+    tag: "Community",
+    title: "Community Management",
+    desc: "We nurture vibrant, supportive patient communities across your forums, groups, and networks — powered by a hands-on team that lives and breathes your brand every day.",
+    layout: "team",
+    images: ["com1"],
+  },
+  {
+    num: "05",
+    tag: "Production",
+    title: "Video & Product Photography",
+    desc: "High-end visual content that showcases your services and products with cinematic polish and clinical precision.",
+    layout: "grid4",
+    images: ["vppp1", "vppp2", "vppp3", "vppp4"],
+  },
+  {
+    num: "06",
+    tag: "Media",
+    title: "Media Buying",
+    desc: "Data-led ad placement that stretches every budget — optimal reach, sharp targeting, and measurable return.",
+    layout: "grid4",
+    images: ["mb1", "mb4", "mb3", "mb2"],
+  },
+  {
+    num: "07",
+    tag: "Talent",
+    title: "Talent Management",
+    desc: "We find, recruit, and retain the medical professionals and influencers who elevate your brand and earn trust.",
+    layout: "grid4",
+    images: ["tm1", "tm4", "tm2", "tm3"],
+  },
+  {
+    num: "08",
+    tag: "Web",
+    title: "Web Development",
+    desc: "Responsive, secure, refined websites that deepen patient engagement and showcase your expertise beautifully.",
+    layout: "tall3",
+    images: ["wd2", "wd4", "wd5"],
+  },
+];
+---
+
 <div id="navbar_hide_trigger">
-  <div id="service" class="overflow-hidden">
-    <section id="section1" class="parallax__item w-full h-screen relative p-4">
-      <!-- <span
-        class="absolute right-5 bottom-5 text-lg md:text-3xl leading-none z-10 font-bold text-primary-800"
-        >#01</span
-      > -->
-      <div
-        class="absolute left-0 top-0 w-full h-screen bg-cover bg-center bg-primary-100"
-      >
+  <section id="service" class="relative bg-primary-950 text-white overflow-hidden">
+
+    <!-- ── Intro lead-in ── -->
+    <div class="service-intro relative max-w-screen-2xl mx-auto px-6 sm:px-10 lg:px-16 pt-28 lg:pt-40 pb-14 lg:pb-24">
+      <div class="service-intro-reveal flex items-center gap-4 mb-8">
+        <span class="h-px w-10 bg-primary-400"></span>
+        <span class="font-helvetica text-[0.65rem] font-bold tracking-[0.5em] uppercase text-primary-300">What We Do</span>
+      </div>
+      <h2 class="service-heading font-helvetica text-3xl sm:text-4xl md:text-5xl lg:text-[4rem] font-bold text-white leading-[1.1] sm:leading-[1.05] tracking-tight max-w-4xl">
+        Full-service marketing, engineered for healthcare.
+      </h2>
+      <div class="service-intro-reveal mt-10 flex flex-wrap items-center gap-x-10 gap-y-4">
+        <p class="font-roboto text-white/60 max-w-md text-sm lg:text-base">
+          Eight disciplines, one accountable team — explore what we build for medical brands.
+        </p>
+        <span class="font-helvetica text-sm font-bold tracking-[0.3em] uppercase text-primary-300">08 Services</span>
+      </div>
+      <div class="service-intro-reveal mt-12 hidden lg:flex items-center gap-3 text-white/40">
+        <span class="text-xs tracking-[0.3em] uppercase font-bold">Scroll to explore</span>
+        <svg width="34" height="14" viewBox="0 0 34 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M0 7h32M27 2l5 5-5 5"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ── Pinned horizontal track ── -->
+    <div class="pin-wrap relative">
+      <div class="service-track">
+        {services.map((s) => (
+          <section class="service-panel relative">
+            <div class="h-full w-full flex items-center py-20 lg:py-0">
+              <div class="w-full max-w-screen-2xl mx-auto px-6 sm:px-10 lg:px-16 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+                <!-- Text -->
+                <div class="panel-text relative order-1">
+                  <span class="absolute -top-6 -left-1 lg:-top-20 lg:-left-6 font-helvetica font-bold leading-none pointer-events-none select-none text-[4.5rem] sm:text-[7rem] lg:text-[15rem] text-white/[0.05]">{s.num}</span>
+                  <div class="relative z-10">
+                    <div class="panel-anim flex items-center gap-4 mb-6">
+                      <span class="h-px w-10 bg-primary-400"></span>
+                      <span class="font-helvetica text-[0.65rem] font-bold tracking-[0.4em] uppercase text-primary-300">{s.tag}</span>
+                    </div>
+                    <h3 class="panel-anim font-helvetica text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-[1.15] sm:leading-[1.1] mb-6">{s.title}</h3>
+                    <p class="panel-anim font-roboto text-sm lg:text-base text-white/60 leading-relaxed max-w-md">{s.desc}</p>
+                    {s.layout === "team" && (
+                      <div class="panel-anim mt-8 flex items-center gap-4">
+                        <span class="font-helvetica text-3xl lg:text-4xl font-bold text-white leading-none tabular-nums">{teamWall.length}</span>
+                        <span class="font-roboto text-[0.7rem] text-white/50 uppercase tracking-[0.2em] leading-snug">Specialists<br />behind your community</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <!-- Image grid (original alignment) -->
+                <div class="order-2">
+                  <div class="panel-media w-full max-w-[440px] lg:max-w-[540px] mx-auto">
+                    {s.layout === "team" ? (
+                      <TeamWall members={teamWall} />
+                    ) : s.layout === "single" ? (
+                      <img src={`/assets/services/${s.images[0]}.jpg`} alt={`${s.title} — ${s.tag}`} loading="lazy" decoding="async" class="w-full aspect-square object-cover" />
+                    ) : s.layout === "tall3" ? (
+                      <div class="grid grid-cols-2 gap-2 lg:gap-3">
+                        <img src={`/assets/services/${s.images[0]}.jpg`} alt={`${s.title} — ${s.tag} 1`} loading="lazy" decoding="async" class="w-full h-full object-cover row-span-2" />
+                        <img src={`/assets/services/${s.images[1]}.jpg`} alt={`${s.title} — ${s.tag} 2`} loading="lazy" decoding="async" class="w-full aspect-square object-cover" />
+                        <img src={`/assets/services/${s.images[2]}.jpg`} alt={`${s.title} — ${s.tag} 3`} loading="lazy" decoding="async" class="w-full aspect-square object-cover" />
+                      </div>
+                    ) : (
+                      <div class="grid grid-cols-2 gap-2 lg:gap-3">
+                        {s.images.map((img, i) => (
+                          <img src={`/assets/services/${img}.jpg`} alt={`${s.title} — ${s.tag} ${i + 1}`} loading="lazy" decoding="async" class="w-full aspect-square object-cover" />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </section>
+        ))}
       </div>
 
-      <div
-        class="flex flex-col gap-[4vh] md:gap-10 max-w-screen-lg mx-auto mt-[2vh]"
-      >
-        <p
-          class="z-20 text-lg md:text-3xl leading-none font-bold text-primary-800"
-        >
-          #01
-        </p>
-        <div
-          class="flex flex-col-reverse md:flex-row justify-center md:mt-20 gap-[4vh] md:gap-10"
-        >
-          <div class="z-20 grid grid-cols-2 gap-2 basis-1/2">
-            <img
-              src="assets/services/cm1.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
-            <img
-              src="assets/services/cm2.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
-            <img
-              src="assets/services/cm5.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
-            <img
-              src="assets/services/cm6.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
+      <!-- Progress UI (only visible in horizontal mode) -->
+      <div class="service-progress absolute bottom-0 left-0 w-full px-6 lg:px-16 pb-8 pointer-events-none z-30">
+        <div class="max-w-screen-2xl mx-auto flex items-center gap-6">
+          <span class="service-counter font-helvetica text-white font-bold text-lg tabular-nums">01</span>
+          <div class="flex-1 h-px bg-white/15 relative overflow-hidden">
+            <span class="service-progress-bar absolute inset-0 origin-left bg-primary-400" style="transform: scaleX(0)"></span>
           </div>
-          <div class="z-20 flex flex-col gap-[4vh] md:gap-6 basis-1/2">
-            <h2
-              class="font-helvetica text-lg md:text-3xl uppercase inline-block text-primary-800 font-bold"
-            >
-              Content Development By Medical Doctors
-            </h2>
-            <p class="text-base">
-              Trust our team of experienced medical doctors to craft accurate,
-              insightful, and patient-centric content. From blog posts to
-              educational materials, our content development services ensure
-              your messaging is both authoritative and accessible.
-            </p>
-          </div>
+          <span class="font-helvetica text-white/40 font-bold text-lg tabular-nums">08</span>
         </div>
       </div>
-    </section>
-    <!-- //section1 -->
+    </div>
 
-    <section
-      id="section2"
-      class="parallax__item w-full h-screen relative flex flex-col p-4"
-    >
-      <div
-        class="absolute left-0 top-0 w-full h-screen bg-cover bg-center bg-primary-200"
-      >
-      </div>
-      <div
-        class="flex flex-col gap-[4vh] md:gap-10 max-w-screen-lg mx-auto mt-[2vh]"
-      >
-        <p
-          class="z-20 text-lg md:text-3xl leading-none font-bold text-primary-800"
-        >
-          #02
-        </p>
-        <div
-          class="flex flex-col-reverse md:flex-row justify-center md:mt-20 gap-[4vh] md:gap-10"
-        >
-          <div class="z-20 grid grid-cols-2 gap-2 basis-1/2">
-            <img
-              src="assets/services/sm1.jpg"
-              class="w-full h-full object-cover row-span-2"
-            />
-            <img
-              src="assets/services/sm2.jpg"
-              class="w-full aspect-square object-cover"
-            />
-            <img
-              src="assets/services/sm3.jpg"
-              class="w-full aspect-square object-cover"
-            />
-          </div>
-          <div class="z-20 flex flex-col gap-[4vh] md:gap-6 basis-1/2">
-            <h2
-              class="font-helvetica text-lg md:text-3xl uppercase inline-block text-primary-800 font-bold"
-            >
-              Social Media Marketing
-            </h2>
-            <p class="text-base">
-              Engage with your audience through strategic social media
-              marketing. We create compelling campaigns that build your online
-              presence, foster community interaction, and promote your
-              healthcare services effectively across all major platforms.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- //section2 -->
-
-    <section
-      id="section3"
-      class="parallax__item w-full h-screen relative flex flex-col p-4"
-    >
-      <div
-        class="absolute left-0 top-0 w-full h-screen bg-cover bg-center bg-primary-300"
-      >
-      </div>
-      <div
-        class="flex flex-col gap-[4vh] md:gap-10 max-w-screen-lg mx-auto mt-[2vh]"
-      >
-        <p
-          class="z-20 text-lg md:text-3xl leading-none font-bold text-primary-800"
-        >
-          #03
-        </p>
-        <div
-          class="flex flex-col-reverse md:flex-row justify-center md:mt-20 gap-[4vh] md:gap-10"
-        >
-          <div class="z-20 grid grid-cols-2 gap-2 basis-1/2">
-            <img
-              src="assets/services/ep1.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
-            <img
-              src="assets/services/ep2.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
-            <img
-              src="assets/services/ep3.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
-            <img
-              src="assets/services/ep4.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
-          </div>
-          <div class="z-20 flex flex-col gap-[4vh] md:gap-6 basis-1/2">
-            <h2
-              class="font-helvetica text-lg md:text-3xl uppercase inline-block text-primary-800 font-bold"
-            >
-              Event Planning and Management
-            </h2>
-            <p class="text-base">
-              From medical conferences to health awareness campaigns, our event
-              planning and management services are designed to ensure your
-              events are flawlessly executed and leave a lasting impression on
-              attendees.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- //section3 -->
-
-    <section
-      id="section4"
-      class="parallax__item w-full h-screen relative flex flex-col p-4"
-    >
-      <div
-        class="absolute left-0 top-0 w-full h-screen bg-cover bg-center bg-primary-400"
-      >
-      </div>
-      <div
-        class="flex flex-col gap-[4vh] md:gap-10 max-w-screen-lg mx-auto mt-[2vh]"
-      >
-        <p
-          class="z-20 text-lg md:text-3xl leading-none font-bold text-primary-800"
-        >
-          #04
-        </p>
-        <div
-          class="flex flex-col-reverse md:flex-row justify-center md:mt-20 gap-[4vh] md:gap-10"
-        >
-          <div class="z-20 basis-1/2">
-            <img
-              src="assets/services/com1.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
-          </div>
-          <div class="z-20 flex flex-col gap-[4vh] md:gap-6 basis-1/2">
-            <h2
-              class="font-helvetica text-lg md:text-3xl uppercase inline-block text-primary-800 font-bold"
-            >
-              Community Management
-            </h2>
-            <p class="text-base">
-              Build and nurture a vibrant online community with our dedicated
-              community management services. We manage your forums, social media
-              groups, and patient networks, fostering a supportive and
-              informative environment for all members.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- //section4 -->
-
-    <section
-      id="section5"
-      class="parallax__item w-full h-screen relative flex flex-col p-4"
-    >
-      <div
-        class="absolute left-0 top-0 w-full h-screen bg-cover bg-center bg-primary-500"
-      >
-      </div>
-      <div
-        class="flex flex-col gap-[4vh] md:gap-10 max-w-screen-lg mx-auto mt-[2vh]"
-      >
-        <p
-          class="z-20 text-lg md:text-3xl leading-none font-bold text-primary-200"
-        >
-          #05
-        </p>
-        <div
-          class="flex flex-col-reverse md:flex-row justify-center md:mt-20 gap-[4vh] md:gap-10"
-        >
-          <div class="z-20 grid grid-cols-2 gap-2 basis-1/2">
-            <img
-              src="assets/services/vppp1.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
-            <img
-              src="assets/services/vppp2.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
-            <img
-              src="assets/services/vppp3.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
-            <img
-              src="assets/services/vppp4.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
-          </div>
-          <div class="z-20 flex flex-col gap-[4vh] md:gap-6 basis-1/2">
-            <h2
-              class="font-helvetica text-lg md:text-3xl uppercase inline-block text-primary-200 font-bold"
-            >
-              Video Production and Product Photography
-            </h2>
-            <p class="text-base">
-              Showcase your services and products with high-quality video
-              production and photography. Our team produces professional visual
-              content that highlights the unique aspects of your healthcare
-              offerings, boosting your brand's visual appeal.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- //section5 -->
-
-    <section
-      id="section6"
-      class="parallax__item w-full h-screen relative flex flex-col p-4"
-    >
-      <div
-        class="absolute left-0 top-0 w-full h-screen bg-cover bg-center bg-primary-600"
-      >
-      </div>
-      <div
-        class="flex flex-col gap-[4vh] md:gap-10 max-w-screen-lg mx-auto mt-[2vh]"
-      >
-        <p
-          class="z-20 text-lg md:text-3xl leading-none font-bold text-primary-200"
-        >
-          #06
-        </p>
-        <div
-          class="flex flex-col-reverse md:flex-row justify-center md:mt-20 gap-[4vh] md:gap-10"
-        >
-          <div class="z-20 grid grid-cols-2 gap-2 basis-1/2">
-            <img
-              src="assets/services/mb1.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
-            <img
-              src="assets/services/mb4.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
-            <img
-              src="assets/services/mb3.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
-            <img
-              src="assets/services/mb2.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
-          </div>
-          <div class="z-20 flex flex-col gap-[4vh] md:gap-6 basis-1/2">
-            <h2
-              class="font-helvetica text-lg md:text-3xl uppercase inline-block text-primary-200 font-bold"
-            >
-              Media Buying
-            </h2>
-            <p class="text-base text-white">
-              Maximize your advertising budget with our expert media buying
-              services. We strategically purchase ad spaces that reach your
-              target audience, ensuring optimal exposure and return on
-              investment for your healthcare campaigns.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- //section6 -->
-
-    <section
-      id="section7"
-      class="parallax__item w-full h-screen relative flex flex-col p-4"
-    >
-      <div
-        class="absolute left-0 top-0 w-full h-screen bg-cover bg-center bg-primary-700"
-      >
-      </div>
-      <div
-        class="flex flex-col gap-[4vh] md:gap-10 max-w-screen-lg mx-auto mt-[2vh]"
-      >
-        <p
-          class="z-20 text-lg md:text-3xl leading-none font-bold text-primary-200"
-        >
-          #07
-        </p>
-        <div
-          class="flex flex-col-reverse md:flex-row justify-center md:mt-20 gap-[4vh] md:gap-10"
-        >
-          <div class="z-20 grid grid-cols-2 gap-2 basis-1/2">
-            <img
-              src="assets/services/tm1.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
-            <img
-              src="assets/services/tm4.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
-            <img
-              src="assets/services/tm2.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
-            <img
-              src="assets/services/tm3.jpg"
-              class="w-[100%] aspect-square object-cover"
-            />
-          </div>
-          <div class="z-20 flex flex-col gap-[4vh] md:gap-6 basis-1/2">
-            <h2
-              class="font-helvetica text-lg md:text-3xl uppercase inline-block text-primary-200 font-bold"
-            >
-              Talent Management
-            </h2>
-            <p class="text-base text-white">
-              Enhance your healthcare practice with our talent management
-              services. We help you find, recruit, and retain top medical
-              professionals and influencers, ensuring your team is composed of
-              the best talent in the industry.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- //section7 -->
-
-    <section
-      id="section8"
-      class="parallax__item w-full h-screen relative flex flex-col p-4"
-    >
-      <div
-        class="absolute left-0 top-0 w-full h-screen bg-cover bg-center bg-primary-800"
-      >
-      </div>
-      <div
-        class="flex flex-col gap-[4vh] md:gap-10 max-w-screen-lg mx-auto mt-[2vh]"
-      >
-        <p
-          class="z-20 text-lg md:text-3xl leading-none font-bold text-primary-200"
-        >
-          #08
-        </p>
-        <div
-          class="flex flex-col-reverse md:flex-row justify-center md:mt-20 gap-[4vh] md:gap-10"
-        >
-          <div class="z-20 grid grid-cols-2 gap-2 basis-1/2">
-            <img
-              src="assets/services/wd2.jpg"
-              class="w-full h-full object-cover row-span-2"
-            />
-            <img
-              src="assets/services/wd4.jpg"
-              class="w-full aspect-square object-cover"
-            />
-            <img
-              src="assets/services/wd5.jpg"
-              class="w-full aspect-square object-cover"
-            />
-          </div>
-          <div class="z-20 flex flex-col gap-[4vh] md:gap-6 basis-1/2">
-            <h2
-              class="font-helvetica text-lg md:text-3xl uppercase inline-block text-primary-200 font-bold"
-            >
-              Web Development
-            </h2>
-            <p class="text-base text-white">
-              Dr. Nathan specializes in creating state-of-the-art websites
-              tailored specifically for healthcare professionals and
-              organizations. We build responsive, secure, and user-friendly
-              websites that enhance patient engagement and showcase your
-              expertise.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- //section8 -->
-
-    <!-- <section
-      id="section9"
-      class="parallax__item w-full h-screen relative flex flex-col p-4"
-    >
-      <span class="absolute right-5 bottom-5 text-lg md:text-3xl leading-none z-10 font-bold"
-        >#09</span
-      >
-      <div
-        class="absolute left-0 top-0 w-full h-screen bg-cover bg-center bg-primary-900"
-      >
-      </div>
-      <h2 class="text-lg md:text-3xl font-bold z-20 uppercase inline-block">More</h2>
-    </section> -->
-    <!-- //section9 -->
-  </div>
+  </section>
 </div>
 
+<style>
+  /* Default (mobile / reduced-motion): panels stack vertically */
+  .service-track { display: flex; flex-direction: column; }
+  .service-panel { width: 100%; }
+
+  /* Horizontal mode is toggled by JS only on capable desktops */
+  .service-track.is-horizontal {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    height: 100vh;
+    width: max-content;
+  }
+  .service-track.is-horizontal .service-panel {
+    width: 100vw;
+    height: 100vh;
+    flex-shrink: 0;
+  }
+  .pin-wrap.is-horizontal { overflow: hidden; }
+
+  .service-progress { opacity: 0; transition: opacity 0.4s ease; }
+  .pin-wrap.is-horizontal .service-progress { opacity: 1; }
+</style>
+
 <script>
-  import gsap from "gsap";
-  import ScrollTrigger from "gsap/ScrollTrigger";
+  import { gsap, revealHeading, revealOnScroll } from "src/utils/animations";
 
-  gsap.registerPlugin(ScrollTrigger);
+  const section = document.getElementById("service");
+  const pinWrap = section?.querySelector<HTMLElement>(".pin-wrap");
+  const track = section?.querySelector<HTMLElement>(".service-track");
+  const counterEl = section?.querySelector<HTMLElement>(".service-counter");
+  const progressBar = section?.querySelector<HTMLElement>(".service-progress-bar");
+  const panels = gsap.utils.toArray<HTMLElement>(".service-panel");
 
-  // Define types for the panels and tops
-  type PanelElement = HTMLElement;
+  // Intro reveals — run in every mode
+  revealHeading(section?.querySelector<HTMLElement>(".service-heading") ?? null, { stagger: 0.05 });
+  revealOnScroll(".service-intro-reveal", { y: 22, stagger: 0.12 });
 
-  const panels: PanelElement[] =
-    gsap.utils.toArray<PanelElement>(".parallax__item");
-  let tops: ScrollTrigger[] = [];
-  let scrollTriggers: ScrollTrigger[] = [];
+  if (pinWrap && track && panels.length) {
+    const mm = gsap.matchMedia();
 
-  // Function to create ScrollTriggers
-  const createScrollTriggers = () => {
-    tops = panels.map((panel) =>
-      ScrollTrigger.create({ trigger: panel, start: "top top" })
-    );
+    // ── Desktop + motion: pinned horizontal scroll ──
+    mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
+      pinWrap.classList.add("is-horizontal");
+      track.classList.add("is-horizontal");
 
-    panels.forEach((panel) => {
-      scrollTriggers.push(
-        ScrollTrigger.create({
-          trigger: panel,
-          start: () =>
-            panel.offsetHeight < window.innerHeight
-              ? "top top"
-              : "bottom bottom",
+      const getDistance = () => track.scrollWidth - window.innerWidth;
+
+      const tween = gsap.to(track, {
+        x: () => -getDistance(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: pinWrap,
+          start: "top top",
+          end: () => "+=" + getDistance(),
           pin: true,
-          pinSpacing: false,
-        })
-      );
+          scrub: 1,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const n = panels.length;
+            const idx = Math.min(n - 1, Math.round(self.progress * (n - 1)));
+            if (counterEl) counterEl.textContent = String(idx + 1).padStart(2, "0");
+            if (progressBar) progressBar.style.transform = `scaleX(${self.progress})`;
+          },
+        },
+      });
+
+      // Per-panel reveal driven by the horizontal scroll
+      panels.forEach((panel) => {
+        gsap.fromTo(
+          panel.querySelectorAll<HTMLElement>(".panel-anim"),
+          { y: 44, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.6,
+            stagger: 0.09,
+            ease: "power3.out",
+            scrollTrigger: { trigger: panel, containerAnimation: tween, start: "left 78%", toggleActions: "play none none reverse" },
+          }
+        );
+
+        const media = panel.querySelector<HTMLElement>(".panel-media");
+        if (media) {
+          gsap.fromTo(
+            media,
+            { y: 40, opacity: 0, scale: 0.97 },
+            {
+              y: 0,
+              opacity: 1,
+              scale: 1,
+              duration: 0.7,
+              ease: "power3.out",
+              scrollTrigger: { trigger: panel, containerAnimation: tween, start: "left 80%", toggleActions: "play none none reverse" },
+            }
+          );
+        }
+      });
+
+      return () => {
+        pinWrap.classList.remove("is-horizontal");
+        track.classList.remove("is-horizontal");
+        gsap.set(track, { clearProps: "transform" });
+      };
     });
 
-    scrollTriggers.push(
-      ScrollTrigger.create({
-        snap: {
-          snapTo: (_: number, self: ScrollTrigger) => {
-            const panelStarts = tops.map((st) => st.start);
-            const snapScroll = gsap.utils.snap(
-              panelStarts,
-              self.scroll() as number
-            );
-            return gsap.utils.normalize(
-              0,
-              ScrollTrigger.maxScroll(window),
-              snapScroll
-            );
-          },
-          duration: 0.5,
-        } as any,
-      })
-    );
-  };
-
-  // Function to kill all ScrollTriggers
-  const killScrollTriggers = () => {
-    scrollTriggers.forEach((trigger) => trigger.kill());
-    scrollTriggers = [];
-    tops = [];
-  };
-
-  // Create an IntersectionObserver to observe the #service element
-  const serviceElement = document.getElementById("service");
-
-  if (serviceElement) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // When #service element is in view, create ScrollTriggers
-            createScrollTriggers();
-          } else {
-            // When #service element is out of view, kill ScrollTriggers
-            killScrollTriggers();
-          }
-        });
-      },
-      {
-        threshold: 0.1, // Adjust threshold as needed
-      }
-    );
-
-    observer.observe(serviceElement);
+    // ── Mobile / reduced-motion: simple stacked reveals ──
+    mm.add("(max-width: 1023px), (prefers-reduced-motion: reduce)", () => {
+      panels.forEach((panel) => {
+        revealOnScroll(panel.querySelectorAll<HTMLElement>(".panel-anim, .panel-media"), { y: 30, stagger: 0.08 });
+      });
+    });
   }
 </script>
