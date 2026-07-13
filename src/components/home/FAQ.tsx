@@ -1,62 +1,82 @@
 import AccordionCard from "@components/common/AccordionCard.jsx";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { revealOnScroll } from "src/utils/animations";
+
+const faqs = [
+  {
+    q: "What services do you offer?",
+    a: "We offer marketing strategies and solutions, both digital and on-ground, tailored to your branding perspective and business plan.",
+  },
+  {
+    q: "Do you offer customized marketing strategies?",
+    a: "Yes, you can request us to create a customized marketing package based on your business plan and budget.",
+  },
+  {
+    q: "What industries do you specialize in?",
+    a: "Currently, we exclusively specialize in the healthcare industry.",
+  },
+  {
+    q: "What is your pricing structure?",
+    a: "We have created a standard rate card for different business categories.",
+  },
+  {
+    q: "What is your process for working with clients?",
+    a: "1) Initial consultation to understand client goals. 2) Research target audience and industry trends. 3) Develop tailored digital marketing strategy. 4) Implement campaigns across relevant channels. 5) Monitor and analyze campaign performance. 6) Regular reporting and communication with the client. 7) Adjust strategies based on feedback and results.",
+  },
+];
 
 const FAQ = () => {
   const [show, setShow] = useState<number | undefined>(undefined);
+  const rootRef = useRef<HTMLDivElement>(null);
 
   const onAccordionChange = (index: number) =>
     setShow((prev) => (prev === index ? undefined : index));
 
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    revealOnScroll(el.querySelectorAll<HTMLElement>(".faq-reveal"), { y: 22, stagger: 0.1 });
+    revealOnScroll(el.querySelectorAll<HTMLElement>(".faq-item"), { y: 26, stagger: 0.08 });
+  }, []);
+
   return (
-    <div
-      id="faq"
-      className="max-w-screen-xl mx-auto p-4 py-40 flex flex-col md:flex-row gap-4"
-    >
-      <div className="flex flex-col gap-4 basis-1/2">
-        <p className="text-sm text-slate-400">FAQs</p>
-        <p className="font-helvetica text-4xl tracking-wide">You have Questions?</p>
-        <p className="text-base font-thin">
-          We have answers. For more inquiries, contact us.
-        </p>
+    <section id="faq" className="bg-white">
+      <div
+        ref={rootRef}
+        className="max-w-screen-xl mx-auto px-6 lg:px-8 py-28 lg:py-40 grid lg:grid-cols-[0.8fr_1.2fr] gap-14 lg:gap-24"
+      >
+        {/* Left: sticky intro */}
+        <div className="lg:sticky lg:top-28 lg:self-start">
+          <div className="faq-reveal flex items-center gap-4 mb-8">
+            <span className="h-px w-10 bg-primary-500" />
+            <p className="font-helvetica text-[0.65rem] font-bold tracking-[0.5em] text-primary-600 uppercase">
+              FAQ
+            </p>
+          </div>
+          <h2 className="faq-reveal font-helvetica text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-[1.15] sm:leading-[1.1] tracking-tight mb-6">
+            You have questions.
+          </h2>
+          <p className="faq-reveal font-roboto text-sm lg:text-base text-slate-500 leading-relaxed max-w-sm">
+            We have answers. If there's anything else on your mind, we're only one message away.
+          </p>
+        </div>
+
+        {/* Right: accordion */}
+        <div className="flex flex-col">
+          {faqs.map((item, i) => (
+            <div className="faq-item" key={item.q}>
+              <AccordionCard
+                title={item.q}
+                answer={item.a}
+                index={i}
+                value={show}
+                callback={onAccordionChange}
+              />
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="basis-1/2">
-        <AccordionCard
-          title="What services do you offer?"
-          answer="We offer marketing strategies and solutions, both digital and on-ground, tailored to your branding perspective and business plan."
-          index={0}
-          value={show}
-          callback={onAccordionChange}
-        />
-        <AccordionCard
-          title="Do you offer customized marketing strategies?"
-          answer="Yes, you can request us to create a customized marketing package based on your business plan and budget."
-          index={1}
-          value={show}
-          callback={onAccordionChange}
-        />
-        <AccordionCard
-          title="What industries do you specialize in?"
-          answer="Currently, we exclusively specialize in the healthcare industry."
-          index={2}
-          value={show}
-          callback={onAccordionChange}
-        />
-        <AccordionCard
-          title="What is your pricing structure?"
-          answer="We have created a standard rate card for different business categories."
-          index={3}
-          value={show}
-          callback={onAccordionChange}
-        />
-        <AccordionCard
-          title="What is your process for working with clients?"
-          answer="1) Initial consultation to understand client goals. 2) Research target audience and industry trends. 3) Develop tailored digital marketing strategy. 4) Implement campaigns across relevant channels. 5) Monitor and analyze campaign performance. 6) Regular reporting and communication with the client. 7) Adjust strategies based on feedback and results."
-          index={4}
-          value={show}
-          callback={onAccordionChange}
-        />
-      </div>
-    </div>
+    </section>
   );
 };
 

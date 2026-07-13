@@ -1,42 +1,63 @@
 const AccordionCard = ({ title, answer, index, value, callback }) => {
+  const open = value === index;
+  const num = String(index + 1).padStart(2, "0");
+
   return (
-    <>
-      <h2>
-        <button
-          onClick={() => callback(index)}
-          type="button"
-          className="flex items-center justify-between w-full py-5 font-medium rtl:text-right border-b border-gray-200 gap-3"
+    <div className="group border-b border-slate-200">
+      <button
+        onClick={() => callback(index)}
+        type="button"
+        aria-expanded={open}
+        className="flex w-full items-center gap-5 py-6 text-left"
+      >
+        <span
+          className={`font-helvetica text-sm font-bold tabular-nums transition-colors duration-300 ${
+            open ? "text-primary-600" : "text-slate-300"
+          }`}
         >
-          <span className="font-helvetica text-base font-[500] text-start">{title}</span>
-          <svg
-            data-accordion-icon
-            className={`w-3 h-3 ${!(index === value) && "rotate-180"} shrink-0`}
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 10 6"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M9 5 5 1 1 5"
-            ></path>
-          </svg>
-        </button>
-      </h2>
+          {num}
+        </span>
+        <span
+          className={`flex-1 font-helvetica text-base lg:text-lg font-semibold leading-snug transition-colors duration-300 ${
+            open ? "text-primary-700" : "text-slate-800 group-hover:text-primary-700"
+          }`}
+        >
+          {title}
+        </span>
+        <span
+          className={`relative flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border transition-all duration-300 ${
+            open ? "border-primary-500 bg-primary-50" : "border-slate-200 group-hover:border-primary-300"
+          }`}
+        >
+          {/* horizontal bar (always) */}
+          <span
+            className={`absolute h-[1.5px] w-3.5 rounded transition-colors duration-300 ${
+              open ? "bg-primary-600" : "bg-slate-500"
+            }`}
+          />
+          {/* vertical bar (hides on open → makes a minus) */}
+          <span
+            className={`absolute h-3.5 w-[1.5px] rounded bg-slate-500 transition-all duration-300 ${
+              open ? "rotate-90 opacity-0" : "rotate-0 opacity-100"
+            }`}
+          />
+        </span>
+      </button>
 
       <div
-        className={`mb-2 text-gray-700 text-sm tracking-[0.2px] text-start overflow-hidden mt-4 transition-all duration-300 ease-in-out ${
-          value === index ? "max-h-[100rem]" : "max-h-[0rem]"
+        className={`grid transition-all duration-300 ease-in-out ${
+          open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
         }`}
       >
-        {answer?.split("\n").map((a) => (
-          <p key={a}>{a}</p>
-        ))}
+        <div className="overflow-hidden">
+          <div className="pl-10 pr-4 pb-7 font-roboto text-sm text-slate-500 leading-relaxed space-y-2">
+            {answer?.split("\n").map((a) => (
+              <p key={a}>{a}</p>
+            ))}
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

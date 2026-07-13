@@ -1,12 +1,17 @@
-<div class="py-24">
-  <div class="flex flex-col max-w-screen-xl mx-auto gap-6 p-4">
-    <div class="flex flex-col md:flex-row justify-between gap-10">
-      <img
-        src="/assets/logo/logo.png"
-        class="h-16 w-16 object-contain"
-        alt="Dr. Nathan Logo"
-      />
-      <div class="flex flex-row gap-4 md:gap-14">
+<footer class="border-t border-slate-100 py-20 lg:py-24">
+  <div class="flex flex-col max-w-screen-xl mx-auto gap-10 px-6 lg:px-8">
+    <div class="footer-reveal flex flex-col md:flex-row justify-between gap-10">
+      <div class="flex flex-col gap-4 max-w-xs">
+        <img
+          src="/assets/logo/logo.png"
+          class="h-16 w-16 object-contain"
+          alt="Dr. Nathan Logo"
+        />
+        <p class="font-roboto text-sm text-slate-400 leading-relaxed">
+          Premium, insight-led marketing built exclusively for the healthcare industry in Myanmar.
+        </p>
+      </div>
+      <div class="footer-reveal flex flex-row gap-10 md:gap-14">
         <div class="flex flex-col gap-2">
           <p class="font-helvetica text-base font-semibold tracking-wide">Socials</p>
           <a
@@ -33,9 +38,14 @@
         </div>
       </div>
     </div>
-    <hr />
-    <p class="text-xs text-slate-400">
-      © {new Date().getFullYear()} Dr. Nathan Marketing & Consultancy.
+    <hr class="border-slate-100" />
+    <p class="text-xs text-slate-400 tracking-wide">
+      © {new Date().getFullYear()} Dr. Nathan Marketing & Consultancy. All rights reserved.
     </p>
   </div>
-</div>
+</footer>
+
+<script>
+  import { revealOnScroll } from "src/utils/animations";
+  revealOnScroll(".footer-reveal", { y: 20, stagger: 0.12 });
+</script>

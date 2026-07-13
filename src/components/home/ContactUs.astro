@@ -1,48 +1,100 @@
-<div
-  id="contact_us"
-  class="p-4 py-24 flex flex-col gap-2 max-w-screen-md mx-auto"
->
-  <div class="flex flex-col gap-4">
-    <p class="text-sm text-slate-400">Contact Us</p>
-    <p class="font-helvetica text-4xl tracking-wide">We'd love to hear from you.</p>
-    <p class="text-base font-thin">
-      Have questions or feedback? We're here to help. Send us a message.
-    </p>
+---
+// ═══════════════════════════════════ CONTACT — Bold closing CTA + live form
+---
+<section id="contact_us" class="relative bg-white overflow-hidden">
+  <!-- Ambient glow -->
+  <div class="absolute inset-0 pointer-events-none overflow-hidden">
+    <div class="absolute bottom-[-10%] left-[-8%] w-[50%] h-[55%] rounded-full bg-primary-50/50 blur-[130px]"></div>
   </div>
-  <form
-    class="mt-10 flex flex-col gap-4 md:gap-8"
-    action="https://formspree.io/f/xnnaazew"
-    method="POST"
-  >
-    <!-- <input type="hidden" name="_next" value="https://dr-nathan.vercel.app/" />
-    <input type="hidden" name="_template" value="box" />
-    <input type="hidden" name="_subject" value="New Client Message" /> -->
-    <div class="flex flex-row gap-4 md:gap-8">
-      <input
-        type="text"
-        name="Name"
-        placeholder="Name"
-        class="block w-full p-4 text-gray-900 border rounded-lg bg-gray-50 text-base focus:ring-primary-700"
-      />
-      <input
-        type="text"
-        name="Email"
-        placeholder="Email"
-        class="block w-full p-4 text-gray-900 border rounded-lg bg-gray-50 text-base focus:ring-primary-700"
-      />
+
+  <div class="relative max-w-screen-xl mx-auto px-6 lg:px-8 py-28 lg:py-40 grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+
+    <!-- ── Left: messaging ── -->
+    <div class="lg:pt-4">
+      <div class="contact-reveal flex items-center gap-4 mb-8">
+        <span class="h-px w-10 bg-primary-500"></span>
+        <p class="font-helvetica text-[0.65rem] font-bold tracking-[0.5em] text-primary-600 uppercase">Contact</p>
+      </div>
+
+      <h2 class="contact-heading font-helvetica text-3xl sm:text-4xl lg:text-[3.4rem] font-bold text-slate-900 leading-[1.12] sm:leading-[1.08] tracking-tight mb-8">
+        Let's build something remarkable.
+      </h2>
+
+      <p class="contact-reveal font-roboto text-sm lg:text-base text-slate-500 leading-relaxed max-w-md mb-12">
+        Have a brief, a question, or just an idea worth exploring? Tell us where you want your brand to go — we'll help you get there.
+      </p>
+
+      <div class="contact-reveal flex flex-col gap-5">
+        <a href="mailto:info@drnathanmarketing.com" class="group inline-flex items-center gap-4 w-max">
+          <span class="flex items-center justify-center w-10 h-10 rounded-full bg-slate-50 text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition-all duration-300">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </span>
+          <span class="font-roboto text-slate-700 group-hover:text-primary-700 transition-colors">info@drnathanmarketing.com</span>
+        </a>
+        <a href="tel:+959776299099" class="group inline-flex items-center gap-4 w-max">
+          <span class="flex items-center justify-center w-10 h-10 rounded-full bg-slate-50 text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition-all duration-300">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </span>
+          <span class="font-roboto text-slate-700 group-hover:text-primary-700 transition-colors">+95 9 776 299 099</span>
+        </a>
+      </div>
     </div>
-    <textarea
-      id="message"
-      rows="8"
-      name="Message"
-      class="block p-4 w-full text-base text-gray-900 bg-gray-50 rounded-lg border focus:ring-primary-700"
-      placeholder="Write your message here..."></textarea>
-    <div>
+
+    <!-- ── Right: form (Formspree — do not change action/field names) ── -->
+    <form
+      class="contact-reveal flex flex-col gap-6 lg:p-8 lg:rounded-2xl lg:border lg:border-slate-100 lg:shadow-[0_20px_60px_-30px_rgba(0,74,125,0.25)] lg:bg-white/70 lg:backdrop-blur-sm"
+      action="https://formspree.io/f/xnnaazew"
+      method="POST"
+    >
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div class="flex flex-col gap-2">
+          <label for="contact-name" class="font-helvetica text-[0.7rem] font-bold tracking-[0.15em] uppercase text-slate-400">Name</label>
+          <input
+            id="contact-name"
+            type="text"
+            name="Name"
+            placeholder="Your name"
+            class="w-full px-4 py-3.5 rounded-lg border border-slate-200 bg-white text-base text-slate-900 placeholder:text-slate-300 outline-none transition-all duration-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-100"
+          />
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="contact-email" class="font-helvetica text-[0.7rem] font-bold tracking-[0.15em] uppercase text-slate-400">Email</label>
+          <input
+            id="contact-email"
+            type="email"
+            name="Email"
+            placeholder="you@company.com"
+            class="w-full px-4 py-3.5 rounded-lg border border-slate-200 bg-white text-base text-slate-900 placeholder:text-slate-300 outline-none transition-all duration-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-100"
+          />
+        </div>
+      </div>
+      <div class="flex flex-col gap-2">
+        <label for="contact-message" class="font-helvetica text-[0.7rem] font-bold tracking-[0.15em] uppercase text-slate-400">Message</label>
+        <textarea
+          id="contact-message"
+          rows="7"
+          name="Message"
+          placeholder="Tell us about your project..."
+          class="w-full px-4 py-3.5 rounded-lg border border-slate-200 bg-white text-base text-slate-900 placeholder:text-slate-300 outline-none transition-all duration-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 resize-none"
+        ></textarea>
+      </div>
       <button
         type="submit"
-        class="text-white bg-primary-900 hover:bg-primary-800 focus:ring-4 focus:ring-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none"
-        >Send Message</button
+        class="group inline-flex items-center justify-center gap-3 w-max px-8 py-4 rounded-full bg-primary-900 text-white font-medium transition-all duration-300 hover:bg-primary-800 hover:shadow-xl hover:shadow-primary-900/20 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-700"
       >
-    </div>
-  </form>
-</div>
+        <span class="tracking-wide text-sm md:text-base">Send Message</span>
+        <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+        </svg>
+      </button>
+    </form>
+
+  </div>
+</section>
+
+<script>
+  import { revealHeading, revealOnScroll } from "src/utils/animations";
+
+  revealHeading(document.querySelector<HTMLElement>(".contact-heading"), { stagger: 0.05 });
+  revealOnScroll(".contact-reveal", { y: 24, stagger: 0.12 });
+</script>

@@ -1,0 +1,92 @@
+---
+// ═══════════════════════════ TEAM WALL — GSAP vertical marquee of team portraits
+// Renders the people behind Dr. Nathan as three infinitely-scrolling columns
+// (alternating directions), grayscale → colour on hover, pause on hover.
+interface Member {
+  name: string;
+  role?: string;
+  imageUrl: string;
+}
+interface Props {
+  members?: Member[];
+}
+const { members = [] } = Astro.props;
+
+// Round-robin into 3 columns so faces stay balanced
+const columns: Member[][] = [[], [], []];
+members.forEach((m, i) => columns[i % 3].push(m));
+---
+
+<div class="team-wall relative grid grid-cols-3 gap-3 h-[380px] sm:h-[460px] lg:h-[70vh] overflow-hidden">
+  {columns.map((col, ci) => (
+    <div class="team-col flex flex-col will-change-transform" data-dir={ci % 2 === 0 ? "up" : "down"}>
+      {[...col, ...col].map((m, i) => (
+        <figure
+          class:list={["team-portrait group relative flex-shrink-0 overflow-hidden ring-1 ring-white/10 mb-3", { "team-dupe": i >= col.length }]}
+          aria-hidden={i >= col.length ? "true" : undefined}
+        >
+          <div class="aspect-[3/4]">
+            <img
+              src={m.imageUrl}
+              alt={m.name}
+              loading="lazy"
+              decoding="async"
+              class="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 scale-100 group-hover:scale-[1.06] transition-all duration-700 ease-out"
+            />
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-primary-950/90 via-primary-950/10 to-transparent opacity-70 group-hover:opacity-95 transition-opacity duration-500"></div>
+          <figcaption class="absolute bottom-0 left-0 w-full p-3 translate-y-1 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+            <p class="font-helvetica text-white text-[0.7rem] lg:text-xs font-bold leading-tight">{m.name}</p>
+            {m.role && (
+              <p class="font-roboto text-primary-300 text-[0.55rem] lg:text-[0.6rem] tracking-wide uppercase mt-0.5 leading-tight">{m.role}</p>
+            )}
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  ))}
+</div>
+
+<style>
+  /* Soft fade at the top & bottom edges of the marquee */
+  .team-wall {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
+  }
+  /* Reduced-motion / no-JS fallback: a plain static grid */
+  .team-wall.is-static {
+    height: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .team-wall.is-static .team-dupe { display: none; }
+  .team-wall.is-static .team-col { transform: none !important; }
+</style>
+
+<script>
+  import { gsap, prefersReducedMotion } from "src/utils/animations";
+
+  document.querySelectorAll<HTMLElement>(".team-wall").forEach((wall) => {
+    const cols = wall.querySelectorAll<HTMLElement>(".team-col");
+
+    if (prefersReducedMotion()) {
+      wall.classList.add("is-static");
+      return;
+    }
+
+    const tweens: gsap.core.Tween[] = [];
+    cols.forEach((col) => {
+      const count = col.children.length || 1;
+      const duration = count * 2.6; // consistent speed regardless of column length
+      const tween =
+        col.dataset.dir === "down"
+          ? gsap.fromTo(col, { yPercent: -50 }, { yPercent: 0, duration, ease: "none", repeat: -1 })
+          : gsap.to(col, { yPercent: -50, duration, ease: "none", repeat: -1 });
+      tweens.push(tween);
+    });
+
+    // Pause on hover so visitors can read a name
+    wall.addEventListener("mouseenter", () => tweens.forEach((t) => t.pause()));
+    wall.addEventListener("mouseleave", () => tweens.forEach((t) => t.resume()));
+  });
+</script>
