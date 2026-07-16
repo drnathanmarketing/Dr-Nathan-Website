@@ -1,0 +1,69 @@
+---
+// ═══════════════════════════ PITCH CONSULTANCY — beyond marketing
+const services = [
+  { num: "01", title: "Business Strategy", desc: "Positioning, portfolio, and go-to-market grounded in market reality." },
+  { num: "02", title: "Marketing & Communication", desc: "Message architecture and channel plans that survive contact with the market." },
+  { num: "03", title: "Operations", desc: "Processes that keep quality consistent while you scale." },
+  { num: "04", title: "Business Development", desc: "Partnerships and pipelines that open the next market." },
+  { num: "05", title: "Financial Analysis", desc: "Numbers that show which bets deserve the budget." },
+  { num: "06", title: "Digital Transformation", desc: "Modern tooling adopted where it pays — not where it's fashionable." },
+];
+---
+
+<section class="relative bg-white overflow-hidden">
+  <div class="max-w-screen-xl mx-auto px-6 lg:px-8 py-28 lg:py-40">
+
+    <div class="consult-reveal flex items-center gap-4 mb-8">
+      <span class="h-px w-10 bg-primary-500"></span>
+      <p class="font-helvetica text-[0.65rem] font-bold tracking-[0.5em] text-primary-600 uppercase">The Consultancy Arm</p>
+    </div>
+
+    <h2 class="consult-heading font-helvetica text-3xl sm:text-4xl lg:text-[3.1rem] font-bold text-slate-900 leading-[1.15] sm:leading-[1.1] tracking-tight max-w-3xl mb-6">
+      When marketing isn't the whole answer.
+    </h2>
+
+    <p class="consult-reveal font-roboto text-sm lg:text-base text-slate-500 leading-relaxed max-w-2xl mb-16 lg:mb-20">
+      The same doctor-founders consult on the business behind the brand —
+      six disciplines that keep growth honest after the campaign ends.
+    </p>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 lg:gap-x-14">
+      {services.map((s) => (
+        <article class="consult-item pt-6 pb-10 lg:pb-12">
+          <span class="consult-rule block h-px w-full origin-left scale-x-0 bg-gradient-to-r from-primary-600 via-primary-300 to-slate-200"></span>
+          <div class="mt-6 flex items-baseline gap-4">
+            <span class="font-helvetica text-sm font-bold text-primary-600 tabular-nums">{s.num}</span>
+            <div>
+              <h3 class="font-helvetica text-lg lg:text-xl font-bold text-slate-800 leading-tight mb-2.5">{s.title}</h3>
+              <p class="font-roboto text-sm text-slate-500 leading-relaxed">{s.desc}</p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<script>
+  import { gsap, revealHeadingKinetic, revealOnScroll, prefersReducedMotion } from "src/utils/animations";
+
+  revealHeadingKinetic(document.querySelector<HTMLElement>(".consult-heading"));
+  revealOnScroll(".consult-reveal", { y: 20 });
+  revealOnScroll(".consult-item", { y: 36, stagger: 0.1, duration: 0.9 });
+
+  const rules = gsap.utils.toArray<HTMLElement>(".consult-rule");
+  if (prefersReducedMotion()) {
+    gsap.set(rules, { scaleX: 1 });
+  } else {
+    rules.forEach((rule, i) => {
+      gsap.to(rule, {
+        scaleX: 1,
+        duration: 1,
+        delay: (i % 3) * 0.12,
+        ease: "power2.inOut",
+        scrollTrigger: { trigger: rule, start: "top 88%", once: true },
+      });
+    });
+  }
+</script>

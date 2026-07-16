@@ -1,0 +1,112 @@
+---
+// ═══════════════════════════ PITCH PROBLEM — why good brands stall
+// Sticky intro + numbered rows, mirroring the WhyUs architecture.
+// Framed brand-agnostically: lands for healthcare AND consumer pitches.
+const problems = [
+  {
+    num: "01",
+    tag: "Clarity",
+    title: "Complex products, hard to explain",
+    desc: "Medical or technical, depth means nothing if people can't feel it. With doctors and writers on one team, we translate expertise into stories that earn trust.",
+    icon: `<path d="M12 3a6 6 0 0 0-4 10.5c.6.55 1 1.33 1 2.15V17h6v-1.35c0-.82.4-1.6 1-2.15A6 6 0 0 0 12 3z"/><path d="M9 21h6"/><path d="M10 17v4"/><path d="M14 17v4"/>`,
+  },
+  {
+    num: "02",
+    tag: "Competition",
+    title: "Crowded, noisy markets",
+    desc: "When every player repeats the same claims, category conventions won't cut through. We find the angle competitors can't copy — yours.",
+    icon: `<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/>`,
+  },
+  {
+    num: "03",
+    tag: "Visibility",
+    title: "Low brand awareness",
+    desc: "Great products stay invisible without consistent, channel-native presence. We build the reach — then keep earning the attention.",
+    icon: `<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>`,
+  },
+];
+---
+
+<section class="relative bg-white overflow-hidden">
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent pointer-events-none"></div>
+
+  <div class="max-w-screen-xl mx-auto px-6 lg:px-8 py-28 lg:py-40">
+    <div class="grid lg:grid-cols-[0.8fr_1.2fr] gap-16 lg:gap-24">
+
+      <!-- ── LEFT: sticky intro ── -->
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <div class="problem-reveal flex items-center gap-4 mb-8">
+          <span class="h-px w-10 bg-primary-500"></span>
+          <p class="font-helvetica text-[0.65rem] font-bold tracking-[0.5em] text-primary-600 uppercase">
+            The Challenges We Solve
+          </p>
+        </div>
+
+        <h2 class="problem-heading font-helvetica text-3xl sm:text-4xl lg:text-[3.1rem] font-bold text-slate-900 leading-[1.15] sm:leading-[1.1] tracking-tight mb-8">
+          Why good brands stall.
+        </h2>
+
+        <p class="problem-reveal font-roboto text-sm lg:text-base text-slate-500 leading-relaxed max-w-md mb-10">
+          Whether you sell diagnostics or daily essentials, growth usually
+          snags on the same three walls. We were built to take them down —
+          with medical-grade rigor and consumer-grade creativity.
+        </p>
+
+        <div class="problem-rule h-px w-0 bg-gradient-to-r from-primary-600 via-primary-300 to-transparent rounded-full"></div>
+      </div>
+
+      <!-- ── RIGHT: numbered problem rows ── -->
+      <div class="flex flex-col">
+        {problems.map((p) => (
+          <article class="problem-row group relative grid grid-cols-[auto_1fr] gap-5 lg:gap-10 py-9 lg:py-12 border-t border-slate-100 last:border-b transition-colors duration-500 hover:bg-slate-50/60">
+            <span class="absolute left-0 top-0 h-full w-[3px] origin-top scale-y-0 bg-gradient-to-b from-primary-600 to-primary-300 transition-transform duration-500 ease-out group-hover:scale-y-100"></span>
+
+            <div class="pt-1 pl-1 lg:pl-3">
+              <span class="font-helvetica text-4xl lg:text-6xl font-bold text-slate-200 tabular-nums leading-none transition-colors duration-500 group-hover:text-primary-600">
+                {p.num}
+              </span>
+            </div>
+
+            <div class="pr-1 lg:pr-4">
+              <div class="flex items-center gap-4 mb-4">
+                <div class="w-11 h-11 rounded-xl bg-slate-50 text-slate-400 flex items-center justify-center transition-all duration-500 group-hover:bg-primary-600 group-hover:text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <Fragment set:html={p.icon} />
+                  </svg>
+                </div>
+                <span class="font-helvetica text-[0.6rem] font-bold tracking-[0.35em] uppercase text-slate-300 transition-colors duration-500 group-hover:text-primary-500">
+                  {p.tag}
+                </span>
+              </div>
+              <h3 class="font-helvetica text-xl lg:text-2xl xl:text-[1.7rem] font-bold text-slate-800 leading-tight mb-3 transition-colors duration-300 group-hover:text-slate-900">
+                {p.title}
+              </h3>
+              <p class="font-roboto text-sm lg:text-[0.95rem] text-slate-500 leading-relaxed max-w-xl">
+                {p.desc}
+              </p>
+            </div>
+          </article>
+        ))}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap, revealHeadingKinetic, revealOnScroll } from "src/utils/animations";
+
+  revealHeadingKinetic(document.querySelector<HTMLElement>(".problem-heading"));
+  revealOnScroll(".problem-reveal", { y: 20, stagger: 0.12 });
+  revealOnScroll(".problem-row", { y: 44, stagger: 0.13, duration: 0.9 });
+
+  const rule = document.querySelector<HTMLElement>(".problem-rule");
+  if (rule) {
+    gsap.to(rule, {
+      width: "100%",
+      duration: 1.1,
+      ease: "power2.inOut",
+      scrollTrigger: { trigger: rule, start: "top 90%", once: true },
+    });
+  }
+</script>

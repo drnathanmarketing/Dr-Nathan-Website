@@ -1,0 +1,97 @@
+---
+// ═══════════════════════════ PITCH SEGMENTS — who we serve
+// Four healthcare verticals (the proof) + a full-width "beyond healthcare"
+// card so the page pitches consumer brands just as hard.
+const segments = [
+  {
+    title: "Digital Healthcare",
+    desc: "Telemedicine, health apps, and platforms that need users to trust them fast.",
+    icon: `<rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 10h2l1.5-3 2 6L14 10h3"/>`,
+  },
+  {
+    title: "Pharmaceutical",
+    desc: "OTC and ethical lines communicated with accuracy regulators respect.",
+    icon: `<path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7z"/><path d="m8.5 8.5 7 7"/>`,
+  },
+  {
+    title: "Lab & Equipment",
+    desc: "Technical products translated for the clinicians and buyers who choose them.",
+    icon: `<path d="M10 2v7.5L4.5 19a2 2 0 0 0 1.7 3h11.6a2 2 0 0 0 1.7-3L14 9.5V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/>`,
+  },
+  {
+    title: "Clinic & Hospital",
+    desc: "Patient trust built visit by visit — reputation, presence, and community.",
+    icon: `<path d="M3 21V8l9-5 9 5v13"/><path d="M3 21h18"/><path d="M12 9v6"/><path d="M9 12h6"/>`,
+  },
+];
+
+const beyondChips = ["FMCG", "Food & Beverage", "Lifestyle", "Services", "Tech"];
+---
+
+<section class="relative bg-white overflow-hidden">
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent pointer-events-none"></div>
+
+  <div class="max-w-screen-xl mx-auto px-6 lg:px-8 py-28 lg:py-40">
+
+    <div class="segment-reveal flex items-center gap-4 mb-8">
+      <span class="h-px w-10 bg-primary-500"></span>
+      <p class="font-helvetica text-[0.65rem] font-bold tracking-[0.5em] text-primary-600 uppercase">Who We Serve</p>
+    </div>
+
+    <h2 class="segment-heading font-helvetica text-3xl sm:text-4xl lg:text-[3.1rem] font-bold text-slate-900 leading-[1.15] sm:leading-[1.1] tracking-tight max-w-3xl mb-16 lg:mb-20">
+      Specialists in healthcare. Fluent in every brand.
+    </h2>
+
+    <!-- ── Healthcare verticals ── -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-5 mb-5">
+      {segments.map((s) => (
+        <div class="segment-card">
+        <article class="group h-full border border-slate-200 hover:border-primary-400 p-6 lg:p-8 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary-100/60">
+          <div class="w-11 h-11 rounded-xl bg-slate-50 text-slate-400 flex items-center justify-center mb-6 transition-all duration-500 group-hover:bg-primary-600 group-hover:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <Fragment set:html={s.icon} />
+            </svg>
+          </div>
+          <h3 class="font-helvetica text-base lg:text-xl font-bold text-slate-800 leading-tight mb-3">{s.title}</h3>
+          <p class="font-roboto text-[0.8rem] lg:text-sm text-slate-500 leading-relaxed">{s.desc}</p>
+        </article>
+        </div>
+      ))}
+    </div>
+
+    <!-- ── Beyond healthcare ── -->
+    <article class="segment-beyond relative overflow-hidden bg-primary-950 text-white p-8 lg:p-14">
+      <span aria-hidden="true" class="absolute -bottom-10 right-0 font-helvetica font-bold leading-none pointer-events-none select-none text-[7rem] lg:text-[12rem] text-white/[0.04]">&amp;</span>
+      <div class="relative z-10 grid lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-16 items-center">
+        <div>
+          <p class="font-helvetica text-[0.65rem] font-bold tracking-[0.5em] uppercase text-primary-300 mb-5">…And Beyond Healthcare</p>
+          <h3 class="font-helvetica text-2xl lg:text-4xl font-bold leading-[1.15] mb-5">
+            Consumer brands get the same clinical rigor.
+          </h3>
+          <p class="font-roboto text-sm lg:text-base text-white/60 leading-relaxed max-w-xl">
+            The discipline that survives medical review boards makes short work of
+            consumer categories. Strategy, content, production, and channels — the
+            full machine, pointed at your market.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2.5 lg:justify-end">
+          {beyondChips.map((chip) => (
+            <span class="font-helvetica text-[0.65rem] lg:text-xs font-bold tracking-[0.2em] uppercase text-white/70 border border-white/15 rounded-full px-4 py-2 hover:border-primary-400 hover:text-primary-300 transition-colors duration-300">
+              {chip}
+            </span>
+          ))}
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<script>
+  import { revealHeadingKinetic, revealOnScroll } from "src/utils/animations";
+
+  revealHeadingKinetic(document.querySelector<HTMLElement>(".segment-heading"));
+  revealOnScroll(".segment-reveal", { y: 20 });
+  revealOnScroll(".segment-card", { y: 36, stagger: 0.1, duration: 0.9 });
+  revealOnScroll(".segment-beyond", { y: 40, duration: 1 });
+</script>

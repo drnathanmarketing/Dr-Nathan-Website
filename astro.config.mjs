@@ -14,7 +14,11 @@ export default defineConfig({
     prefetchAll: false,
     defaultStrategy: "viewport",
   },
-  integrations: [tailwind(), react(), sitemap(), sanity({
+  integrations: [tailwind(), react(), sitemap({
+    // /credentials is a private pitch page shared only by link — keep it
+    // out of the sitemap (it is also noindexed via meta + X-Robots-Tag).
+    filter: (page) => new URL(page).pathname.replace(/\/$/, "") !== "/credentials",
+  }), sanity({
     projectId: "9w1ph2wu",
     dataset: "production",
     useCdn: true,

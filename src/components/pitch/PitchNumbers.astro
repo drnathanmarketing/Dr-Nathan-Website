@@ -1,0 +1,59 @@
+---
+// ═══════════════════════════ PITCH NUMBERS — proof, not promises
+// Counters use the shared data-count-* wiring from src/utils/animations.ts.
+const stats = [
+  { end: "4.5", decimals: "1", suffix: "K+", label: "Creative contents produced" },
+  { end: "100", decimals: "0", suffix: "+", label: "Campaigns delivered" },
+  { end: "8", decimals: "0", suffix: "M+", label: "Engagements earned" },
+];
+---
+
+<section class="relative bg-primary-950 text-white overflow-hidden">
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none"></div>
+
+  <div class="max-w-screen-xl mx-auto px-6 lg:px-8 py-28 lg:py-40">
+
+    <div class="numbers-reveal flex items-center gap-4 mb-8">
+      <span class="h-px w-10 bg-primary-400"></span>
+      <p class="font-helvetica text-[0.65rem] font-bold tracking-[0.5em] text-primary-300 uppercase">The Results</p>
+    </div>
+
+    <h2 class="numbers-heading font-helvetica text-3xl sm:text-4xl lg:text-[3.4rem] font-bold leading-[1.15] sm:leading-[1.1] tracking-tight max-w-3xl mb-16 lg:mb-24">
+      Proof, not promises.
+    </h2>
+
+    <div class="grid sm:grid-cols-3">
+      {stats.map((s, i) => (
+        <div class={`numbers-cell py-10 sm:py-2 lg:px-10 ${i === 0 ? "lg:pl-0" : ""} ${i > 0 ? "border-t sm:border-t-0 sm:border-l border-white/10" : ""}`}>
+          <span
+            class="block font-helvetica text-6xl lg:text-[5.5rem] font-bold leading-none tabular-nums text-white"
+            data-count-end={s.end}
+            data-count-decimals={s.decimals}
+            data-count-suffix={s.suffix}
+          >0{s.suffix}</span>
+          <span class="mt-5 flex items-center gap-3">
+            <span class="h-px w-8 bg-primary-400"></span>
+            <span class="font-helvetica text-[0.65rem] lg:text-xs font-bold tracking-[0.25em] uppercase text-white/50">{s.label}</span>
+          </span>
+        </div>
+      ))}
+    </div>
+
+    <p class="numbers-statement mt-24 lg:mt-40 font-helvetica text-2xl sm:text-4xl lg:text-[3.4rem] font-bold leading-[1.25] sm:leading-[1.2] tracking-tight max-w-5xl">
+      Good marketing makes a company look smart. Six years of it makes a brand impossible to ignore.
+    </p>
+
+  </div>
+</section>
+
+<script>
+  import { revealHeadingKinetic, revealOnScroll, scrollHighlightWords, initCounters } from "src/utils/animations";
+
+  revealHeadingKinetic(document.querySelector<HTMLElement>(".numbers-heading"));
+  revealOnScroll(".numbers-reveal", { y: 20 });
+  revealOnScroll(".numbers-cell", { y: 36, stagger: 0.12, duration: 0.9 });
+  initCounters();
+
+  // The closing line ignites word-by-word as you scroll through it.
+  scrollHighlightWords(document.querySelector<HTMLElement>(".numbers-statement"));
+</script>

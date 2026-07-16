@@ -1,0 +1,87 @@
+---
+// ═══════════════════════════ PITCH CTA — download finale
+// The #download anchor is the hero's "skip" target. The PDF link carries
+// the `download` attribute (same-origin, so the clean filename is honored)
+// and vercel.json adds Content-Disposition: attachment as backup.
+const PDF_PATH = "/assets/downloads/dr-nathan-credentials-2025.pdf";
+---
+
+<section id="download" class="relative bg-primary-950 text-white overflow-hidden">
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none"></div>
+
+  <!-- Ghost watermark -->
+  <span
+    aria-hidden="true"
+    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-helvetica font-bold leading-none pointer-events-none select-none text-[10rem] sm:text-[16rem] lg:text-[24rem] text-white/[0.03] whitespace-nowrap"
+  >DNM</span>
+
+  <div class="relative z-10 max-w-screen-xl mx-auto px-6 lg:px-8 py-32 lg:py-44 flex flex-col items-center text-center">
+
+    <div class="cta-reveal flex items-center gap-4 mb-10">
+      <span class="h-px w-10 bg-primary-400"></span>
+      <p class="font-helvetica text-[0.65rem] font-bold tracking-[0.5em] text-primary-300 uppercase">The Next Step</p>
+      <span class="h-px w-10 bg-primary-400"></span>
+    </div>
+
+    <h2 class="cta-heading font-helvetica text-4xl sm:text-5xl lg:text-[4.6rem] font-bold leading-[1.12] sm:leading-[1.06] tracking-tight max-w-4xl mb-8">
+      Let's build the most trusted name in your market.
+    </h2>
+
+    <p class="cta-reveal font-roboto text-base lg:text-lg text-white/60 leading-relaxed max-w-xl mb-14">
+      The full credentials deck — who we are, what we ship, and the results
+      behind it. Or skip the reading and talk to a doctor-founder directly.
+    </p>
+
+    <a
+      href={PDF_PATH}
+      download="Dr-Nathan-Credentials-2025.pdf"
+      data-magnetic
+      data-cursor="link"
+      class="cta-reveal group inline-flex items-center gap-5 bg-white text-primary-950 rounded-full pl-8 pr-3 py-3 lg:pl-10 lg:pr-4 lg:py-4 transition-colors duration-300 hover:bg-primary-50"
+    >
+      <span class="text-left">
+        <span class="block font-helvetica text-sm lg:text-base font-bold tracking-[0.08em] uppercase">Download the credentials</span>
+        <span class="block font-roboto text-[0.65rem] lg:text-xs text-primary-950/50 mt-1 tracking-[0.14em] uppercase">PDF · 36 MB · 35 pages</span>
+      </span>
+      <span class="flex items-center justify-center w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-primary-600 text-white transition-transform duration-300 group-hover:scale-105">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-300 group-hover:translate-y-0.5">
+          <path d="M12 3v12M6 11l6 6 6-6" />
+          <path d="M5 21h14" />
+        </svg>
+      </span>
+    </a>
+
+    <div class="cta-reveal mt-14 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-x-10 gap-y-5">
+      <a href="mailto:info@drnathanmarketing.com" data-cursor="link" class="group flex items-center gap-3 text-white/70 hover:text-primary-300 transition-colors duration-300">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-primary-400">
+          <rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-10 6L2 7" />
+        </svg>
+        <span class="font-roboto text-sm lg:text-base">info@drnathanmarketing.com</span>
+      </a>
+      <a href="tel:+959776299099" data-cursor="link" class="group flex items-center gap-3 text-white/70 hover:text-primary-300 transition-colors duration-300">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-primary-400">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+        </svg>
+        <span class="font-roboto text-sm lg:text-base">09 776 299 099</span>
+      </a>
+      <span class="flex items-center gap-3 text-white/40">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-primary-400">
+          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" /><circle cx="12" cy="10" r="3" />
+        </svg>
+        <span class="font-roboto text-sm lg:text-base">Yangon, Myanmar</span>
+      </span>
+    </div>
+
+    <p class="cta-reveal mt-16 font-roboto text-[0.7rem] tracking-[0.2em] uppercase text-white/25">
+      Shared privately with our prospective partners
+    </p>
+
+  </div>
+</section>
+
+<script>
+  import { revealHeadingKinetic, revealOnScroll } from "src/utils/animations";
+
+  revealHeadingKinetic(document.querySelector<HTMLElement>(".cta-heading"), { stagger: 0.02, duration: 1 });
+  revealOnScroll(".cta-reveal", { y: 24, stagger: 0.1 });
+</script>
