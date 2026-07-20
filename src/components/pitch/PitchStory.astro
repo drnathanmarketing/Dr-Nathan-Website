@@ -1,0 +1,110 @@
+---
+// ═══════════════════════════ PITCH STORY — founded by doctors, built for brands
+const founders = [
+  { name: "Dr. Aung Zaw Myint", role: "Head of Business Development", img: "/assets/Founders/Max.jpg" },
+  { name: "Dr. Zaw Htet Aung", role: "Creative Director", img: "/assets/Founders/Simon.jpg" },
+  { name: "Dr. Linn Htet Aung", role: "Head of Digital", img: "/assets/Founders/Linn%20Htet%20Aung.jpg" },
+];
+
+const values = [
+  {
+    num: "01",
+    title: "Innovative Thinking",
+    desc: "New angles over safe templates — every brief starts from a blank page, not a recycled deck.",
+  },
+  {
+    num: "02",
+    title: "Creative Solution-Finding",
+    desc: "Budgets, regulations, and market realities become the brief. We design around constraints, not despite them.",
+  },
+  {
+    num: "03",
+    title: "Passion",
+    desc: "The energy of a founding team that still writes, shoots, and ships alongside every client.",
+  },
+];
+---
+
+<section class="relative bg-white overflow-hidden">
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent pointer-events-none"></div>
+
+  <div class="max-w-screen-xl mx-auto px-6 lg:px-8 py-28 lg:py-40">
+
+    <div class="story-reveal flex items-center gap-4 mb-8">
+      <span class="h-px w-10 bg-primary-500"></span>
+      <p class="font-helvetica text-[0.65rem] font-bold tracking-[0.5em] text-primary-600 uppercase">Who We Are</p>
+    </div>
+
+    <h2 class="story-heading font-helvetica text-3xl sm:text-4xl lg:text-[3.4rem] font-bold text-slate-900 leading-[1.15] sm:leading-[1.1] tracking-tight max-w-3xl mb-8">
+      Founded by doctors. Built for brands.
+    </h2>
+
+    <p class="story-reveal font-roboto text-sm lg:text-base text-slate-500 leading-relaxed max-w-2xl mb-6">
+      Dr. Nathan Marketing &amp; Consultancy began in 2020, when a group of practising doctors
+      decided the brands they believed in deserved better marketing. Six years on, that clinical
+      discipline — evidence first, precision always — shapes every campaign we run, whether the
+      client is a hospital, a pharmaceutical line, or a consumer brand with a complex story to tell.
+    </p>
+
+    <div class="story-rule h-px w-0 mb-16 lg:mb-20 bg-gradient-to-r from-primary-600 via-primary-300 to-transparent rounded-full"></div>
+
+    <div class="grid lg:grid-cols-[1fr_1.15fr] gap-14 lg:gap-24 items-start">
+
+      <!-- ── Founder trio ── -->
+      <div class="grid grid-cols-3 gap-3 lg:gap-4">
+        {founders.map((f, i) => (
+          <figure class={`story-founder ${i === 1 ? "mt-6 lg:mt-9" : ""}`}>
+            <img
+              src={f.img}
+              alt={`${f.name} — ${f.role}`}
+              loading="lazy"
+              decoding="async"
+              class="w-full aspect-[3/4] object-cover"
+            />
+            <figcaption class="mt-3">
+              <span class="block font-helvetica text-[0.7rem] lg:text-xs font-bold text-slate-800 leading-snug">{f.name}</span>
+              <span class="block font-roboto text-[0.62rem] lg:text-[0.7rem] text-slate-400 uppercase tracking-[0.14em] mt-1">{f.role}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+
+      <!-- ── Core values ── -->
+      <div class="flex flex-col">
+        <p class="story-reveal font-helvetica text-[0.65rem] font-bold tracking-[0.4em] uppercase text-slate-300 mb-2">Core Values</p>
+        {values.map((v) => (
+          <article class="story-value group relative grid grid-cols-[auto_1fr] gap-5 lg:gap-8 py-8 lg:py-10 border-t border-slate-100 last:border-b">
+            <span class="absolute left-0 top-0 h-full w-[3px] origin-top scale-y-0 bg-gradient-to-b from-primary-600 to-primary-300 transition-transform duration-500 ease-out group-hover:scale-y-100"></span>
+            <span class="pl-1 lg:pl-3 font-helvetica text-4xl lg:text-5xl font-bold text-slate-200 tabular-nums leading-none transition-colors duration-500 group-hover:text-primary-600">
+              {v.num}
+            </span>
+            <div>
+              <h3 class="font-helvetica text-lg lg:text-2xl font-bold text-slate-800 leading-tight mb-2">{v.title}</h3>
+              <p class="font-roboto text-sm lg:text-[0.95rem] text-slate-500 leading-relaxed max-w-lg">{v.desc}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap, revealHeadingKinetic, revealOnScroll } from "src/utils/animations";
+
+  revealHeadingKinetic(document.querySelector<HTMLElement>(".story-heading"));
+  revealOnScroll(".story-reveal", { y: 20, stagger: 0.12 });
+  revealOnScroll(".story-founder", { y: 30, stagger: 0.12, duration: 0.9 });
+  revealOnScroll(".story-value", { y: 40, stagger: 0.13, duration: 0.9 });
+
+  const rule = document.querySelector<HTMLElement>(".story-rule");
+  if (rule) {
+    gsap.to(rule, {
+      width: "100%",
+      duration: 1.1,
+      ease: "power2.inOut",
+      scrollTrigger: { trigger: rule, start: "top 90%", once: true },
+    });
+  }
+</script>

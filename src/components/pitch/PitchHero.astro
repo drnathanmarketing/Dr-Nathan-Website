@@ -1,0 +1,224 @@
+---
+// ═══════════════════════════ PITCH HERO — dark cinematic opener
+// Load-time timeline (no scroll trigger): the link arrives via a proposal,
+// so the pitch starts the moment the page opens. Wrapped in
+// #navbar_hide_trigger so the Navbar tucks away over the dark stage and
+// returns (with its white blur backdrop) once the visitor scrolls on.
+---
+
+<div id="navbar_hide_trigger">
+  <section id="pitch-hero" class="relative bg-primary-950 text-white overflow-hidden -mt-[70px]">
+    <!-- Ghost watermark -->
+    <span
+      aria-hidden="true"
+      class="absolute -bottom-8 -right-4 lg:-bottom-24 lg:right-0 font-helvetica font-bold leading-none pointer-events-none select-none text-[9rem] sm:text-[15rem] lg:text-[26rem] text-white/[0.04]"
+    >2020</span>
+
+    <!-- Floating brand orbs -->
+    <div aria-hidden="true" class="pitch-orb absolute -top-32 -left-32 w-[30rem] h-[30rem] rounded-full bg-primary-500/20 blur-[130px] pointer-events-none"></div>
+    <div aria-hidden="true" class="pitch-orb pitch-orb--slow absolute bottom-0 right-1/4 w-[22rem] h-[22rem] rounded-full bg-primary-700/25 blur-[110px] pointer-events-none"></div>
+
+    <!-- Interactive precision dot-grid — reacts to the cursor on desktop, static on touch -->
+    <canvas class="hero-dots absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true"></canvas>
+
+    <div class="relative z-10 max-w-screen-2xl mx-auto px-6 sm:px-10 lg:px-16 min-h-[100svh] flex flex-col justify-center py-28">
+
+      <div class="hero-anim flex items-center gap-4 mb-8 lg:mb-10">
+        <img src="/assets/logo/logo.png" alt="Dr. Nathan Marketing & Consultancy logo" class="w-9 h-9 lg:w-10 lg:h-10 object-contain" />
+        <span class="h-px w-10 bg-primary-400"></span>
+        <span class="font-helvetica text-[0.65rem] sm:text-xs font-bold tracking-[0.5em] uppercase text-primary-300">Agency Credentials</span>
+      </div>
+
+      <h1 class="pitch-hero-h1 font-helvetica text-[2.6rem] leading-[1.06] sm:text-6xl lg:text-[5.6rem] font-bold tracking-tight max-w-5xl">
+        <span class="hero-line block">Marketing with</span>
+        <span class="hero-line block text-primary-400">clinical precision.</span>
+      </h1>
+
+      <p class="hero-anim mt-8 font-roboto text-base lg:text-lg text-white/60 leading-relaxed max-w-xl">
+        Founded by doctors in 2020, we turn deep expertise into brand influence —
+        for healthcare names and consumer brands across Myanmar.
+      </p>
+
+      <div class="hero-anim mt-10 flex flex-wrap items-center gap-x-4 gap-y-3 font-helvetica text-[0.65rem] sm:text-xs font-bold tracking-[0.3em] uppercase text-white/40">
+        <span>Since 2020</span>
+        <span class="w-1 h-1 rounded-full bg-primary-400"></span>
+        <span>Yangon</span>
+        <span class="w-1 h-1 rounded-full bg-primary-400"></span>
+        <span>Healthcare &amp; Consumer Brands</span>
+      </div>
+
+      <div class="hero-anim mt-14 lg:mt-16 flex flex-wrap items-center gap-x-12 gap-y-8">
+        <a href="#download" data-cursor="link" class="group inline-flex items-center gap-4">
+          <span class="font-helvetica text-sm font-bold tracking-[0.12em] uppercase text-white group-hover:text-primary-300 transition-colors duration-300">
+            Skip to the download
+          </span>
+          <span class="flex items-center justify-center w-11 h-11 rounded-full border border-white/20 group-hover:border-primary-400 group-hover:bg-white/5 transition-all duration-300">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary-400 transition-transform duration-300 group-hover:translate-y-0.5">
+              <path d="M12 5v14M6 13l6 6 6-6" />
+            </svg>
+          </span>
+        </a>
+
+        <div class="flex items-center gap-3 text-white/40">
+          <span class="hero-scroll-line block h-px w-16 bg-white/30 origin-left"></span>
+          <span class="text-[0.65rem] tracking-[0.3em] uppercase font-bold font-helvetica">Scroll for the story</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<style>
+  /* Pre-hidden for the load timeline; the script restores (instantly under reduced motion). */
+  .hero-anim,
+  .pitch-hero-h1 {
+    opacity: 0;
+  }
+
+  @keyframes orbFloat {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(4rem, 2.5rem) scale(1.15); }
+  }
+  .pitch-orb { animation: orbFloat 14s ease-in-out infinite alternate; }
+  .pitch-orb--slow { animation-duration: 22s; animation-delay: -6s; }
+  @media (prefers-reduced-motion: reduce) {
+    .pitch-orb { animation: none; }
+  }
+</style>
+
+<script>
+  import { gsap, splitChars, prefersReducedMotion } from "src/utils/animations";
+
+  const hero = document.getElementById("pitch-hero");
+  if (hero) {
+    const h1 = hero.querySelector<HTMLElement>(".pitch-hero-h1");
+    const anims = Array.from(hero.querySelectorAll<HTMLElement>(".hero-anim"));
+    const scrollLine = hero.querySelector<HTMLElement>(".hero-scroll-line");
+
+    // ── Headline entrance ──
+    if (prefersReducedMotion()) {
+      gsap.set([h1, ...anims].filter(Boolean), { opacity: 1 });
+    } else {
+      const lines = h1 ? Array.from(h1.querySelectorAll<HTMLElement>(".hero-line")) : [];
+      // Character-level mask reveal: each glyph slides up out of its word window.
+      const chars = lines.flatMap((line) => splitChars(line, { mask: true }));
+
+      gsap.set(anims, { y: 18 });
+      if (h1) gsap.set(h1, { opacity: 1 });
+      gsap.set(chars, { yPercent: 120 });
+
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      tl.to(anims[0], { opacity: 1, y: 0, duration: 0.7 }, 0.1)
+        .to(chars, { yPercent: 0, duration: 1, stagger: 0.022, ease: "power4.out", clearProps: "willChange" }, 0.28)
+        .to(anims.slice(1), { opacity: 1, y: 0, duration: 0.7, stagger: 0.1 }, 0.8);
+      if (scrollLine) {
+        tl.fromTo(scrollLine, { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power2.inOut" }, 1.1);
+      }
+    }
+
+    // ── Interactive precision dot-grid ──
+    initHeroDots(hero);
+  }
+
+  /**
+   * Canvas grid of dots that softly part and glow around the cursor — a
+   * "precision surface" that reacts to attention. On touch / reduced-motion
+   * it paints once as a still, faint grid (no rAF loop, no interaction).
+   */
+  function initHeroDots(hero: HTMLElement) {
+    const canvas = hero.querySelector<HTMLCanvasElement>(".hero-dots");
+    const ctx = canvas?.getContext("2d");
+    if (!canvas || !ctx) return;
+
+    const interactive =
+      window.matchMedia("(pointer: fine)").matches && !prefersReducedMotion();
+
+    const R = 155;                       // interaction radius
+    const BASE_A = 0.14, BASE_R = 1.25;  // resting dot alpha + radius
+    // faint slate-blue → bright brand primary-400 (#20bdff)
+    const C0 = [125, 190, 235], C1 = [32, 189, 255];
+
+    let w = 0, h = 0, dpr = 1;
+    let dots: { x: number; y: number }[] = [];
+    const mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999, active: false };
+
+    function build() {
+      const rect = canvas!.getBoundingClientRect();
+      w = rect.width; h = rect.height;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas!.width = Math.round(w * dpr);
+      canvas!.height = Math.round(h * dpr);
+      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const sp = w < 640 ? 30 : 40;
+      const cols = Math.ceil(w / sp) + 1;
+      const rows = Math.ceil(h / sp) + 1;
+      const offX = (w - (cols - 1) * sp) / 2;
+      const offY = (h - (rows - 1) * sp) / 2;
+      dots = [];
+      for (let r = 0; r < rows; r++)
+        for (let c = 0; c < cols; c++) dots.push({ x: offX + c * sp, y: offY + r * sp });
+    }
+
+    function draw() {
+      ctx!.clearRect(0, 0, w, h);
+      mouse.x += (mouse.tx - mouse.x) * 0.14;
+      mouse.y += (mouse.ty - mouse.y) * 0.14;
+
+      for (const d of dots) {
+        const dx = mouse.x - d.x, dy = mouse.y - d.y;
+        const dist = Math.hypot(dx, dy);
+        let f = 0;
+        if (mouse.active && dist < R) {
+          const t = 1 - dist / R;
+          f = t * t * (3 - 2 * t); // smoothstep
+        }
+        const nx = dist > 0.001 ? dx / dist : 0;
+        const ny = dist > 0.001 ? dy / dist : 0;
+        const push = f * 12; // gentle part — keeps the grid orderly
+        const a = BASE_A + f * 0.85;
+        const rad = BASE_R + f * 2.4;
+        const cr = Math.round(C0[0] + f * (C1[0] - C0[0]));
+        const cg = Math.round(C0[1] + f * (C1[1] - C0[1]));
+        const cb = Math.round(C0[2] + f * (C1[2] - C0[2]));
+        ctx!.beginPath();
+        ctx!.arc(d.x - nx * push, d.y - ny * push, rad, 0, Math.PI * 2);
+        ctx!.fillStyle = `rgba(${cr},${cg},${cb},${a})`;
+        ctx!.fill();
+      }
+    }
+
+    let raf = 0;
+    const loop = () => { draw(); raf = requestAnimationFrame(loop); };
+    const start = () => { if (!raf) loop(); };
+    const stop = () => { if (raf) { cancelAnimationFrame(raf); raf = 0; } };
+
+    build();
+    draw(); // first static paint
+
+    let resizeT: ReturnType<typeof setTimeout>;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeT);
+      resizeT = setTimeout(() => { build(); if (!interactive) draw(); }, 150);
+    });
+
+    if (!interactive) return; // static faint grid — done
+
+    window.addEventListener("pointermove", (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.tx = e.clientX - rect.left;
+      mouse.ty = e.clientY - rect.top;
+      if (!mouse.active) { mouse.x = mouse.tx; mouse.y = mouse.ty; mouse.active = true; }
+    });
+    document.addEventListener("mouseleave", () => { mouse.active = false; mouse.tx = -9999; mouse.ty = -9999; });
+
+    // Only animate while the hero is on-screen.
+    new IntersectionObserver(
+      (entries) => entries.forEach((en) => (en.isIntersecting ? start() : stop())),
+      { threshold: 0 }
+    ).observe(hero);
+
+    gsap.fromTo(canvas, { opacity: 0 }, { opacity: 1, duration: 1.3, ease: "power2.out", delay: 0.2 });
+  }
+</script>
