@@ -1,6 +1,6 @@
 ---
 // ═══════════════════════════ PITCH NUMBERS — proof, not promises
-// Counters use the shared data-count-* wiring from src/utils/animations.ts.
+// Counters use the shared data-count-* wiring from src/utils/pitchMotion.ts.
 const stats = [
   { end: "4.5", decimals: "1", suffix: "K+", label: "Creative contents produced" },
   { end: "100", decimals: "0", suffix: "+", label: "Campaigns delivered" },
@@ -47,13 +47,28 @@ const stats = [
 </section>
 
 <script>
-  import { revealHeadingKinetic, revealOnScroll, scrollHighlightWords, initCounters } from "src/utils/animations";
+  import {
+    revealLines,
+    revealStack,
+    statementScrub,
+    initCounters,
+    DUR,
+    STAGGER,
+  } from "src/utils/pitchMotion";
 
-  revealHeadingKinetic(document.querySelector<HTMLElement>(".numbers-heading"));
-  revealOnScroll(".numbers-reveal", { y: 20 });
-  revealOnScroll(".numbers-cell", { y: 36, stagger: 0.12, duration: 0.9 });
+  revealLines(".numbers-heading", { stagger: STAGGER.cascade });
+  revealStack(".numbers-reveal", { y: 18, duration: DUR.base });
+
+  // Evidence, delivered one figure at a time — a tight cascade so the grid
+  // reads as a single measured statement rather than four separate cards.
+  revealStack(".numbers-cell", {
+    y: 40,
+    stagger: STAGGER.cascade,
+    duration: DUR.slow,
+  });
   initCounters();
 
-  // The closing line ignites word-by-word as you scroll through it.
-  scrollHighlightWords(document.querySelector<HTMLElement>(".numbers-statement"));
+  // The hold. The closing line ignites word-by-word under the visitor's own
+  // scroll — the one moment on the page where motion is fully in their hands.
+  statementScrub(".numbers-statement");
 </script>

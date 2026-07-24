@@ -46,13 +46,13 @@ const problems = [
           Why good brands stall.
         </h2>
 
-        <p class="problem-reveal font-roboto text-sm lg:text-base text-slate-500 leading-relaxed max-w-md mb-10">
+        <p class="problem-lead font-roboto text-sm lg:text-base text-slate-500 leading-relaxed max-w-md mb-10">
           Whether you sell diagnostics or daily essentials, growth usually
           snags on the same three walls. We were built to take them down —
           with medical-grade rigor and consumer-grade creativity.
         </p>
 
-        <div class="problem-rule h-px w-0 bg-gradient-to-r from-primary-600 via-primary-300 to-transparent rounded-full"></div>
+        <div class="problem-rule h-px w-full origin-left scale-x-0 bg-gradient-to-r from-primary-600 via-primary-300 to-transparent rounded-full"></div>
       </div>
 
       <!-- ── RIGHT: numbered problem rows ── -->
@@ -94,19 +94,47 @@ const problems = [
 </section>
 
 <script>
-  import { gsap, revealHeadingKinetic, revealOnScroll } from "src/utils/animations";
+  import {
+    gsap,
+    revealLines,
+    revealStack,
+    wipeRule,
+    EASE,
+    DUR,
+    STAGGER,
+    prefersReducedMotion,
+  } from "src/utils/pitchMotion";
 
-  revealHeadingKinetic(document.querySelector<HTMLElement>(".problem-heading"));
-  revealOnScroll(".problem-reveal", { y: 20, stagger: 0.12 });
-  revealOnScroll(".problem-row", { y: 44, stagger: 0.13, duration: 0.9 });
+  // The tension beat. Line-level (not character-level) keeps it composed —
+  // the copy is doing the work here, the motion should not compete with it.
+  revealLines(".problem-heading", { stagger: STAGGER.cascade });
+  revealLines(".problem-lead", { stagger: STAGGER.tight });
+  revealStack(".problem-reveal", { y: 18, duration: DUR.base });
+  wipeRule(".problem-rule");
 
-  const rule = document.querySelector<HTMLElement>(".problem-rule");
-  if (rule) {
-    gsap.to(rule, {
-      width: "100%",
-      duration: 1.1,
-      ease: "power2.inOut",
-      scrollTrigger: { trigger: rule, start: "top 90%", once: true },
+  // Rows arrive as a firm, evenly-weighted list — these are the three walls,
+  // so they land with the same authority rather than tapering off.
+  revealStack(".problem-row", {
+    y: 52,
+    stagger: STAGGER.dramatic,
+    duration: DUR.slow,
+  });
+
+  // Secondary layer: the oversized index numerals scale back to size a beat
+  // after their row lands, so each wall resolves in two stages instead of one.
+  if (!prefersReducedMotion()) {
+    gsap.utils.toArray<HTMLElement>(".problem-row").forEach((row) => {
+      const numeral = row.querySelector<HTMLElement>("span.font-helvetica");
+      if (!numeral) return;
+      gsap.from(numeral, {
+        scale: 1.45,
+        opacity: 0,
+        transformOrigin: "left center",
+        duration: DUR.slow,
+        delay: 0.18,
+        ease: EASE.signature,
+        scrollTrigger: { trigger: row, start: "top 85%", once: true },
+      });
     });
   }
 </script>

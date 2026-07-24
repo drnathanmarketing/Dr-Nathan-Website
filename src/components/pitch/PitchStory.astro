@@ -39,14 +39,14 @@ const values = [
       Founded by doctors. Built for brands.
     </h2>
 
-    <p class="story-reveal font-roboto text-sm lg:text-base text-slate-500 leading-relaxed max-w-2xl mb-6">
+    <p class="story-lead font-roboto text-sm lg:text-base text-slate-500 leading-relaxed max-w-2xl mb-6">
       Dr. Nathan Marketing &amp; Consultancy began in 2020, when a group of practising doctors
       decided the brands they believed in deserved better marketing. Six years on, that clinical
       discipline — evidence first, precision always — shapes every campaign we run, whether the
       client is a hospital, a pharmaceutical line, or a consumer brand with a complex story to tell.
     </p>
 
-    <div class="story-rule h-px w-0 mb-16 lg:mb-20 bg-gradient-to-r from-primary-600 via-primary-300 to-transparent rounded-full"></div>
+    <div class="story-rule h-px w-full origin-left scale-x-0 mb-16 lg:mb-20 bg-gradient-to-r from-primary-600 via-primary-300 to-transparent rounded-full"></div>
 
     <div class="grid lg:grid-cols-[1fr_1.15fr] gap-14 lg:gap-24 items-start">
 
@@ -91,20 +91,43 @@ const values = [
 </section>
 
 <script>
-  import { gsap, revealHeadingKinetic, revealOnScroll } from "src/utils/animations";
+  import {
+    revealChars,
+    revealLines,
+    revealStack,
+    wipeRule,
+    parallax,
+    DUR,
+    STAGGER,
+  } from "src/utils/pitchMotion";
 
-  revealHeadingKinetic(document.querySelector<HTMLElement>(".story-heading"));
-  revealOnScroll(".story-reveal", { y: 20, stagger: 0.12 });
-  revealOnScroll(".story-founder", { y: 30, stagger: 0.12, duration: 0.9 });
-  revealOnScroll(".story-value", { y: 40, stagger: 0.13, duration: 0.9 });
+  // The origin story — the warmest beat on the page, so the founders arrive
+  // rather than slide. Character-level is spent here deliberately: this is one
+  // of only three places on the page that earns it.
+  revealChars(".story-heading", { stagger: 0.014 });
+  revealLines(".story-lead", { stagger: STAGGER.tight });
+  revealStack(".story-reveal", { y: 18, duration: DUR.base });
+  wipeRule(".story-rule");
 
-  const rule = document.querySelector<HTMLElement>(".story-rule");
-  if (rule) {
-    gsap.to(rule, {
-      width: "100%",
-      duration: 1.1,
-      ease: "power2.inOut",
-      scrollTrigger: { trigger: rule, start: "top 90%", once: true },
-    });
-  }
+  // Founders settle into place from the centre outwards, easing off a slight
+  // shrink so the trio reads as one group being set down together.
+  revealStack(".story-founder", {
+    y: 56,
+    scale: 0.92,
+    from: "center",
+    stagger: STAGGER.dramatic,
+    duration: DUR.slow,
+  });
+
+  // Values enter on the horizontal axis instead — a different gesture from the
+  // photos above them, so the section doesn't repeat itself.
+  revealStack(".story-value", {
+    x: -36,
+    y: 0,
+    stagger: STAGGER.dramatic,
+    duration: DUR.slow,
+  });
+
+  // Ambient: the portraits drift at their own pace behind the values column.
+  parallax(".story-founder img", { distance: 46 });
 </script>

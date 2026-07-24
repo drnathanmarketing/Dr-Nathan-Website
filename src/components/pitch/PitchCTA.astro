@@ -11,11 +11,17 @@ const PDF_PATH = "/assets/downloads/dr-nathan-credentials-2025-2642d61e.pdf";
 <section id="download" class="relative bg-primary-950 text-white overflow-hidden">
   <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none"></div>
 
-  <!-- Ghost watermark -->
-  <span
+  <!-- Ghost watermark. Centring stays on the wrapper and the parallax runs on
+       the inner span — GSAP writes its own inline transform, which would
+       otherwise silently cancel the -translate-x/y-1/2 classes. -->
+  <div
     aria-hidden="true"
-    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-helvetica font-bold leading-none pointer-events-none select-none text-[10rem] sm:text-[16rem] lg:text-[24rem] text-white/[0.03] whitespace-nowrap"
-  >DNM</span>
+    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none"
+  >
+    <span
+      class="cta-watermark block font-helvetica font-bold leading-none text-[10rem] sm:text-[16rem] lg:text-[24rem] text-white/[0.03] whitespace-nowrap"
+    >DNM</span>
+  </div>
 
   <div class="relative z-10 max-w-screen-xl mx-auto px-6 lg:px-8 py-32 lg:py-44 flex flex-col items-center text-center">
 
@@ -82,8 +88,14 @@ const PDF_PATH = "/assets/downloads/dr-nathan-credentials-2025-2642d61e.pdf";
 </section>
 
 <script>
-  import { revealHeadingKinetic, revealOnScroll } from "src/utils/animations";
+  import { revealChars, revealStack, parallax, DUR, STAGGER } from "src/utils/pitchMotion";
 
-  revealHeadingKinetic(document.querySelector<HTMLElement>(".cta-heading"), { stagger: 0.02, duration: 1 });
-  revealOnScroll(".cta-reveal", { y: 24, stagger: 0.1 });
+  // The finale — and the third and final character-level reveal on the page.
+  // Hero opened with one, the origin story earned one, this one closes it.
+  revealChars(".cta-heading", { stagger: 0.016 });
+  revealStack(".cta-reveal", { y: 26, stagger: STAGGER.cascade, duration: DUR.slow });
+
+  // Ambient: the ghost monogram drifts behind the download, so the last thing
+  // the visitor looks at still has depth behind it.
+  parallax(".cta-watermark", { distance: 90 });
 </script>
