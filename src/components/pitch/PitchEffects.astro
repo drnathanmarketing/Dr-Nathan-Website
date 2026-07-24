@@ -17,7 +17,7 @@
 </style>
 
 <script>
-  import { gsap } from "src/utils/animations";
+  import { gsap, EASE } from "src/utils/pitchMotion";
 
   const cursor = document.getElementById("pitch-cursor");
   const mm = gsap.matchMedia();
@@ -67,7 +67,10 @@
         yTo(gsap.utils.clamp(-12, 12, (e.clientY - (r.top + r.height / 2)) * 0.25));
       };
       const onLeave = () => {
-        gsap.to(el, { x: 0, y: 0, duration: 0.7, ease: "elastic.out(1, 0.4)" });
+        // Returns to rest under control rather than springing back. An elastic
+        // release reads as playful, which fights the "clinical precision"
+        // the whole page is selling.
+        gsap.to(el, { x: 0, y: 0, duration: 0.65, ease: EASE.signature });
       };
 
       el.addEventListener("pointermove", onMove);

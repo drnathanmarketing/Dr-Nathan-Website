@@ -8,10 +8,11 @@
 
 <div id="navbar_hide_trigger">
   <section id="pitch-hero" class="relative bg-primary-950 text-white overflow-hidden -mt-[70px]">
-    <!-- Ghost watermark -->
+    <!-- Ghost watermark — drifts against the scroll to open up depth behind the copy -->
     <span
       aria-hidden="true"
-      class="absolute -bottom-8 -right-4 lg:-bottom-24 lg:right-0 font-helvetica font-bold leading-none pointer-events-none select-none text-[9rem] sm:text-[15rem] lg:text-[26rem] text-white/[0.04]"
+      data-parallax="-180"
+      class="hero-watermark absolute -bottom-8 -right-4 lg:-bottom-24 lg:right-0 font-helvetica font-bold leading-none pointer-events-none select-none text-[9rem] sm:text-[15rem] lg:text-[26rem] text-white/[0.04]"
     >2020</span>
 
     <!-- Floating brand orbs -->
@@ -21,7 +22,7 @@
     <!-- Interactive precision dot-grid — reacts to the cursor on desktop, static on touch -->
     <canvas class="hero-dots absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true"></canvas>
 
-    <div class="relative z-10 max-w-screen-2xl mx-auto px-6 sm:px-10 lg:px-16 min-h-[100svh] flex flex-col justify-center py-28">
+    <div class="hero-inner relative z-10 max-w-screen-2xl mx-auto px-6 sm:px-10 lg:px-16 min-h-[100svh] flex flex-col justify-center py-28">
 
       <div class="hero-anim flex items-center gap-4 mb-8 lg:mb-10">
         <img src="/assets/logo/logo.png" alt="Dr. Nathan Marketing & Consultancy logo" class="w-9 h-9 lg:w-10 lg:h-10 object-contain" />
@@ -88,34 +89,96 @@
 </style>
 
 <script>
-  import { gsap, splitChars, prefersReducedMotion } from "src/utils/animations";
+  import {
+    gsap,
+    SplitText,
+    EASE,
+    DUR,
+    STAGGER,
+    parallax,
+    prefersReducedMotion,
+  } from "src/utils/pitchMotion";
   import { initDotGrid } from "src/utils/dotGrid";
 
   const hero = document.getElementById("pitch-hero");
   if (hero) {
     const h1 = hero.querySelector<HTMLElement>(".pitch-hero-h1");
-    const anims = Array.from(hero.querySelectorAll<HTMLElement>(".hero-anim"));
+    const anims = gsap.utils.toArray<HTMLElement>(".hero-anim", hero);
     const scrollLine = hero.querySelector<HTMLElement>(".hero-scroll-line");
+    const inner = hero.querySelector<HTMLElement>(".hero-inner");
 
-    // ── Headline entrance ──
     if (prefersReducedMotion()) {
       gsap.set([h1, ...anims].filter(Boolean), { opacity: 1 });
     } else {
-      const lines = h1 ? Array.from(h1.querySelectorAll<HTMLElement>(".hero-line")) : [];
-      // Character-level mask reveal: each glyph slides up out of its word window.
-      const chars = lines.flatMap((line) => splitChars(line, { mask: true }));
+      // The link arrives inside a proposal, so the pitch opens itself — this is
+      // a load timeline, not a scroll trigger. Split only once the web font has
+      // settled, otherwise the line boxes are measured against the fallback
+      // face and every mask ends up the wrong height.
+      const play = () => {
+        if (!h1) return;
+        gsap.set(h1, { opacity: 1 });
+        gsap.set(anims, { y: 18 });
 
-      gsap.set(anims, { y: 18 });
-      if (h1) gsap.set(h1, { opacity: 1 });
-      gsap.set(chars, { yPercent: 120 });
+        const split = SplitText.create(h1, {
+          type: "chars, words, lines",
+          mask: "lines",
+        });
 
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.to(anims[0], { opacity: 1, y: 0, duration: 0.7 }, 0.1)
-        .to(chars, { yPercent: 0, duration: 1, stagger: 0.022, ease: "power4.out", clearProps: "willChange" }, 0.28)
-        .to(anims.slice(1), { opacity: 1, y: 0, duration: 0.7, stagger: 0.1 }, 0.8);
-      if (scrollLine) {
-        tl.fromTo(scrollLine, { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power2.inOut" }, 1.1);
+        const tl = gsap.timeline({ defaults: { ease: EASE.signature } });
+
+        // Eyebrow first — it frames the headline, so it must land before it.
+        tl.to(anims[0], { opacity: 1, y: 0, duration: DUR.base }, 0.1)
+          // One continuous sweep across both lines reads as a single gesture;
+          // staggering the lines separately would break it into two events.
+          .from(
+            split.chars,
+            { yPercent: 120, duration: DUR.epic, stagger: 0.016 },
+            0.22
+          )
+          .to(
+            anims.slice(1),
+            { opacity: 1, y: 0, duration: DUR.slow, stagger: STAGGER.cascade },
+            0.72
+          );
+
+        if (scrollLine) {
+          tl.fromTo(
+            scrollLine,
+            { scaleX: 0 },
+            { scaleX: 1, duration: DUR.slow, ease: EASE.inOut },
+            0.95
+          );
+        }
+      };
+
+      // Never let a slow font block the opener for more than a beat.
+      if (document.fonts?.status === "loaded") play();
+      else {
+        Promise.race([
+          document.fonts?.ready ?? Promise.resolve(),
+          new Promise((r) => setTimeout(r, 600)),
+        ]).then(play);
       }
+
+      // ── Departure ──
+      // The hero used to sit perfectly still while the visitor scrolled off it,
+      // which is what made the transition into the story feel like a cut.
+      if (inner) {
+        gsap.to(inner, {
+          yPercent: -12,
+          opacity: 0,
+          ease: EASE.linear,
+          scrollTrigger: {
+            trigger: hero,
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+      }
+
+      // ── Ambient depth ──
+      parallax(".hero-watermark", { trigger: hero });
     }
 
     // ── Interactive precision dot-grid ──

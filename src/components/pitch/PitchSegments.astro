@@ -88,10 +88,21 @@ const beyondChips = ["FMCG", "Food & Beverage", "Lifestyle", "Services", "Tech"]
 </section>
 
 <script>
-  import { revealHeadingKinetic, revealOnScroll } from "src/utils/animations";
+  import { revealLines, revealStack, DUR, STAGGER } from "src/utils/pitchMotion";
 
-  revealHeadingKinetic(document.querySelector<HTMLElement>(".segment-heading"));
-  revealOnScroll(".segment-reveal", { y: 20 });
-  revealOnScroll(".segment-card", { y: 36, stagger: 0.1, duration: 0.9 });
-  revealOnScroll(".segment-beyond", { y: 40, duration: 1 });
+  revealLines(".segment-heading", { stagger: STAGGER.cascade });
+  revealStack(".segment-reveal", { y: 18, duration: DUR.base });
+
+  // This section exists to prove we work for healthcare *and* consumer brands,
+  // so the cards converge from the outside in rather than running left-to-right.
+  revealStack(".segment-card", {
+    y: 46,
+    from: "edges",
+    stagger: STAGGER.cascade,
+    duration: DUR.slow,
+  });
+
+  // The dark panel is the heaviest object in the section — it settles from a
+  // slight scale with no overshoot, the way something with mass would.
+  revealStack(".segment-beyond", { y: 44, scale: 0.965, duration: DUR.epic });
 </script>

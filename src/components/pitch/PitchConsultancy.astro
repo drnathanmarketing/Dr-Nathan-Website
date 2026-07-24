@@ -46,24 +46,18 @@ const services = [
 </section>
 
 <script>
-  import { gsap, revealHeadingKinetic, revealOnScroll, prefersReducedMotion } from "src/utils/animations";
+  import { revealLines, revealStack, wipeRule, DUR, STAGGER } from "src/utils/pitchMotion";
 
-  revealHeadingKinetic(document.querySelector<HTMLElement>(".consult-heading"));
-  revealOnScroll(".consult-reveal", { y: 20 });
-  revealOnScroll(".consult-item", { y: 36, stagger: 0.1, duration: 0.9 });
+  revealLines(".consult-heading", { stagger: STAGGER.cascade });
+  revealLines(".consult-reveal", { stagger: STAGGER.tight });
 
-  const rules = gsap.utils.toArray<HTMLElement>(".consult-rule");
-  if (prefersReducedMotion()) {
-    gsap.set(rules, { scaleX: 1 });
-  } else {
-    rules.forEach((rule, i) => {
-      gsap.to(rule, {
-        scaleX: 1,
-        duration: 1,
-        delay: (i % 3) * 0.12,
-        ease: "power2.inOut",
-        scrollTrigger: { trigger: rule, start: "top 88%", once: true },
-      });
-    });
-  }
+  // Each service draws its own rule open first, then the copy lifts under it —
+  // the rule is the secondary layer that makes the list feel constructed.
+  wipeRule(".consult-rule", { start: "top 88%", stagger: STAGGER.tight });
+  revealStack(".consult-item", {
+    y: 34,
+    stagger: STAGGER.cascade,
+    duration: DUR.slow,
+    start: "top 87%",
+  });
 </script>

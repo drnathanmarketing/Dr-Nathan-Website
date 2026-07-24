@@ -148,10 +148,18 @@ const ticker = ["Since 2020", "8M+ Engagements", "100+ Campaigns", "Doctor-Found
 </style>
 
 <script>
-  import { gsap, revealHeadingKinetic, revealOnScroll, velocityMarquee, prefersReducedMotion } from "src/utils/animations";
+  import {
+    gsap,
+    revealLines,
+    revealStack,
+    velocityMarquee,
+    DUR,
+    STAGGER,
+    prefersReducedMotion,
+  } from "src/utils/pitchMotion";
 
-  revealHeadingKinetic(document.querySelector<HTMLElement>(".channels-heading"));
-  revealOnScroll(".channels-reveal", { y: 20 });
+  revealLines(".channels-heading", { stagger: STAGGER.cascade });
+  revealStack(".channels-reveal", { y: 18, duration: DUR.base });
 
   // Drive the marquees with GSAP so they can react to scroll velocity —
   // rows skew and surge as you scroll, then settle. CSS animation is the

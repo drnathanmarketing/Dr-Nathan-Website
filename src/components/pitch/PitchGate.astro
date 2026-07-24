@@ -174,7 +174,14 @@ const fields = [
 </style>
 
 <script>
-  import { gsap, splitChars, prefersReducedMotion } from "src/utils/animations";
+  import {
+    gsap,
+    SplitText,
+    EASE,
+    DUR,
+    STAGGER,
+    prefersReducedMotion,
+  } from "src/utils/pitchMotion";
   import { initDotGrid } from "src/utils/dotGrid";
   import { validateName, validateEmail, validatePhone } from "src/utils/leadValidation";
 
@@ -189,16 +196,55 @@ const fields = [
     if (prefersReducedMotion()) {
       gsap.set([heading, ...anims].filter(Boolean), { opacity: 1 });
     } else {
-      const chars = heading ? splitChars(heading, { mask: true }) : [];
-      gsap.set(anims, { y: 18 });
-      if (heading) gsap.set(heading, { opacity: 1 });
-      gsap.set(chars, { yPercent: 120 });
+      // Each field group is the wrapper holding a label, its input and the
+      // error slot, so the three move as units rather than loose inputs.
+      const fieldGroups = Array.from(gate.querySelectorAll<HTMLElement>(".gate-input"))
+        .map((input) => input.parentElement)
+        .filter((el): el is HTMLElement => el !== null);
+      const submitEl = gate.querySelector<HTMLElement>("#gate-submit");
 
-      gsap
-        .timeline({ defaults: { ease: "power3.out" } })
-        .to(anims[0], { opacity: 1, y: 0, duration: 0.7 }, 0.1)
-        .to(chars, { yPercent: 0, duration: 1, stagger: 0.022, ease: "power4.out", clearProps: "willChange" }, 0.28)
-        .to(anims.slice(1), { opacity: 1, y: 0, duration: 0.7, stagger: 0.1 }, 0.75);
+      const play = () => {
+        if (heading) gsap.set(heading, { opacity: 1 });
+        gsap.set(anims, { y: 18 });
+
+        const split = heading
+          ? SplitText.create(heading, { type: "chars, words, lines", mask: "lines" })
+          : null;
+
+        const tl = gsap.timeline({ defaults: { ease: EASE.signature } });
+        tl.to(anims[0], { opacity: 1, y: 0, duration: DUR.base }, 0.1);
+        if (split) {
+          tl.from(split.chars, { yPercent: 120, duration: DUR.epic, stagger: 0.018 }, 0.22);
+        }
+        tl.to(
+          anims.slice(1),
+          { opacity: 1, y: 0, duration: DUR.slow, stagger: STAGGER.cascade },
+          0.7
+        );
+
+        // The form is the entire point of this screen, so it resolves last and
+        // field-by-field — the visitor's eye finishes on the first input.
+        if (fieldGroups.length) {
+          tl.from(
+            fieldGroups,
+            { y: 22, opacity: 0, duration: DUR.base, stagger: STAGGER.cascade },
+            0.92
+          );
+        }
+        if (submitEl) {
+          tl.from(submitEl, { y: 16, opacity: 0, duration: DUR.base }, 1.18);
+        }
+      };
+
+      // Match the hero: split against the real font face, but never let a slow
+      // font stall the first thing the visitor sees.
+      if (document.fonts?.status === "loaded") play();
+      else {
+        Promise.race([
+          document.fonts?.ready ?? Promise.resolve(),
+          new Promise((r) => setTimeout(r, 600)),
+        ]).then(play);
+      }
     }
 
     initDotGrid(gate.querySelector<HTMLCanvasElement>(".gate-dots"), { observe: gate });
@@ -312,10 +358,12 @@ const fields = [
         if (prefersReducedMotion()) {
           reload();
         } else {
+          // Exits accelerate away; entrances decelerate in. Using the same
+          // curve for both is what makes a transition feel inert.
           gsap
             .timeline({ onComplete: reload })
-            .to(".gate-inner", { opacity: 0, y: -24, duration: 0.5, ease: "power2.in" }, 0.35)
-            .to(gate, { opacity: 0, duration: 0.4, ease: "power2.in" }, "-=0.2");
+            .to(".gate-inner", { opacity: 0, y: -28, duration: DUR.base, ease: EASE.exit }, 0.35)
+            .to(gate, { opacity: 0, duration: DUR.base, ease: EASE.exit }, "-=0.28");
         }
       } catch {
         setFormError("Network error — please check your connection and try again.");
