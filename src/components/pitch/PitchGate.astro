@@ -1,0 +1,327 @@
+---
+// ═══════════════════════════ PITCH GATE — lead capture before the pitch
+// Rendered INSTEAD of the pitch when the signed access cookie is absent, so
+// none of the credentials content reaches the browser until a lead is captured.
+// Fields post to /api/credentials-lead, which validates, de-duplicates against
+// HubSpot, submits new leads, and sets the access cookie.
+//
+// This is our own markup end-to-end — no HubSpot embed, nothing to restyle.
+const fields = [
+  {
+    id: "name",
+    label: "Full name",
+    type: "text",
+    placeholder: "Dr. Aung Aung",
+    autocomplete: "name",
+    inputmode: "text",
+  },
+  {
+    id: "email",
+    label: "Work email",
+    type: "email",
+    placeholder: "you@company.com",
+    autocomplete: "email",
+    inputmode: "email",
+  },
+  {
+    id: "phone",
+    label: "Phone number",
+    type: "tel",
+    placeholder: "09 776 299 099",
+    autocomplete: "tel",
+    inputmode: "tel",
+  },
+] as const;
+---
+
+<div id="navbar_hide_trigger">
+  <section id="pitch-gate" class="relative bg-primary-950 text-white overflow-hidden -mt-[70px]">
+    <!-- Ghost watermark -->
+    <span
+      aria-hidden="true"
+      class="absolute -bottom-8 -right-4 lg:-bottom-24 lg:right-0 font-helvetica font-bold leading-none pointer-events-none select-none text-[9rem] sm:text-[15rem] lg:text-[26rem] text-white/[0.04]"
+    >2020</span>
+
+    <!-- Floating brand orbs -->
+    <div aria-hidden="true" class="pitch-orb absolute -top-32 -left-32 w-[30rem] h-[30rem] rounded-full bg-primary-500/20 blur-[130px] pointer-events-none"></div>
+    <div aria-hidden="true" class="pitch-orb pitch-orb--slow absolute bottom-0 right-1/4 w-[22rem] h-[22rem] rounded-full bg-primary-700/25 blur-[110px] pointer-events-none"></div>
+
+    <!-- Same interactive precision dot-grid as the hero -->
+    <canvas class="gate-dots absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true"></canvas>
+
+    <div class="gate-inner relative z-10 max-w-screen-2xl mx-auto px-6 sm:px-10 lg:px-16 min-h-[100svh] flex items-center py-28">
+      <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-14 lg:gap-24 w-full items-center">
+
+        <!-- ── Left: the pitch for the pitch ── -->
+        <div>
+          <div class="gate-anim flex items-center gap-4 mb-8 lg:mb-10">
+            <img src="/assets/logo/logo.png" alt="Dr. Nathan Marketing & Consultancy logo" class="w-9 h-9 lg:w-10 lg:h-10 object-contain" />
+            <span class="h-px w-10 bg-primary-400"></span>
+            <span class="font-helvetica text-[0.65rem] sm:text-xs font-bold tracking-[0.5em] uppercase text-primary-300">Private Credentials</span>
+          </div>
+
+          <h1 class="gate-heading font-helvetica text-[2.4rem] leading-[1.06] sm:text-5xl lg:text-[4.4rem] font-bold tracking-tight max-w-2xl">
+            Tell us who's asking.
+          </h1>
+
+          <p class="gate-anim mt-8 font-roboto text-base lg:text-lg text-white/60 leading-relaxed max-w-lg">
+            This deck isn't public. Share three details and we'll open the full
+            credentials — our story, our work, and the results behind it.
+          </p>
+
+          <ul class="gate-anim mt-10 space-y-3.5 font-roboto text-sm text-white/50">
+            {[
+              "Six years of healthcare & consumer campaigns",
+              "4,500+ creative assets, 8M+ engagements",
+              "The full 35-page credentials PDF",
+            ].map((item) => (
+              <li class="flex items-start gap-3">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary-400 mt-0.5 shrink-0">
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- ── Right: the form ── -->
+        <div class="gate-anim w-full max-w-md lg:justify-self-end">
+          <form id="gate-form" novalidate class="relative bg-white/[0.04] backdrop-blur-sm border border-white/10 p-7 sm:p-9">
+
+            {fields.map((f) => (
+              <div class="mb-6">
+                <label
+                  for={`gate-${f.id}`}
+                  class="block font-helvetica text-[0.6rem] font-bold tracking-[0.3em] uppercase text-white/50 mb-2.5"
+                >
+                  {f.label}
+                </label>
+                <input
+                  id={`gate-${f.id}`}
+                  name={f.id}
+                  type={f.type}
+                  placeholder={f.placeholder}
+                  autocomplete={f.autocomplete}
+                  inputmode={f.inputmode as any}
+                  required
+                  aria-describedby={`gate-${f.id}-err`}
+                  class="gate-input w-full bg-transparent border border-white/15 px-4 py-3.5 font-roboto text-[0.95rem] text-white placeholder:text-white/25 outline-none transition-colors duration-200 focus:border-primary-400 focus:bg-white/[0.03]"
+                />
+                <p
+                  id={`gate-${f.id}-err`}
+                  role="alert"
+                  class="gate-err hidden mt-2 font-roboto text-[0.78rem] text-rose-300"
+                ></p>
+              </div>
+            ))}
+
+            <!-- Honeypot: hidden from humans, irresistible to bots -->
+            <div class="absolute opacity-0 pointer-events-none -z-10" aria-hidden="true">
+              <label for="gate-company-website">Company website</label>
+              <input id="gate-company-website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <button
+              type="submit"
+              id="gate-submit"
+              data-magnetic
+              data-cursor="link"
+              class="group mt-2 w-full inline-flex items-center justify-center gap-4 bg-white text-primary-950 font-helvetica text-sm font-bold tracking-[0.12em] uppercase px-8 py-4 transition-colors duration-300 hover:bg-primary-50 disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              <span class="gate-submit-label">Unlock the credentials</span>
+              <svg class="gate-submit-icon w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </button>
+
+            <p id="gate-form-error" role="alert" class="hidden mt-4 font-roboto text-[0.8rem] text-rose-300 text-center"></p>
+
+            <p class="mt-5 font-roboto text-[0.7rem] leading-relaxed text-white/35 text-center">
+              By requesting access you agree we may contact you about our services.
+              We never share your details.
+            </p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+  /* Pre-hidden for the entrance timeline; the script restores them. */
+  .gate-anim,
+  .gate-heading {
+    opacity: 0;
+  }
+
+  @keyframes orbFloat {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(4rem, 2.5rem) scale(1.15); }
+  }
+  .pitch-orb { animation: orbFloat 14s ease-in-out infinite alternate; }
+  .pitch-orb--slow { animation-duration: 22s; animation-delay: -6s; }
+
+  /* Field error state */
+  .gate-input[aria-invalid="true"] {
+    border-color: rgb(253 164 175 / 0.7); /* rose-300 */
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pitch-orb { animation: none; }
+  }
+</style>
+
+<script>
+  import { gsap, splitChars, prefersReducedMotion } from "src/utils/animations";
+  import { initDotGrid } from "src/utils/dotGrid";
+  import { validateName, validateEmail, validatePhone } from "src/utils/leadValidation";
+
+  const gate = document.getElementById("pitch-gate");
+  const form = document.getElementById("gate-form") as HTMLFormElement | null;
+
+  if (gate && form) {
+    /* ── Entrance ── */
+    const heading = gate.querySelector<HTMLElement>(".gate-heading");
+    const anims = Array.from(gate.querySelectorAll<HTMLElement>(".gate-anim"));
+
+    if (prefersReducedMotion()) {
+      gsap.set([heading, ...anims].filter(Boolean), { opacity: 1 });
+    } else {
+      const chars = heading ? splitChars(heading, { mask: true }) : [];
+      gsap.set(anims, { y: 18 });
+      if (heading) gsap.set(heading, { opacity: 1 });
+      gsap.set(chars, { yPercent: 120 });
+
+      gsap
+        .timeline({ defaults: { ease: "power3.out" } })
+        .to(anims[0], { opacity: 1, y: 0, duration: 0.7 }, 0.1)
+        .to(chars, { yPercent: 0, duration: 1, stagger: 0.022, ease: "power4.out", clearProps: "willChange" }, 0.28)
+        .to(anims.slice(1), { opacity: 1, y: 0, duration: 0.7, stagger: 0.1 }, 0.75);
+    }
+
+    initDotGrid(gate.querySelector<HTMLCanvasElement>(".gate-dots"), { observe: gate });
+
+    /* ── Validation wiring ── */
+    const renderedAt = Date.now();
+    const validators = { name: validateName, email: validateEmail, phone: validatePhone } as const;
+    type FieldId = keyof typeof validators;
+    const ids: FieldId[] = ["name", "email", "phone"];
+
+    const inputOf = (id: FieldId) => document.getElementById(`gate-${id}`) as HTMLInputElement | null;
+    const errOf = (id: FieldId) => document.getElementById(`gate-${id}-err`);
+
+    function showError(id: FieldId, message?: string) {
+      const input = inputOf(id);
+      const err = errOf(id);
+      if (!input || !err) return;
+      if (message) {
+        err.textContent = message;
+        err.classList.remove("hidden");
+        input.setAttribute("aria-invalid", "true");
+      } else {
+        err.textContent = "";
+        err.classList.add("hidden");
+        input.removeAttribute("aria-invalid");
+      }
+    }
+
+    /** Validate one field; returns true when valid. */
+    function checkField(id: FieldId): boolean {
+      const input = inputOf(id);
+      if (!input) return false;
+      const result = validators[id](input.value);
+      showError(id, result.ok ? undefined : result.error);
+      return result.ok;
+    }
+
+    ids.forEach((id) => {
+      const input = inputOf(id);
+      if (!input) return;
+      // Validate when they leave the field; clear the error as they fix it.
+      input.addEventListener("blur", () => { if (input.value.trim()) checkField(id); });
+      input.addEventListener("input", () => {
+        if (input.getAttribute("aria-invalid") === "true") showError(id, undefined);
+      });
+    });
+
+    /* ── Submit ── */
+    const submitBtn = document.getElementById("gate-submit") as HTMLButtonElement | null;
+    const label = gate.querySelector<HTMLElement>(".gate-submit-label");
+    const formError = document.getElementById("gate-form-error");
+
+    function setFormError(message?: string) {
+      if (!formError) return;
+      if (message) {
+        formError.textContent = message;
+        formError.classList.remove("hidden");
+      } else {
+        formError.textContent = "";
+        formError.classList.add("hidden");
+      }
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      setFormError();
+
+      // Validate everything, then focus the first problem.
+      const results = ids.map((id) => ({ id, ok: checkField(id) }));
+      const firstBad = results.find((r) => !r.ok);
+      if (firstBad) {
+        inputOf(firstBad.id)?.focus();
+        return;
+      }
+
+      const original = label?.textContent ?? "Unlock the credentials";
+      if (submitBtn) submitBtn.disabled = true;
+      if (label) label.textContent = "Verifying…";
+
+      try {
+        const res = await fetch("/api/credentials-lead", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: inputOf("name")?.value ?? "",
+            email: inputOf("email")?.value ?? "",
+            phone: inputOf("phone")?.value ?? "",
+            company_website: (document.getElementById("gate-company-website") as HTMLInputElement | null)?.value ?? "",
+            t: renderedAt,
+          }),
+        });
+        const data = await res.json().catch(() => null);
+
+        if (!res.ok || !data?.ok) {
+          // Field-level errors from the server take priority.
+          if (data?.errors) {
+            (Object.keys(data.errors) as FieldId[]).forEach((id) => showError(id, data.errors[id]));
+            inputOf((Object.keys(data.errors) as FieldId[])[0])?.focus();
+          } else {
+            setFormError(data?.error ?? "Something went wrong. Please try again.");
+          }
+          if (submitBtn) submitBtn.disabled = false;
+          if (label) label.textContent = original;
+          return;
+        }
+
+        /* ── Granted ── */
+        if (label) label.textContent = "Access granted";
+        const reload = () => window.location.reload();
+
+        if (prefersReducedMotion()) {
+          reload();
+        } else {
+          gsap
+            .timeline({ onComplete: reload })
+            .to(".gate-inner", { opacity: 0, y: -24, duration: 0.5, ease: "power2.in" }, 0.35)
+            .to(gate, { opacity: 0, duration: 0.4, ease: "power2.in" }, "-=0.2");
+        }
+      } catch {
+        setFormError("Network error — please check your connection and try again.");
+        if (submitBtn) submitBtn.disabled = false;
+        if (label) label.textContent = original;
+      }
+    });
+  }
+</script>

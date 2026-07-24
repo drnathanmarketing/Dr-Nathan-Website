@@ -3,7 +3,9 @@
 // The #download anchor is the hero's "skip" target. The PDF link carries
 // the `download` attribute (same-origin, so the clean filename is honored)
 // and vercel.json adds Content-Disposition: attachment as backup.
-const PDF_PATH = "/assets/downloads/dr-nathan-credentials-2025.pdf";
+// Random suffix keeps the file unguessable: the page is gated, but anything
+// under public/ is directly fetchable if someone knows the exact URL.
+const PDF_PATH = "/assets/downloads/dr-nathan-credentials-2025-2642d61e.pdf";
 ---
 
 <section id="download" class="relative bg-primary-950 text-white overflow-hidden">
