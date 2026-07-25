@@ -1,0 +1,277 @@
+---
+// ═══════════════════════════ 404 — page not found
+// Astro prerenders this to dist/404.html; Vercel serves it (with a real 404
+// status) for any unmatched path.
+//
+// Design language is the brand's dark register — the same primary-950 stage,
+// dot-grid, orbs and hairline typography as the credentials screens — because
+// a dead end is exactly where the brand should look most composed. The page
+// earns its keep by routing: a numbered index of real destinations, plus a
+// one-click way to report the broken link.
+//
+// Wrapped in #navbar_hide_trigger like the pitch hero: over bg-primary-950 the
+// Navbar's `text-inherit` links are black-on-navy and unreadable, so it tucks
+// away for the full-screen panel and returns (white blur backdrop) at the
+// footer.
+import Layout from "../layouts/Layout.astro";
+import Footer from "@components/common/Footer.astro";
+
+/** The index deliberately omits Home — that is the primary CTA already. */
+const destinations = [
+  { href: "/about", label: "About Us", desc: "The doctors behind the agency" },
+  { href: "/#service", label: "Services", desc: "What we do, end to end" },
+  { href: "/life-at-dr-nathan", label: "Life at Dr. Nathan", desc: "Our people and open roles" },
+  { href: "/blog", label: "Blog", desc: "Insights from the team" },
+  { href: "/#contact_us", label: "Contact Us", desc: "Start a conversation" },
+];
+---
+
+<Layout
+  title="Page Not Found | Dr. Nathan Marketing & Consultancy"
+  description="The page you're looking for isn't here. Find your way back to Dr. Nathan Marketing & Consultancy."
+  noindex={true}
+>
+  <main>
+    <div id="navbar_hide_trigger">
+      <section id="not-found" class="relative bg-primary-950 text-white overflow-hidden -mt-[70px]">
+        <!-- Ghost watermark — the error code as architecture, not decoration -->
+        <span
+          aria-hidden="true"
+          data-parallax="-140"
+          class="nf-watermark absolute -bottom-10 -left-6 lg:-bottom-28 lg:left-0 font-helvetica font-bold leading-none pointer-events-none select-none text-[10rem] sm:text-[17rem] lg:text-[28rem] text-white/[0.04]"
+          >404</span
+        >
+
+        <!-- Floating brand orbs -->
+        <div aria-hidden="true" class="nf-orb absolute -top-32 -left-32 w-[30rem] h-[30rem] rounded-full bg-primary-500/20 blur-[130px] pointer-events-none"></div>
+        <div aria-hidden="true" class="nf-orb nf-orb--slow absolute bottom-0 right-1/4 w-[22rem] h-[22rem] rounded-full bg-primary-700/25 blur-[110px] pointer-events-none"></div>
+
+        <!-- Same interactive precision dot-grid as the hero and the gate -->
+        <canvas class="nf-dots absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true"></canvas>
+
+        <div class="nf-inner relative z-10 max-w-screen-2xl mx-auto px-6 sm:px-10 lg:px-16 min-h-[100svh] flex items-center py-28">
+          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-14 lg:gap-24 w-full items-center">
+
+            <!-- ── Left: the apology, stated once ── -->
+            <div>
+              <div class="nf-anim flex items-center gap-4 mb-8 lg:mb-10">
+                <!-- The logo's wordmark is navy, i.e. invisible on primary-950.
+                     Knocked out to solid white — the standard dark-stage
+                     treatment, and the Navbar is hidden here so this is the only
+                     brand mark above the fold. -->
+                <img
+                  src="/assets/logo/logo.png"
+                  alt="Dr. Nathan Marketing & Consultancy logo"
+                  class="w-9 h-9 lg:w-10 lg:h-10 object-contain brightness-0 invert"
+                />
+                <span class="h-px w-10 bg-primary-400"></span>
+                <span class="font-helvetica text-[0.65rem] sm:text-xs font-bold tracking-[0.5em] uppercase text-primary-300">Error 404</span>
+              </div>
+
+              <h1 class="nf-heading font-helvetica text-[2.4rem] leading-[1.06] sm:text-5xl lg:text-[4.6rem] font-bold tracking-tight max-w-2xl">
+                <span class="block">This page isn't</span>
+                <span class="block text-primary-400">in our records.</span>
+              </h1>
+
+              <p class="nf-anim mt-8 font-roboto text-base lg:text-lg text-white/60 leading-relaxed max-w-lg">
+                The link may be out of date, or the page has moved. Everything
+                else is exactly where you left it.
+              </p>
+
+              <!-- Filled in client-side; a prerendered page can't know the path. -->
+              <p class="nf-anim nf-path-line hidden mt-7 items-center gap-3 font-helvetica text-[0.65rem] sm:text-xs font-bold tracking-[0.3em] uppercase text-white/35">
+                <span class="shrink-0">Requested</span>
+                <span aria-hidden="true" class="w-1 h-1 rounded-full bg-primary-400 shrink-0"></span>
+                <span class="nf-path font-roboto tracking-normal normal-case text-white/50 truncate"></span>
+              </p>
+
+              <div class="nf-anim mt-12 flex flex-wrap items-center gap-x-10 gap-y-6">
+                <a
+                  href="/"
+                  class="group inline-flex items-center gap-4 bg-white text-primary-950 font-helvetica text-sm font-bold tracking-[0.12em] uppercase px-8 py-4 transition-colors duration-300 hover:bg-primary-50"
+                >
+                  <svg class="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M11 18l-6-6 6-6" />
+                  </svg>
+                  <span>Back to home</span>
+                </a>
+
+                <a
+                  class="nf-report group inline-flex items-center gap-3 font-helvetica text-sm font-bold tracking-[0.12em] uppercase text-white/60 hover:text-white transition-colors duration-300"
+                  href="mailto:info@drnathanmarketing.com?subject=Broken%20link%20on%20drnathanmarketing.com"
+                >
+                  <span class="relative">
+                    Report this link
+                    <span class="absolute left-0 -bottom-1 h-px w-full bg-white/25 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+                  </span>
+                  <svg class="w-3.5 h-3.5 text-primary-400 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            <!-- ── Right: where to go instead ── -->
+            <div class="nf-anim w-full max-w-md lg:justify-self-end bg-white/[0.04] backdrop-blur-sm border border-white/10">
+              <p class="px-7 sm:px-9 pt-7 sm:pt-8 pb-5 font-helvetica text-[0.6rem] font-bold tracking-[0.3em] uppercase text-white/50">
+                Where to next
+              </p>
+
+              <nav aria-label="Suggested pages">
+                {destinations.map((d, i) => (
+                  <a
+                    href={d.href}
+                    class="nf-row group flex items-center gap-5 px-7 sm:px-9 py-5 border-t border-white/10 transition-colors duration-300 hover:bg-white/[0.04]"
+                  >
+                    <span class="font-helvetica text-[0.65rem] font-bold tracking-[0.2em] text-primary-400/70 group-hover:text-primary-300 transition-colors duration-300">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span class="flex-1 min-w-0">
+                      <span class="block font-helvetica text-base font-semibold tracking-wide text-white group-hover:text-primary-300 transition-colors duration-300">
+                        {d.label}
+                      </span>
+                      <span class="block mt-0.5 font-roboto text-[0.78rem] text-white/40 truncate">
+                        {d.desc}
+                      </span>
+                    </span>
+                    <svg class="w-4 h-4 shrink-0 text-white/25 transition-all duration-300 group-hover:text-primary-400 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </a>
+                ))}
+              </nav>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  /* Pre-hidden for the entrance timeline; the script restores them (instantly
+     under reduced motion). Hiding the panel wrapper — not the rows inside it —
+     is what keeps the index from flashing before GSAP takes over. */
+  .nf-anim,
+  .nf-heading {
+    opacity: 0;
+  }
+
+  /* `hidden` wins until the script has a path to show. */
+  .nf-path-line:not(.hidden) {
+    display: flex;
+  }
+
+  @keyframes orbFloat {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(4rem, 2.5rem) scale(1.15); }
+  }
+  .nf-orb { animation: orbFloat 14s ease-in-out infinite alternate; }
+  .nf-orb--slow { animation-duration: 22s; animation-delay: -6s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nf-orb { animation: none; }
+  }
+</style>
+
+<script>
+  import {
+    gsap,
+    SplitText,
+    EASE,
+    DUR,
+    STAGGER,
+    parallax,
+    prefersReducedMotion,
+  } from "src/utils/pitchMotion";
+  import { initDotGrid } from "src/utils/dotGrid";
+
+  const nf = document.getElementById("not-found");
+
+  if (nf) {
+    /* ── The path that failed ──
+       Shown as a fact, not an accusation, and carried into the report mailto so
+       a reply arrives with the broken URL already in it. textContent (never
+       innerHTML) — the path is attacker-controlled. */
+    const path = window.location.pathname + window.location.search;
+    if (path && path !== "/") {
+      const pathEl = nf.querySelector<HTMLElement>(".nf-path");
+      const pathLine = nf.querySelector<HTMLElement>(".nf-path-line");
+      if (pathEl && pathLine) {
+        pathEl.textContent = path.length > 64 ? `${path.slice(0, 64)}…` : path;
+        pathLine.classList.remove("hidden");
+      }
+
+      const report = nf.querySelector<HTMLAnchorElement>(".nf-report");
+      if (report) {
+        const body = `Hi — I hit a 404 at ${window.location.href}`;
+        report.href =
+          "mailto:info@drnathanmarketing.com" +
+          "?subject=" + encodeURIComponent("Broken link on drnathanmarketing.com") +
+          "&body=" + encodeURIComponent(body);
+      }
+    }
+
+    /* ── Entrance ──
+       A load timeline, not a scroll trigger: there is nothing above the fold to
+       wait for. Brand identity applies — masked rise, zero overshoot. */
+    const heading = nf.querySelector<HTMLElement>(".nf-heading");
+    const anims = gsap.utils.toArray<HTMLElement>(".nf-anim", nf);
+    const rows = gsap.utils.toArray<HTMLElement>(".nf-row", nf);
+
+    if (prefersReducedMotion()) {
+      gsap.set([heading, ...anims].filter(Boolean), { opacity: 1 });
+    } else {
+      const play = () => {
+        if (heading) gsap.set(heading, { opacity: 1 });
+        gsap.set(anims, { y: 18 });
+
+        // The one character-level moment on the page — it is the only
+        // statement here, so it can carry the reveal without cheapening it.
+        const split = heading
+          ? SplitText.create(heading, { type: "chars, words, lines", mask: "lines" })
+          : null;
+
+        const tl = gsap.timeline({ defaults: { ease: EASE.signature } });
+
+        tl.to(anims[0], { opacity: 1, y: 0, duration: DUR.base }, 0.1);
+        if (split) {
+          // One sweep across both lines reads as a single gesture.
+          tl.from(split.chars, { yPercent: 120, duration: DUR.epic, stagger: 0.016 }, 0.22);
+        }
+        tl.to(
+          anims.slice(1),
+          { opacity: 1, y: 0, duration: DUR.slow, stagger: STAGGER.cascade },
+          0.72
+        );
+
+        // Destinations resolve last, so the eye finishes on the way out.
+        if (rows.length) {
+          tl.from(
+            rows,
+            { y: 20, opacity: 0, duration: DUR.base, stagger: STAGGER.cascade },
+            0.95
+          );
+        }
+      };
+
+      // Split against the real font face, but never let a slow font stall the
+      // first thing the visitor sees.
+      if (document.fonts?.status === "loaded") play();
+      else {
+        Promise.race([
+          document.fonts?.ready ?? Promise.resolve(),
+          new Promise((r) => setTimeout(r, 600)),
+        ]).then(play);
+      }
+
+      // ── Ambient depth ── the watermark drifts as the visitor scrolls to the footer.
+      parallax(".nf-watermark", { trigger: nf });
+    }
+
+    initDotGrid(nf.querySelector<HTMLCanvasElement>(".nf-dots"), { observe: nf });
+  }
+</script>

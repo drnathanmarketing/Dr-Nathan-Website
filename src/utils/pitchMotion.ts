@@ -1,9 +1,10 @@
 /**
- * Motion system for the private /credentials pitch page.
+ * Brand motion system — the expressive register.
  *
- * Kept separate from `animations.ts` (which the marketing site depends on) so
- * the pitch can carry a bolder, more expressive motion identity without
- * destabilising the landing page.
+ * Built for the private /credentials pitch page and also used by /404, the two
+ * screens that carry the dark `primary-950` stage. Kept separate from
+ * `animations.ts` (which the marketing site depends on) so this register can
+ * stay bolder without destabilising the landing page.
  *
  * ── Brand motion identity ────────────────────────────────────────────────
  * One archetype, applied consistently — the previous pass failed because
