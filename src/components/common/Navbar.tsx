@@ -39,7 +39,7 @@ const Navbar = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 ">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <img
           src="/assets/logo/logo.png"
           className="h-10 hover:cursor-pointer"
@@ -113,10 +113,10 @@ const Navbar = () => {
           </svg>
         </div>
 
-        <div className=" hidden flex-row gap-8  md:flex">
+        <div className="hidden flex-row gap-8 md:flex">
           <NavbarContent />
           {/* <div className="group">
-            <div className="flex flex-row items-center hover:text-primary-900 ">
+            <div className="flex flex-row items-center hover:text-primary-900">
               <p className="text-base tracking-wide font-semibold">Services</p>
               <svg
                 className="w-2.5 h-2.5 ms-2.5 transition-transform transform origin-center group-hover:rotate-180"

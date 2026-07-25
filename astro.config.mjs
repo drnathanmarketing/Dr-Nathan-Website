@@ -14,7 +14,12 @@ export default defineConfig({
     prefetchAll: false,
     defaultStrategy: "viewport",
   },
-  integrations: [tailwind(), react(), sitemap({
+  integrations: [tailwind({
+    // `src/styles/global.css` owns the base layer (it declares `@tailwind base`
+    // itself, alongside the design tokens) and is imported from Layout.astro.
+    // Letting the integration inject a second base sheet would ship it twice.
+    applyBaseStyles: false,
+  }), react(), sitemap({
     // /credentials is a private pitch page shared only by link — keep it
     // out of the sitemap (it is also noindexed via meta + X-Robots-Tag).
     filter: (page) => new URL(page).pathname.replace(/\/$/, "") !== "/credentials",

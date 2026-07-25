@@ -43,13 +43,13 @@ const FAQ = () => {
     <section id="faq" className="bg-white">
       <div
         ref={rootRef}
-        className="max-w-screen-xl mx-auto px-6 lg:px-8 py-28 lg:py-40 grid lg:grid-cols-[0.8fr_1.2fr] gap-14 lg:gap-24"
+        className="section-pad shell grid lg:grid-cols-[0.8fr_1.2fr] gap-14 lg:gap-24"
       >
         {/* Left: sticky intro */}
         <div className="lg:sticky lg:top-28 lg:self-start">
           <div className="faq-reveal flex items-center gap-4 mb-8">
             <span className="h-px w-10 bg-primary-500" />
-            <p className="font-helvetica text-[0.65rem] font-bold tracking-[0.5em] text-primary-600 uppercase">
+            <p className="eyebrow font-helvetica text-primary-600">
               FAQ
             </p>
           </div>

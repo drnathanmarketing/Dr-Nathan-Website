@@ -33,7 +33,7 @@ const destinations = [
 >
   <main>
     <div id="navbar_hide_trigger">
-      <section id="not-found" class="relative bg-primary-950 text-white overflow-hidden -mt-[70px]">
+      <section id="not-found" class="stage-dark relative overflow-hidden -mt-nav">
         <!-- Ghost watermark — the error code as architecture, not decoration -->
         <span
           aria-hidden="true"
@@ -43,8 +43,8 @@ const destinations = [
         >
 
         <!-- Floating brand orbs -->
-        <div aria-hidden="true" class="nf-orb absolute -top-32 -left-32 w-[30rem] h-[30rem] rounded-full bg-primary-500/20 blur-[130px] pointer-events-none"></div>
-        <div aria-hidden="true" class="nf-orb nf-orb--slow absolute bottom-0 right-1/4 w-[22rem] h-[22rem] rounded-full bg-primary-700/25 blur-[110px] pointer-events-none"></div>
+        <div aria-hidden="true" class="orb absolute -top-32 -left-32 w-[30rem] h-[30rem] rounded-full bg-primary-500/20 blur-[130px] pointer-events-none"></div>
+        <div aria-hidden="true" class="orb orb--slow absolute bottom-0 right-1/4 w-[22rem] h-[22rem] rounded-full bg-primary-700/25 blur-[110px] pointer-events-none"></div>
 
         <!-- Same interactive precision dot-grid as the hero and the gate -->
         <canvas class="nf-dots absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true"></canvas>
@@ -65,7 +65,7 @@ const destinations = [
                   class="w-9 h-9 lg:w-10 lg:h-10 object-contain brightness-0 invert"
                 />
                 <span class="h-px w-10 bg-primary-400"></span>
-                <span class="font-helvetica text-[0.65rem] sm:text-xs font-bold tracking-[0.5em] uppercase text-primary-300">Error 404</span>
+                <span class="eyebrow font-helvetica sm:text-xs text-primary-300">Error 404</span>
               </div>
 
               <h1 class="nf-heading font-helvetica text-[2.4rem] leading-[1.06] sm:text-5xl lg:text-[4.6rem] font-bold tracking-tight max-w-2xl">
@@ -152,28 +152,12 @@ const destinations = [
 </Layout>
 
 <style>
-  /* Pre-hidden for the entrance timeline; the script restores them (instantly
-     under reduced motion). Hiding the panel wrapper — not the rows inside it —
-     is what keeps the index from flashing before GSAP takes over. */
-  .nf-anim,
-  .nf-heading {
-    opacity: 0;
-  }
-
-  /* `hidden` wins until the script has a path to show. */
+  /* `hidden` wins until the script has a path to show. Local — nothing else
+     renders a failed path. Pre-reveal (`.nf-anim` / `.nf-heading`, which hides
+     the panel wrapper rather than the rows inside it, so the index cannot flash
+     before GSAP takes over) and the ambient orbs are in src/styles/global.css. */
   .nf-path-line:not(.hidden) {
     display: flex;
-  }
-
-  @keyframes orbFloat {
-    from { transform: translate(0, 0) scale(1); }
-    to { transform: translate(4rem, 2.5rem) scale(1.15); }
-  }
-  .nf-orb { animation: orbFloat 14s ease-in-out infinite alternate; }
-  .nf-orb--slow { animation-duration: 22s; animation-delay: -6s; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .nf-orb { animation: none; }
   }
 </style>
 

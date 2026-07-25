@@ -1,0 +1,388 @@
+/**
+ * Dr. Nathan — global stylesheet.
+ *
+ * The single source of truth for design tokens and for any rule shared by more
+ * than one component. Imported once, from `src/layouts/Layout.astro`, which
+ * every page routes through. `@astrojs/tailwind` is configured with
+ * `applyBaseStyles: false` so this file owns the base layer too — do not add a
+ * second `@tailwind base` anywhere.
+ *
+ * Where a rule belongs:
+ *   here      — used by 2+ components, or expresses a brand decision (a colour,
+ *               a curve, a rhythm) that must not drift between call sites.
+ *   component — genuinely local: a one-off layout hack, a class only that file
+ *               uses. Keep those in the component's own `<style>` block.
+ *
+ * Tokens are mirrored into `tailwind.config.mjs` (it reads these very
+ * variables), so `bg-stage-gradient` and `background: var(--dnm-gradient-stage)`
+ * are guaranteed to resolve to the same value.
+ *
+ * A note on what earns a slot in `:root`: only values that more than one rule
+ * reads, or that `tailwind.config.mjs` needs to resolve a utility — the nav
+ * height, the brand gradients, the motion curves, the eyebrow scale. A value
+ * read by exactly one class (the noise data-URIs, the overlay gradients) lives
+ * in that class, where you can see it while reading the rule. This is a
+ * cohesion rule, not a size one: Astro ships a single stylesheet for the whole
+ * site, so placement costs the same either way.
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ── Brand surfaces ───────────────────────────────────────────────────
+       The dark "stage" gradient carries the CTA bands on /about and
+       /life-at-dr-nathan; the text gradient is the hero headline sweep. */
+    --dnm-gradient-stage: linear-gradient(135deg, #004a7d 0%, #0068b4 40%, #00a5ff 100%);
+    --dnm-gradient-text: linear-gradient(90deg, #00a5ff, #6dd3ff);
+
+    /* The decorative textures (grain, grid, dots, hatch) are deliberately NOT
+       tokens: each is read by exactly one rule, so it lives in that rule rather
+       than here. They are one-off surface treatments — the gradients above are
+       brand decisions, which is what earns them a slot. */
+
+    /* ── Layout ───────────────────────────────────────────────────────────
+       The navbar is `fixed`, so Layout renders a spacer of exactly this height
+       and the three full-bleed dark heroes (/credentials, its gate, /404)
+       cancel it with `-mt-nav`. One number, four consumers. */
+    --dnm-nav-h: 70px;
+
+    /* ── Eyebrow type scale ───────────────────────────────────────────────
+       The small uppercase kickers above almost every heading. */
+    --dnm-eyebrow-size: 0.65rem;
+    --dnm-eyebrow-size-sm: 0.55rem;
+    --dnm-tracking-eyebrow: 0.5em;
+    --dnm-tracking-eyebrow-tight: 0.35em;
+
+    /* ── Motion ───────────────────────────────────────────────────────────
+       These three curves are the CSS half of the brand motion system: they are
+       the same cubic-béziers that `src/utils/pitchMotion.ts` registers with
+       GSAP as CustomEase `dnm` / `dnm-io` / `dnm-exit`. Change one, change both.
+       Entrances decelerate, exits accelerate — never share a curve between them. */
+    --dnm-ease-signature: cubic-bezier(0.16, 1, 0.3, 1);
+    --dnm-ease-inout: cubic-bezier(0.76, 0, 0.24, 1);
+    --dnm-ease-exit: cubic-bezier(0.6, 0, 0.98, 0.4);
+    --dnm-dur-quick: 240ms;
+    --dnm-dur-base: 300ms;
+    --dnm-dur-slow: 500ms;
+  }
+}
+
+@layer components {
+  /* ── Page rhythm ────────────────────────────────────────────────────────
+     `.shell` is the horizontal frame every section sits in; `.section-pad` is
+     the vertical rhythm between them. Previously retyped 20× and 14×. */
+  .shell {
+    @apply max-w-screen-xl mx-auto px-6 lg:px-8;
+  }
+
+  .section-pad {
+    @apply py-28 lg:py-40;
+  }
+
+  /* The dark stage shared by the Services band, the whole pitch deck and /404. */
+  .stage-dark {
+    @apply bg-primary-950 text-white;
+  }
+
+  .stage-gradient {
+    background: var(--dnm-gradient-stage);
+  }
+
+  /* ── Eyebrow ────────────────────────────────────────────────────────────
+     Colour stays in the markup — it flips between primary-600 on light stages
+     and primary-300 on dark ones. Font family stays in the markup too, since
+     some kickers are Helvetica and some inherit the Roboto body face. Anything
+     that needs different tracking or size just adds a Tailwind override: the
+     utilities layer is emitted after this one, so it wins. */
+  .eyebrow {
+    font-size: var(--dnm-eyebrow-size);
+    font-weight: 700;
+    letter-spacing: var(--dnm-tracking-eyebrow);
+    text-transform: uppercase;
+  }
+
+  .eyebrow-sm {
+    font-size: var(--dnm-eyebrow-size-sm);
+    font-weight: 700;
+    letter-spacing: var(--dnm-tracking-eyebrow-tight);
+    text-transform: uppercase;
+  }
+
+  /* ── Ghost watermark ────────────────────────────────────────────────────
+     The oversized numeral or word sitting behind a section as architecture.
+     Size and colour stay in the markup — they are what distinguishes one
+     watermark from the next — but the type treatment is fixed. */
+  .watermark {
+    @apply font-helvetica font-bold leading-none select-none pointer-events-none;
+  }
+
+  /* ── Decorative overlays ────────────────────────────────────────────────
+     Absolutely-positioned siblings; the caller supplies inset/opacity. */
+  /* Two grain sheets, deliberately kept distinct: the pitch/404 stage uses a
+     finer, desaturated noise than the marketing CTA bands, and swapping one
+     for the other visibly changes those sections. */
+  .grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px;
+  }
+
+  .grain-fine {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+  }
+
+  .overlay-grid {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .overlay-grid-brand {
+    background-image: linear-gradient(rgba(0, 165, 255, 0.2) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 165, 255, 0.2) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  .overlay-dots {
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .overlay-hatch {
+    background: repeating-linear-gradient(
+      -45deg,
+      rgba(0, 165, 255, 0.1) 0px,
+      rgba(0, 165, 255, 0.1) 1px,
+      transparent 1px,
+      transparent 16px
+    );
+  }
+
+  /* ── Ambient orbs ───────────────────────────────────────────────────────
+     Blurred colour fields drifting behind the dark stages. Was copy-pasted
+     into PitchHero, PitchGate and 404 as three identical blocks. */
+  .orb {
+    animation: orbFloat 14s ease-in-out infinite alternate;
+  }
+
+  .orb--slow {
+    animation-duration: 22s;
+    animation-delay: -6s;
+  }
+
+  /* ── Marquees ───────────────────────────────────────────────────────────
+     One keyframe drives all of them. `--marquee-shift` is how far the track
+     travels before it loops, which depends on how many times the content is
+     duplicated: two copies wrap at -50%, three at -33.333%. */
+  .marquee {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .marquee-inner {
+    display: flex;
+    width: max-content;
+    animation: marqueeScroll var(--marquee-dur, 38s) linear infinite;
+  }
+
+  .marquee--reverse .marquee-inner {
+    --marquee-dur: 48s;
+    animation-direction: reverse;
+  }
+
+  .marquee--ticker .marquee-inner {
+    --marquee-dur: 26s;
+  }
+
+  .marquee-group {
+    display: flex;
+    align-items: center;
+  }
+
+  .marquee-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-right: 3rem;
+  }
+
+  @media (min-width: 1024px) {
+    .marquee-item {
+      gap: 1.5rem;
+      padding-right: 5rem;
+    }
+  }
+
+  /* Three duplicated groups rather than two, hence the shorter shift. */
+  .ticker-track {
+    --marquee-shift: -33.333%;
+    animation: marqueeScroll 30s linear infinite;
+  }
+
+  /* ── Pinned horizontal scroll ───────────────────────────────────────────
+     Shared by the Services band on / and the Showcase on /credentials, which
+     used to carry byte-identical copies under `.service-*` and `.pitch-*`
+     names. Vertical stack is the default (mobile, reduced motion, no-JS); the
+     scripts add `.is-horizontal` only on capable desktops. */
+  .h-track {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .h-panel {
+    width: 100%;
+  }
+
+  .h-track.is-horizontal {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    height: 100vh;
+    width: max-content;
+  }
+
+  .h-track.is-horizontal .h-panel {
+    width: 100vw;
+    height: 100vh;
+    flex-shrink: 0;
+  }
+
+  .h-pin-wrap.is-horizontal {
+    overflow: hidden;
+  }
+
+  .h-progress {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .h-pin-wrap.is-horizontal .h-progress {
+    opacity: 1;
+  }
+
+  /* Rests at zero until the ScrollTrigger writes a scaleX. */
+  .h-progress-bar {
+    transform: scaleX(0);
+  }
+
+  /* ── Buttons ────────────────────────────────────────────────────────────
+     The outline CTA on the dark stages. */
+  .btn-outline {
+    @apply inline-flex items-center gap-4 border border-white/30 text-white px-10 py-5 rounded-sm
+      font-helvetica text-sm font-bold tracking-widest uppercase
+      hover:bg-white hover:text-primary-800 transition-all duration-base;
+  }
+
+  /* ── GSAP pre-reveal ────────────────────────────────────────────────────
+     Hidden in CSS so nothing flashes before the entrance timeline takes over;
+     each script sets opacity back to 1 (instantly under reduced motion). Was
+     three identical blocks in PitchHero, PitchGate and 404. */
+  .hero-anim,
+  .pitch-hero-h1,
+  .gate-anim,
+  .gate-heading,
+  .nf-anim,
+  .nf-heading {
+    opacity: 0;
+  }
+}
+
+@layer utilities {
+  /* Soft fade at the edges of a marquee or scrolling column. */
+  .fade-mask-x {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent);
+  }
+
+  .fade-mask-y {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
+  }
+
+  /* Outlined type — the channel names in the pitch marquee. Pairs with a
+     transparent text colour so only the stroke shows. */
+  .text-stroke-hairline {
+    -webkit-text-stroke: 1px rgb(255 255 255 / 0.3);
+  }
+
+  /* Clips the brand gradient to the glyphs. Needs a transparent text colour,
+     which the -webkit-text-fill-color below supplies on its own. */
+  .text-gradient-brand {
+    background: var(--dnm-gradient-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/* ── Keyframes ────────────────────────────────────────────────────────────
+   Declared once, outside the layers, so both the Tailwind `animate-*`
+   utilities and the component classes above can reference them. */
+@keyframes orbFloat {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(4rem, 2.5rem) scale(1.15);
+  }
+}
+
+@keyframes marqueeScroll {
+  to {
+    transform: translateX(var(--marquee-shift, -50%));
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes borderPulse {
+  0%,
+  100% {
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+  50% {
+    border-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 0 20px 4px rgba(255, 255, 255, 0.1);
+  }
+}
+
+@keyframes scrollDown {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(200%);
+  }
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────────────
+   One place to stop every ambient, infinitely-looping animation. Previously
+   only the orbs and the pitch marquees honoured this; the homepage marquee,
+   the spinning service wheel, the about-page ticker, the blinking cursor, the
+   pulsing CTA border and the scroll-hint line all kept moving. Purposeful,
+   one-shot motion is left alone — the GSAP entrances handle their own
+   reduced-motion branch via `prefersReducedMotion()`. */
+@media (prefers-reduced-motion: reduce) {
+  .orb,
+  .marquee-inner,
+  .ticker-track,
+  .animate-marquee,
+  .animate-spin-custom,
+  .animate-spin-custom-reverse,
+  .scroll-line,
+  .cta-pulse-btn,
+  .hero-cursor {
+    animation: none;
+  }
+}

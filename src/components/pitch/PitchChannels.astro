@@ -39,13 +39,13 @@ const channels = [
 const ticker = ["Since 2020", "8M+ Engagements", "100+ Campaigns", "Doctor-Founded", "Yangon, Myanmar"];
 ---
 
-<section class="relative bg-primary-950 text-white py-24 lg:py-32 overflow-hidden">
+<section class="stage-dark relative py-24 lg:py-32 overflow-hidden">
   <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none"></div>
 
-  <div class="max-w-screen-xl mx-auto px-6 lg:px-8 mb-14 lg:mb-16">
+  <div class="shell mb-14 lg:mb-16">
     <div class="channels-reveal flex items-center gap-4 mb-8">
       <span class="h-px w-10 bg-primary-400"></span>
-      <p class="font-helvetica text-[0.65rem] font-bold tracking-[0.5em] text-primary-300 uppercase">Channels</p>
+      <p class="eyebrow font-helvetica text-primary-300">Channels</p>
     </div>
     <h2 class="channels-heading font-helvetica text-3xl sm:text-4xl lg:text-[3.1rem] font-bold leading-[1.15] sm:leading-[1.1] tracking-tight max-w-2xl">
       Everywhere your customers are.
@@ -79,7 +79,7 @@ const ticker = ["Since 2020", "8M+ Engagements", "100+ Campaigns", "Doctor-Found
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 lg:w-12 lg:h-12 text-white/25">
                 <Fragment set:html={c.icon} />
               </svg>
-              <span class="font-helvetica font-bold text-3xl lg:text-6xl text-transparent whitespace-nowrap" style="-webkit-text-stroke: 1px rgba(255,255,255,0.3)">{c.name}</span>
+              <span class="text-stroke-hairline font-helvetica font-bold text-3xl lg:text-6xl text-transparent whitespace-nowrap">{c.name}</span>
             </span>
           ))}
         </div>
@@ -106,46 +106,6 @@ const ticker = ["Since 2020", "8M+ Engagements", "100+ Campaigns", "Doctor-Found
     </div>
   </div>
 </section>
-
-<style>
-  .marquee {
-    overflow: hidden;
-    width: 100%;
-  }
-  .marquee-inner {
-    display: flex;
-    width: max-content;
-    animation: marqueeScroll 38s linear infinite;
-  }
-  .marquee--reverse .marquee-inner {
-    animation-duration: 48s;
-    animation-direction: reverse;
-  }
-  .marquee--ticker .marquee-inner {
-    animation-duration: 26s;
-  }
-  .marquee-group {
-    display: flex;
-    align-items: center;
-  }
-  .marquee-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding-right: 3rem;
-  }
-  @media (min-width: 1024px) {
-    .marquee-item { gap: 1.5rem; padding-right: 5rem; }
-  }
-
-  @keyframes marqueeScroll {
-    to { transform: translateX(-50%); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .marquee-inner { animation: none; }
-  }
-</style>
 
 <script>
   import {
