@@ -55,13 +55,13 @@ const panels: Panel[] = [
 ];
 ---
 
-<section id="pitch-showcase" class="relative bg-primary-950 text-white overflow-hidden">
+<section id="pitch-showcase" class="stage-dark relative overflow-hidden">
 
   <!-- ── Pinned horizontal track ── -->
-  <div class="pitch-pin-wrap relative">
-    <div class="pitch-track">
+  <div class="h-pin-wrap relative">
+    <div class="h-track">
       {panels.map((p) => (
-        <section class="pitch-panel relative">
+        <section class="h-panel relative">
           <div class="h-full w-full flex items-center py-20 lg:py-0">
             <div class={`w-full max-w-screen-2xl mx-auto px-6 sm:px-10 lg:px-16 ${p.images ? "grid lg:grid-cols-2 gap-12 lg:gap-16 items-center" : ""}`}>
 
@@ -125,11 +125,11 @@ const panels: Panel[] = [
     </div>
 
     <!-- Progress UI (visible only in horizontal mode) -->
-    <div class="pitch-progress absolute bottom-0 left-0 w-full px-6 lg:px-16 pb-8 pointer-events-none z-30">
+    <div class="h-progress absolute bottom-0 left-0 w-full px-6 lg:px-16 pb-8 pointer-events-none z-30">
       <div class="max-w-screen-2xl mx-auto flex items-center gap-6">
         <span class="pitch-counter font-helvetica text-white font-bold text-lg tabular-nums">01</span>
         <div class="flex-1 h-px bg-white/15 relative overflow-hidden">
-          <span class="pitch-progress-bar absolute inset-0 origin-left bg-primary-400" style="transform: scaleX(0)"></span>
+          <span class="h-progress-bar absolute inset-0 origin-left bg-primary-400"></span>
         </div>
         <span class="font-helvetica text-white/40 font-bold text-lg tabular-nums">05</span>
       </div>
@@ -138,38 +138,15 @@ const panels: Panel[] = [
 
 </section>
 
-<style>
-  /* Default (mobile / reduced-motion): panels stack vertically */
-  .pitch-track { display: flex; flex-direction: column; }
-  .pitch-panel { width: 100%; }
-
-  /* Horizontal mode is toggled by JS only on capable desktops */
-  .pitch-track.is-horizontal {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    height: 100vh;
-    width: max-content;
-  }
-  .pitch-track.is-horizontal .pitch-panel {
-    width: 100vw;
-    height: 100vh;
-    flex-shrink: 0;
-  }
-  .pitch-pin-wrap.is-horizontal { overflow: hidden; }
-
-  .pitch-progress { opacity: 0; transition: opacity 0.4s ease; }
-  .pitch-pin-wrap.is-horizontal .pitch-progress { opacity: 1; }
-</style>
-
 <script>
   import { gsap, revealStack, EASE, DUR, STAGGER } from "src/utils/pitchMotion";
 
   const section = document.getElementById("pitch-showcase");
-  const pinWrap = section?.querySelector<HTMLElement>(".pitch-pin-wrap");
-  const track = section?.querySelector<HTMLElement>(".pitch-track");
+  const pinWrap = section?.querySelector<HTMLElement>(".h-pin-wrap");
+  const track = section?.querySelector<HTMLElement>(".h-track");
   const counterEl = section?.querySelector<HTMLElement>(".pitch-counter");
-  const progressBar = section?.querySelector<HTMLElement>(".pitch-progress-bar");
-  const panels = gsap.utils.toArray<HTMLElement>(".pitch-panel");
+  const progressBar = section?.querySelector<HTMLElement>(".h-progress-bar");
+  const panels = gsap.utils.toArray<HTMLElement>(".h-panel", section);
 
   if (pinWrap && track && panels.length) {
     const mm = gsap.matchMedia();

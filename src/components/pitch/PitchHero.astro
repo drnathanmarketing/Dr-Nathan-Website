@@ -7,7 +7,7 @@
 ---
 
 <div id="navbar_hide_trigger">
-  <section id="pitch-hero" class="relative bg-primary-950 text-white overflow-hidden -mt-[70px]">
+  <section id="pitch-hero" class="stage-dark relative overflow-hidden -mt-nav">
     <!-- Ghost watermark — drifts against the scroll to open up depth behind the copy -->
     <span
       aria-hidden="true"
@@ -16,8 +16,8 @@
     >2020</span>
 
     <!-- Floating brand orbs -->
-    <div aria-hidden="true" class="pitch-orb absolute -top-32 -left-32 w-[30rem] h-[30rem] rounded-full bg-primary-500/20 blur-[130px] pointer-events-none"></div>
-    <div aria-hidden="true" class="pitch-orb pitch-orb--slow absolute bottom-0 right-1/4 w-[22rem] h-[22rem] rounded-full bg-primary-700/25 blur-[110px] pointer-events-none"></div>
+    <div aria-hidden="true" class="orb absolute -top-32 -left-32 w-[30rem] h-[30rem] rounded-full bg-primary-500/20 blur-[130px] pointer-events-none"></div>
+    <div aria-hidden="true" class="orb orb--slow absolute bottom-0 right-1/4 w-[22rem] h-[22rem] rounded-full bg-primary-700/25 blur-[110px] pointer-events-none"></div>
 
     <!-- Interactive precision dot-grid — reacts to the cursor on desktop, static on touch -->
     <canvas class="hero-dots absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true"></canvas>
@@ -27,7 +27,7 @@
       <div class="hero-anim flex items-center gap-4 mb-8 lg:mb-10">
         <img src="/assets/logo/logo.png" alt="Dr. Nathan Marketing & Consultancy logo" class="w-9 h-9 lg:w-10 lg:h-10 object-contain" />
         <span class="h-px w-10 bg-primary-400"></span>
-        <span class="font-helvetica text-[0.65rem] sm:text-xs font-bold tracking-[0.5em] uppercase text-primary-300">Agency Credentials</span>
+        <span class="eyebrow font-helvetica sm:text-xs text-primary-300">Agency Credentials</span>
       </div>
 
       <h1 class="pitch-hero-h1 font-helvetica text-[2.6rem] leading-[1.06] sm:text-6xl lg:text-[5.6rem] font-bold tracking-tight max-w-5xl">
@@ -69,24 +69,6 @@
     </div>
   </section>
 </div>
-
-<style>
-  /* Pre-hidden for the load timeline; the script restores (instantly under reduced motion). */
-  .hero-anim,
-  .pitch-hero-h1 {
-    opacity: 0;
-  }
-
-  @keyframes orbFloat {
-    from { transform: translate(0, 0) scale(1); }
-    to { transform: translate(4rem, 2.5rem) scale(1.15); }
-  }
-  .pitch-orb { animation: orbFloat 14s ease-in-out infinite alternate; }
-  .pitch-orb--slow { animation-duration: 22s; animation-delay: -6s; }
-  @media (prefers-reduced-motion: reduce) {
-    .pitch-orb { animation: none; }
-  }
-</style>
 
 <script>
   import {

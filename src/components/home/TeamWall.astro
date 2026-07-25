@@ -17,7 +17,7 @@ const columns: Member[][] = [[], [], []];
 members.forEach((m, i) => columns[i % 3].push(m));
 ---
 
-<div class="team-wall relative grid grid-cols-3 gap-3 h-[380px] sm:h-[460px] lg:h-[70vh] overflow-hidden">
+<div class="team-wall fade-mask-y relative grid grid-cols-3 gap-3 h-[380px] sm:h-[460px] lg:h-[70vh] overflow-hidden">
   {columns.map((col, ci) => (
     <div class="team-col flex flex-col will-change-transform" data-dir={ci % 2 === 0 ? "up" : "down"}>
       {[...col, ...col].map((m, i) => (
@@ -48,12 +48,8 @@ members.forEach((m, i) => columns[i % 3].push(m));
 </div>
 
 <style>
-  /* Soft fade at the top & bottom edges of the marquee */
-  .team-wall {
-    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
-    mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
-  }
-  /* Reduced-motion / no-JS fallback: a plain static grid */
+  /* Reduced-motion / no-JS fallback: a plain static grid. The top/bottom fade
+     itself is the shared `.fade-mask-y` utility, applied in the markup. */
   .team-wall.is-static {
     height: auto;
     -webkit-mask-image: none;

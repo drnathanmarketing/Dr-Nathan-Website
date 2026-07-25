@@ -179,7 +179,7 @@ const logos = [
           Trusted By Leading Medical Brands
         </p>
         
-        <div class="relative w-[100vw] sm:w-full overflow-hidden flex fade-edges -mx-4 sm:mx-0" data-reveal>
+        <div class="relative w-[100vw] sm:w-full overflow-hidden flex fade-mask-x -mx-4 sm:mx-0" data-reveal>
            <div class="animate-marquee flex items-center gap-10 sm:gap-14 w-max px-4">
             {[...logos, ...logos].map((logo) => (
               <img 
@@ -196,36 +196,6 @@ const logos = [
   </div>
 </div>
 
-<style is:global>
-  /* Mobile Marquee Logic */
-  @keyframes marquee {
-    0% { transform: translateX(0%); }
-    100% { transform: translateX(-50%); }
-  }
-  .animate-marquee {
-    animation: marquee 50s linear infinite;
-  }
-  .fade-edges {
-    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-  }
-
-  /* Custom Keyframes for the Spinning Wheel */
-  @keyframes spin-custom {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  @keyframes spin-custom-reverse {
-    from { transform: rotate(360deg); }
-    to { transform: rotate(0deg); }
-  }
-  .animate-spin-custom {
-    animation: spin-custom 50s linear infinite;
-  }
-  .animate-spin-custom-reverse {
-    animation: spin-custom-reverse 50s linear infinite;
-  }
-</style>
 
 <script>
   import { gsap } from "gsap";

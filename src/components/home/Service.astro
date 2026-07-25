@@ -97,13 +97,13 @@ const services = [
 ---
 
 <div id="navbar_hide_trigger">
-  <section id="service" class="relative bg-primary-950 text-white overflow-hidden">
+  <section id="service" class="stage-dark relative overflow-hidden">
 
     <!-- ── Intro lead-in ── -->
     <div class="service-intro relative max-w-screen-2xl mx-auto px-6 sm:px-10 lg:px-16 pt-28 lg:pt-40 pb-14 lg:pb-24">
       <div class="service-intro-reveal flex items-center gap-4 mb-8">
         <span class="h-px w-10 bg-primary-400"></span>
-        <span class="font-helvetica text-[0.65rem] font-bold tracking-[0.5em] uppercase text-primary-300">What We Do</span>
+        <span class="eyebrow font-helvetica text-primary-300">What We Do</span>
       </div>
       <h2 class="service-heading font-helvetica text-3xl sm:text-4xl md:text-5xl lg:text-[4rem] font-bold text-white leading-[1.1] sm:leading-[1.05] tracking-tight max-w-4xl">
         Full-service marketing, engineered for healthcare.
@@ -123,10 +123,10 @@ const services = [
     </div>
 
     <!-- ── Pinned horizontal track ── -->
-    <div class="pin-wrap relative">
-      <div class="service-track">
+    <div class="h-pin-wrap relative">
+      <div class="h-track">
         {services.map((s) => (
-          <section class="service-panel relative">
+          <section class="h-panel relative">
             <div class="h-full w-full flex items-center py-20 lg:py-0">
               <div class="w-full max-w-screen-2xl mx-auto px-6 sm:px-10 lg:px-16 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
@@ -179,11 +179,11 @@ const services = [
       </div>
 
       <!-- Progress UI (only visible in horizontal mode) -->
-      <div class="service-progress absolute bottom-0 left-0 w-full px-6 lg:px-16 pb-8 pointer-events-none z-30">
+      <div class="h-progress absolute bottom-0 left-0 w-full px-6 lg:px-16 pb-8 pointer-events-none z-30">
         <div class="max-w-screen-2xl mx-auto flex items-center gap-6">
           <span class="service-counter font-helvetica text-white font-bold text-lg tabular-nums">01</span>
           <div class="flex-1 h-px bg-white/15 relative overflow-hidden">
-            <span class="service-progress-bar absolute inset-0 origin-left bg-primary-400" style="transform: scaleX(0)"></span>
+            <span class="h-progress-bar absolute inset-0 origin-left bg-primary-400"></span>
           </div>
           <span class="font-helvetica text-white/40 font-bold text-lg tabular-nums">08</span>
         </div>
@@ -193,38 +193,15 @@ const services = [
   </section>
 </div>
 
-<style>
-  /* Default (mobile / reduced-motion): panels stack vertically */
-  .service-track { display: flex; flex-direction: column; }
-  .service-panel { width: 100%; }
-
-  /* Horizontal mode is toggled by JS only on capable desktops */
-  .service-track.is-horizontal {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    height: 100vh;
-    width: max-content;
-  }
-  .service-track.is-horizontal .service-panel {
-    width: 100vw;
-    height: 100vh;
-    flex-shrink: 0;
-  }
-  .pin-wrap.is-horizontal { overflow: hidden; }
-
-  .service-progress { opacity: 0; transition: opacity 0.4s ease; }
-  .pin-wrap.is-horizontal .service-progress { opacity: 1; }
-</style>
-
 <script>
   import { gsap, revealHeading, revealOnScroll } from "src/utils/animations";
 
   const section = document.getElementById("service");
-  const pinWrap = section?.querySelector<HTMLElement>(".pin-wrap");
-  const track = section?.querySelector<HTMLElement>(".service-track");
+  const pinWrap = section?.querySelector<HTMLElement>(".h-pin-wrap");
+  const track = section?.querySelector<HTMLElement>(".h-track");
   const counterEl = section?.querySelector<HTMLElement>(".service-counter");
-  const progressBar = section?.querySelector<HTMLElement>(".service-progress-bar");
-  const panels = gsap.utils.toArray<HTMLElement>(".service-panel");
+  const progressBar = section?.querySelector<HTMLElement>(".h-progress-bar");
+  const panels = gsap.utils.toArray<HTMLElement>(".h-panel", section);
 
   // Intro reveals — run in every mode
   revealHeading(section?.querySelector<HTMLElement>(".service-heading") ?? null, { stagger: 0.05 });

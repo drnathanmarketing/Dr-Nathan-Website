@@ -100,7 +100,7 @@ export default function VacanciesList({ vacanciesData }) {
                     {/* Left Column: Description */}
                     <div className="lg:col-span-2">
                       {job.description && (
-                        <div className="prose-portabletext mb-10">
+                        <div className="mb-10">
                           <h4 className="font-helvetica text-xs font-bold tracking-[0.2em] text-slate-400 uppercase mb-4 border-b border-slate-200 pb-2">The Role</h4>
                           <PortableText value={job.description} components={portableTextComponents} />
                         </div>

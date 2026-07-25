@@ -1,5 +1,6 @@
 ---
 import Navbar from "@components/common/Navbar.tsx";
+import "../styles/global.css";
 
 const SITE_URL = "https://www.drnathanmarketing.com";
 
@@ -104,7 +105,9 @@ const orgSchema = {
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <Navbar client:load />
-    <div class="h-[70px]"></div>
+    <!-- Spacer under the fixed navbar. Height is the `--dnm-nav-h` token; the
+         full-bleed dark heroes cancel it with `-mt-nav`. -->
+    <div class="h-nav"></div>
     <slot />
   </body>
 </html>
